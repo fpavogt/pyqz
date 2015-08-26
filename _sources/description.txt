@@ -1,6 +1,29 @@
-Running pyqz
-============
-From a set of line fluxes and errors, pyqz estimates the associated value of the oxygen abundance 12+log(O/H) (a.k.a. "z") and ionization parameters log(q) (a.k.a. "q"), given a set of MAPPINGS IV simulations and associated kappa value. 
+.. _runningpyqz:
+
+Running ``pyqz``
+================
+From a set of emission line fluxes and errors, ``pyqz`` measures the associated value of the oxygen abundance 12+log(O/H) (a.k.a. "z") and ionization parameters log(Q) (a.k.a. "q"), given a set of MAPPINGS simulations of HII regions. The code uses **flat(-ish)** emission line diagnostic grids to disentangle and interpolate the values of log(Q) and 12+log(O/H).  
+
+This page describes the basic use of the module from a **practical** point of view. It is assumed that the reader is familiar with the `Dopita et al. (2013) <http://adsabs.harvard.edu/abs/2013ApJS..208...10D>`_ article (and references therein) that describes **the theory** behind ``pyqz``. See also Appendix B in `Vogt et al. (2015) <http://adsabs.harvard.edu/cgi-bin/bib_query?arXiv:1504.03337>`_.
+
+
+Before we begin: a note on the pyqz syntax
+------------------------------------------
+
+The ``pyqz`` module is intimately linked to the MAPPIINGS code. While both are stand alone and distinct programs, ``pyqz`` was designed to employ the same notation conventions that that of the MAPPINGS code for clarity, both from a user and programming perspective. 
+
+These conventions, designed to maximise clarity while minimizing the overall character counts, are as follows:
+
+* the ionization parameter is ``logQ``
+* the oxygen abundance is ``Tot[O]+12`` (total) or ``gas[O]+12`` (for the gas-phase)
+* the Balmer lines from Hydrogen are ``Ha``, ``Hb``, etc É
+* forbidden lines are marked as ``[OIII]``, ``[NII]``, ``[SII]``, ``[OI]``, etc É
+* for the usual strong line doublets, when the doublet line fluxes are considered together (i.e. [OIII]5007 + 4959), a ``+`` is appended to the said emission line, e.g. ``[OIII]+``. By convention, the single line is always the strongest within the doublet. In short, ``[OIII]`` corresponds to [OIII]5007, ``[OIII]+`` corresponds to [OIII]5007+4959, ``[NII]`` corresponds to [NII]6584, ``[NII]+`` corresponds to [NII]6584+6548, etc ...
+
+This syntax must be followed carefully when using ``pyqz``, or errors will arise.
+ 
+The structure of ``pyqz``
+-------------------------
 
 The pyqz module is composed of a core function: ``pyqz.get_qz``. 
 This function is responsible for interpolating the MAPPINGS IV grid of simulations of HII regions (using ``scipy.interpolate.griddata``) and returns the corresponding value of z or q for a given pair of line ratios. This function is basic, in that it does not propagate errors on its own. You feed it a pair of line ratio, it returns q or z, and that's it. The spirit of the ``pyqz.get_qz`` function really is to be embedded inside a larger Python script to take care of these extra-tasks.

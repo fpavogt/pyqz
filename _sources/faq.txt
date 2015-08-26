@@ -1,5 +1,8 @@
+.. _faq:
 
 FAQ 
 ===
 
-Nothing yet ...
+1) **Q**: When importing pyqz, I get the following ``WARNING: Statsmodels module not found. KDE_method must be set to 'gauss' or else I will crash.``
+
+  **A**: ``pyqz`` could not import the ``statsmodels`` module. This module is required **only if** you want to use the ``KDEMultivariate`` function to construct the joint   probability density function (which we suggest you do). To remove the warning, install ``statsmodels`` and try reloading ``pyqz``. See :ref:`runningpyqz` for more details.

@@ -49,24 +49,35 @@
           <div class="body">
             
   <div class="section" id="pyqz-release">
-<h1>pyqz 0.7.0<a class="headerlink" href="#pyqz-release" title="Permalink to this headline">¶</a></h1>
+<h1><tt class="docutils literal"><span class="pre">pyqz</span></tt> 0.7.0<a class="headerlink" href="#pyqz-release" title="Permalink to this headline">¶</a></h1>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<p>These pages describe pyqz 0.7.0. The module is being updated, and NOT yet ready. For more information, send an email to <a class="reference external" href="mailto:frederic&#46;vogt&#37;&#52;&#48;anu&#46;edu&#46;au">frederic<span>&#46;</span>vogt<span>&#64;</span>anu<span>&#46;</span>edu<span>&#46;</span>au</a> .
-The last publicly released version of pyqz is v0.4: <a class="reference external" href="https://datacommons.anu.edu.au:8443/DataCommons/item/anudc:5037">https://datacommons.anu.edu.au:8443/DataCommons/item/anudc:5037</a></p>
+<p>These pages describe <tt class="docutils literal"><span class="pre">pyqz</span></tt> 0.7.0. The module is currently being updated, and NOT yet ready for deployment. For more information, send an email to <a class="reference external" href="mailto:frederic&#46;vogt&#37;&#52;&#48;anu&#46;edu&#46;au">frederic<span>&#46;</span>vogt<span>&#64;</span>anu<span>&#46;</span>edu<span>&#46;</span>au</a>.</p>
+<p>You can also track the latest changes on the Github repository of the code: <a class="reference external" href="https://github.com/fvogt57/pyqz">https://github.com/fvogt57/pyqz</a></p>
+<p>The last publicly released version of <tt class="docutils literal"><span class="pre">pyqz</span></tt> is 0.4: <a class="reference external" href="https://datacommons.anu.edu.au:8443/DataCommons/item/anudc:5037">https://datacommons.anu.edu.au:8443/DataCommons/item/anudc:5037</a></p>
 <p class="last">See the <a class="reference internal" href="changelog.html#changelog"><em>Changelog</em></a> for more details.</p>
 </div>
-<p>The pyqz Python module computes the values of log(q) [=ionization parameter] and 12+log(O/H) [=oxygen abundance] for a given set of emission lines fluxes from HII regions, given the latest set of MAPPINGS IV simulations (and different kappa values) as described in</p>
+<p>The <tt class="docutils literal"><span class="pre">pyqz</span></tt> Python module computes the values of log(Q) [the ionization parameter] and 12+log(O/H) [the oxygen abundance, either total or in the gas phase] for a given set of strong emission lines fluxes from HII regions.</p>
+<p>The log(Q) and 12+log(O/H) values are interpolated from a finite set of <strong>diagnostic line ratio grids</strong> computed with the MAPPINGS code. The grids used by <tt class="docutils literal"><span class="pre">pyqz</span></tt> are chosen to be <strong>flat, without wraps, to decouple the influence of log(Q) and 12+log(O/H)</strong> on the emission line ratios.</p>
+<p><tt class="docutils literal"><span class="pre">pyqz</span></tt> 0.4 was the first publicly released version of the code, which is described in detail in</p>
 <blockquote>
 <div>Dopita et al., <em>New Strong Line Abundance Diagnostics for HII Regions: Effects of Updated Atomic Data and kappa-Distributed Electron Energies</em>, ApJS, 208, 10 (2013). <a class="reference external" href="http://adsabs.harvard.edu/abs/2013ApJS..208...10D">ADS entry</a></div></blockquote>
-<p>If you find pyqz useful for your research, please cite the above reference accordingly.</p>
+<p><tt class="docutils literal"><span class="pre">pyqz</span></tt> has since been subject to a major overhaul to track the latest heroic developments in the MAPPINGS code, support the propagation of observational errors on the emission lines fluxes and the construction of the probability density function associated with the estimates of log(Q) and 12+log(O/H), auto-detect wraps in the diagnostics grids, and more. See the <a class="reference internal" href="changelog.html#changelog"><em>Changelog</em></a> for a complete list of changes.</p>
+<div class="section" id="acknowledging-pyqz">
+<h2>Acknowledging <tt class="docutils literal"><span class="pre">pyqz</span></tt><a class="headerlink" href="#acknowledging-pyqz" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">pyqz</span></tt> was originally introduced in</p>
+<p>Dopita et al., ApJS, 208, 10 (2013). <a class="reference external" href="http://adsabs.harvard.edu/abs/2013ApJS..208...10D">ADS entry</a></p>
+<p>and the updated error propagation mechanisms (first implemented in <tt class="docutils literal"><span class="pre">pyqz</span></tt> 0.6.0) were described Appendix B of</p>
+<p>Vogt et al., MNRAS, 450, 2593 (2015). <a class="reference external" href="http://adsabs.harvard.edu/cgi-bin/bib_query?arXiv:1504.03337">ADS entry</a></p>
+<p>If you find <tt class="docutils literal"><span class="pre">pyqz</span></tt> useful for your research, please cite these references accordingly.</p>
+</div>
 <div class="section" id="contents">
 <h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installing pyqz</a></li>
-<li class="toctree-l1"><a class="reference internal" href="description.html">Running pyqz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installing <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="description.html">Running <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="functions.html">The functions of pyqz</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
@@ -90,8 +101,8 @@ The pyqz Python module is free software: you can redistribute it and/or modify i
 <h3><a href="#">Table Of Contents</a></h3>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installing pyqz</a></li>
-<li class="toctree-l1"><a class="reference internal" href="description.html">Running pyqz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installing <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="description.html">Running <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="functions.html">The functions of pyqz</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
@@ -99,7 +110,7 @@ The pyqz Python module is free software: you can redistribute it and/or modify i
 
   <h4>Next topic</h4>
   <p class="topless"><a href="installation.html"
-                        title="next chapter">Installing pyqz</a></p>
+                        title="next chapter">Installing <tt class="docutils literal docutils literal"><span class="pre">pyqz</span></tt></a></p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
