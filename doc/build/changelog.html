@@ -1,0 +1,275 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Changelog &mdash; pyqz 0.7.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.7.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="pyqz 0.7.0 documentation" href="index.html" />
+    <link rel="prev" title="The functions of pyqz" href="functions.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="functions.html" title="The functions of pyqz"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">pyqz 0.7.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="changelog">
+<span id="id1"></span><h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<dl class="docutils">
+<dt>v0.7.0 August 2015, F.P.A. Vogt</dt>
+<dd><ul class="first last simple">
+<li>added the function &#8220;refine_MVphotogrid&#8221;, which uses Akima splines (in 1-D) to resample a given MAPPINGS grid.</li>
+<li>updated code to allow the use of resampled MAPPINGS grid (or not)</li>
+<li>updated plots to differentiate between &#8220;genuine&#8221; MAPPINGS points and resampled nodes</li>
+</ul>
+</dd>
+</dl>
+<hr class="docutils" />
+<dl class="docutils">
+<dt>v0.6.3 July-August 2015, F.P.A. Vogt</dt>
+<dd><ul class="first last">
+<li><p class="first">updated input files to MAPPINGS V files (csv created by Awk scripts, incl. Pk, kappa, sph/pp, ...)</p>
+</li>
+<li><p class="first">added functions to check grids</p>
+</li>
+<li><p class="first">started added proper warnings.warn and sys.exit(&#8216;error message&#8217;)</p>
+</li>
+<li><p class="first">implemented new MAPPINGS V terminology for line ratios</p>
+</li>
+<li><p class="first">fixed several minor/less minor bugs</p>
+</li>
+<li><p class="first">added auto-detection of wraps (not bullet-proof, but sufficient for the task at hand)</p>
+</li>
+<li><p class="first">removed pre-defined &#8220;valid&#8221; grid regions in favor of auto-detection of the good regions</p>
+</li>
+<li><dl class="first docutils">
+<dt>added flag (&#8216;9&#8217;) for when multiple KDE peak (best value) exist</dt>
+<dd><dl class="first last docutils">
+<dt>Note:</dt>
+<dd><ul class="first last simple">
+<li>flag 1 =&gt; (&#8216;direct&#8217; mean -&#8216;KDE&#8217; mean)/ std &#8216;direct&#8217; mean &lt;= flag_level, for qz[0]</li>
+<li>flag 2 =&gt; (&#8216;direct&#8217; mean - &#8216;KDE&#8217; mean)/ std &#8216;KDE&#8217; mean &lt;= flag_level, for qz[0]</li>
+<li>flag 3 =&gt; (&#8216;direct&#8217; mean -&#8216;KDE&#8217; mean)/ std &#8216;direct&#8217; mean &lt;= flag_level, for qz[1]</li>
+<li>flag 4 =&gt; (&#8216;direct&#8217; mean - &#8216;KDE&#8217; mean)/ std &#8216;KDE&#8217; mean &lt;= flag_level, for qz[1]</li>
+<li>flag 8 =&gt; the data lands outside of ALL the grids</li>
+<li>flag 9 =&gt; multiple peak to the KDE map exist. Defaulted to highest peak.</li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</li>
+<li><p class="first">updated diagrams design</p>
+</li>
+<li><p class="first">started implementing 3-D diagnostics diagrams</p>
+</li>
+<li><p class="first">added get_global_qz_ff, to feed the data in via CSV files</p>
+</li>
+<li><p class="first">moved project to Github, consolidated the Sphinx Documentation as Github pages.</p>
+</li>
+</ul>
+</dd>
+<dt>v0.6.2 December 2014, F.P.A. Vogt</dt>
+<dd><ul class="first last simple">
+<li>removed the need for the global PYQZ_DIR variable</li>
+</ul>
+</dd>
+<dt>v0.6.1 December 2014, F.P.A. Vogt</dt>
+<dd><ul class="first last simple">
+<li>added number of srs points outside the grid (i.e. how reliable the final estimate is)</li>
+<li>generate random point via truncated normal function to avoid creating negative fluxes</li>
+<li>implemented upper limits (marked with flux errors = -1)</li>
+<li>added decent documentation using the <tt class="docutils literal"><span class="pre">Sphinx</span></tt> module</li>
+</ul>
+</dd>
+<dt>v0.6.0 November 2014, F. Vogt</dt>
+<dd><ul class="first last simple">
+<li>added proper support of the observational errors on the line fluxes. Done via propagation of probability density function and KDE reconstruction. KDE can be done via either the <tt class="docutils literal"><span class="pre">scipy</span></tt> package (fast) or the <tt class="docutils literal"><span class="pre">statsmodels</span></tt> package (very slow) but more accurate for multi-modal distributions.</li>
+<li>updated saveplot/savefig commands in <tt class="docutils literal"><span class="pre">get_qz_ff</span></tt> for more freedom</li>
+<li>added flag to output file when simple mean and advanced &#8216;KDE&#8217; mean disagree by n sigmas</li>
+<li>created new &#8216;KDE&#8217; diagram of the q-z plane.</li>
+<li>fixed output file header to avoid &#8216;spaces&#8217; in column names</li>
+</ul>
+</dd>
+</dl>
+<hr class="docutils" />
+<dl class="docutils">
+<dt>v0.5.0 November 2013, F.P.A. Vogt</dt>
+<dd><ul class="first last simple">
+<li>implemented a work around in get_qz, to ensure that savefig works fine also
+with eps and pdf (note: the real issue is deep. In some cases (e.g. NII/SII
+vs OIII/Hb, k=50), the original code would save different images in eps/pdf
+or png ! It is linked to facecolor=&#8217;none&#8217; in the path. Work-around:
+facecolor=&#8217;w&#8217;, and zorder=0.</li>
+<li>get_qzff can now handle files with only 1 spectrum properly</li>
+<li>added savefig/plot/plot_loc/save_fmt keywords to get_qzff for better
+control and ability to save figures</li>
+<li>fixed a bug in get_qzff: the function can now handle &#8216;extra&#8217; column
+containing numbers and/or text</li>
+</ul>
+</dd>
+</dl>
+<hr class="docutils" />
+<dl class="docutils">
+<dt>v0.4.1, F. Vogt</dt>
+<dd><ul class="first last simple">
+<li>fixed a wrong plot label for the [NII] line</li>
+</ul>
+</dd>
+<dt>v0.4, F. Vogt</dt>
+<dd><ul class="first last simple">
+<li>fixed several bugs related with 2D input arrays</li>
+<li>limited the number of bad points plotted to 1500
+(for compatibility with grid_x and grid_y)</li>
+<li>clarified the required input structure - must be numpy arrays (1D or 2D)</li>
+<li>plots are now prettier, and more robust (defined via local rcParams)</li>
+<li>added possibility to save plot via &#8216;savefig&#8217; keyword</li>
+<li>improved axis labels in the plots to make them &#8216;publication-ready&#8217; (if one wanted to)</li>
+</ul>
+</dd>
+</dl>
+<hr class="docutils" />
+<dl class="docutils">
+<dt>v0.3.3, F. Vogt</dt>
+<dd><ul class="first last simple">
+<li>now also displays the points landing outside the grid model with white
+triangles (only for the 1-D array input type)</li>
+</ul>
+</dd>
+<dt>v0.3.2b, F. Vogt</dt>
+<dd><ul class="first last simple">
+<li>corrected bug related to integer line ratios (e.g. [0],[0])</li>
+<li>corrected bug related to the step checking if line ratios are on the MAPPINGS IV grid</li>
+</ul>
+</dd>
+<dt>v0.3.2, June 2013, F. Vogt (following suggestions by D. Nicholls)</dt>
+<dd><ul class="first last simple">
+<li>added &#8216;smart&#8217; plot limits (instead of fixed ones)</li>
+<li>increased grid and data point size</li>
+<li>added new keyword for choosing the plot window number (n_plot)</li>
+<li>added &#8216;if&#8217; statement to close the plot if all values are NaNs
+(removed in v0.4)</li>
+<li>added plot title</li>
+</ul>
+</dd>
+<dt>v0.3.1b, April 2013, F. Vogt</dt>
+<dd><ul class="first last simple">
+<li>fixed indentation of 4 lines in get_qzff</li>
+</ul>
+</dd>
+<dt>v0.3.1 April 2013, F. Vogt</dt>
+<dd><ul class="first last simple">
+<li>added .csv output for the get_qzff (or txt, which ever you like best)</li>
+<li>changed header column of output files (only &#8216;z&#8217; is used for consistency)</li>
+</ul>
+</dd>
+<dt>v0.3.0 April 2013, F.P.A. Vogt</dt>
+<dd><ul class="first last simple">
+<li>added get_qzff function to directly work from a txt file</li>
+<li>corrected get_pyqz for when points are &#8216;on&#8217; the grid.</li>
+</ul>
+</dd>
+<dt>v0.2.0 April 2013, F.P.A. Vogt</dt>
+<dd><ul class="first last simple">
+<li>modified fitting method to be &#8216;slice-by-slice&#8217; for smoother results</li>
+<li>added the get_grid function</li>
+<li>added different readable areas for different grids and kappas</li>
+</ul>
+</dd>
+<dt>v0.1.0 Feb. 2013, F. Vogt</dt>
+<dd><ul class="first last simple">
+<li>created</li>
+</ul>
+</dd>
+</dl>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="index.html">Table Of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installing pyqz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="description.html">Running pyqz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">The functions of pyqz</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Changelog</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="functions.html"
+                        title="previous chapter">The functions of pyqz</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="functions.html" title="The functions of pyqz"
+             >previous</a> |</li>
+        <li><a href="index.html">pyqz 0.7.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Frédéric Vogt.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>

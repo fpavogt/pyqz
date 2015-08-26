@@ -1,0 +1,166 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Installing pyqz &mdash; pyqz 0.7.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.7.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="pyqz 0.7.0 documentation" href="index.html" />
+    <link rel="next" title="Running pyqz" href="description.html" />
+    <link rel="prev" title="pyqz 0.7.0" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="description.html" title="Running pyqz"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="pyqz 0.7.0"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">pyqz 0.7.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="installing-pyqz">
+<h1>Installing pyqz<a class="headerlink" href="#installing-pyqz" title="Permalink to this headline">¶</a></h1>
+<p>Installing pyqz merely requires to let your Python installation know about its existence. Specifically:</p>
+<ol class="arabic simple">
+<li>Unzip the compressed files,</li>
+<li>place the ./pyqz folder anywhere you like, and</li>
+<li>add its location to your Python path.</li>
+</ol>
+<dl class="docutils">
+<dt>In my case (on MAC OSX), my .bash_profile would   look like :</dt>
+<dd><div class="first last highlight-python"><pre>export PYTHONPATH=$PYTHONPATH:/Users/fvogt/Tools/Python/fpav_pylib/pyqz/</pre>
+</div>
+</dd>
+</dl>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<p>The basic packages below are required for pyqz to work properly:</p>
+<ul class="simple">
+<li>numpy</li>
+<li>scipy</li>
+<li>matplotlib</li>
+</ul>
+<p>Optional:</p>
+<ul class="simple">
+<li>statsmodels</li>
+</ul>
+<p>pyqz was tested using numpy 1.8.1, scipy 0.14.0, matplotlib 1.4.2 and statsmodel 0.6.0</p>
+</div>
+<div class="section" id="testing-the-installation">
+<h2>Testing the installation<a class="headerlink" href="#testing-the-installation" title="Permalink to this headline">¶</a></h2>
+<p>First, launch a Python shell and check that you can import pyqz:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pyqz</span>
+</pre></div>
+</div>
+<p>If this fails, then the pyqz folder is not in your Python path.</p>
+<p>Next, try to run the example provided with the code:</p>
+<div class="highlight-python"><pre>cd /path-to-pyqz/pyqz/example/
+pyqz.get_qz_ff(20,'Input.txt', plot = True, savefig='KDE_all')</pre>
+</div>
+<p>This will run the default example included in the pyqz package, generate (a lot) of figures, and save two of them (the KDE ones).</p>
+</div>
+<div class="section" id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h2>
+<p>If you get the following message when importing pyqz:</p>
+<div class="highlight-python"><pre>WARNING: Statsmodels module not found. KDE_method must be set to 'gaussian_kde' or else I will crash.</pre>
+</div>
+<p>then pyqz could not find the statsmodels module. This is required ** only if** you want to use the KDEMultivariate function to construct the joint probability density function (which we suggest you do). Install statsmodels and try again.</p>
+<p>If you encounter other errors, check that the required packages listed above are up-to-date, and try again.</p>
+<p>If that doesn&#8217;t seem to solve the problem, email us at <a class="reference external" href="mailto:frederic&#46;vogt&#37;&#52;&#48;anu&#46;edu&#46;au">frederic<span>&#46;</span>vogt<span>&#64;</span>anu<span>&#46;</span>edu<span>&#46;</span>au</a></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="index.html">Table Of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Installing pyqz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="description.html">Running pyqz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">The functions of pyqz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">pyqz 0.7.0</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="description.html"
+                        title="next chapter">Running pyqz</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="description.html" title="Running pyqz"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="pyqz 0.7.0"
+             >previous</a> |</li>
+        <li><a href="index.html">pyqz 0.7.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Frédéric Vogt.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>

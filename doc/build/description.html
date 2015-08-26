@@ -1,0 +1,205 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Running pyqz &mdash; pyqz 0.7.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.7.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="pyqz 0.7.0 documentation" href="index.html" />
+    <link rel="next" title="FAQ" href="faq.html" />
+    <link rel="prev" title="Installing pyqz" href="installation.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="faq.html" title="FAQ"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="Installing pyqz"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">pyqz 0.7.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="running-pyqz">
+<h1>Running pyqz<a class="headerlink" href="#running-pyqz" title="Permalink to this headline">¶</a></h1>
+<p>From a set of line fluxes and errors, pyqz estimates the associated value of the oxygen abundance 12+log(O/H) (a.k.a. &#8220;z&#8221;) and ionization parameters log(q) (a.k.a. &#8220;q&#8221;), given a set of MAPPINGS IV simulations and associated kappa value.</p>
+<p>The pyqz module is composed of a core function: <tt class="docutils literal"><span class="pre">pyqz.get_qz</span></tt>.
+This function is responsible for interpolating the MAPPINGS IV grid of simulations of HII regions (using <tt class="docutils literal"><span class="pre">scipy.interpolate.griddata</span></tt>) and returns the corresponding value of z or q for a given pair of line ratios. This function is basic, in that it does not propagate errors on its own. You feed it a pair of line ratio, it returns q or z, and that&#8217;s it. The spirit of the <tt class="docutils literal"><span class="pre">pyqz.get_qz</span></tt> function really is to be embedded inside a larger Python script to take care of these extra-tasks.</p>
+<p>The function <tt class="docutils literal"><span class="pre">pyqz.get_qz_ff</span></tt> is a wrapper around <tt class="docutils literal"><span class="pre">pyqz.get_qz</span></tt>. It is designed as a top interaction layer for the pyqz module, and can propagate errors or upper-limits on the line flux measurements. It was designed to be self-contained and therefore requires little to no Python coding at all to be run (you still need a Python shell to run it, though?). You feed it an input file (with a specific format) containing all the line fluxes and associated errors, and <tt class="docutils literal"><span class="pre">pyqz.get_qz_ff</span></tt> returns a text file with all the q and z estimates and the associated errors.</p>
+<div class="section" id="the-input-text-file">
+<h2>The input text file<a class="headerlink" href="#the-input-text-file" title="Permalink to this headline">¶</a></h2>
+<p>The input text file that is being fed to <tt class="docutils literal"><span class="pre">pyqz.get_qz_ff</span></tt> serves two purposes: a) to give it your line fluxes and errors, and b) to tell pyqz which line ratio diagnostics you want to use. The structure of the input file must be as follows:</p>
+<div class="highlight-python"><pre>Name OII dOII Hb dHb OIII dOIII OI dOI Ha dHa NII dNII SII dSII NII/SII;OIII/SII NII/SII;OIII/Hb NII/SII;OIII/OII NII/OII;OIII/SII NII/OII;OIII/Hb NII/OII;OIII/OII NII/Ha;OIII/Hb NII/Ha;OIII/OII
+628-69-208 2.88 0.11 1.0 0.05 2.015 0.045 0.036 0.002 2.72 0.12 0.497 0.017 0.500 0.016
+925-12-066 2.54 0.12 1.0 0.05 3.807 0.114 0.034 0.002 2.84 0.14 0.216 0.009 0.339 0.013
+# This is a commented line</pre>
+</div>
+<p>The first line contains the description of the content of each column. It also contains the list of diagnostic diagrams that you want to use. Currently, 8 line ratio diagrams are supported by pqz. These have been selected as they allow to clearly disentangle the values of log(q) and 12+og(O/H) (i.e. the MAPPINGS IV grid does not wrap over itself).</p>
+<ol class="arabic simple">
+<li>&#8216;NII/SII;OIII/SII&#8217;</li>
+<li>&#8216;NII/SII;OIII/Hb&#8217;</li>
+<li>&#8216;NII/SII;OIII/OII&#8217;</li>
+<li>&#8216;NII/OII;OIII/SII&#8217;</li>
+<li>&#8216;NII/OII;OIII/Hb&#8217;</li>
+<li>&#8216;NII/OII;OIII/OII&#8217;</li>
+<li>&#8216;NII/Ha;OIII/Hb&#8217;</li>
+<li>&#8216;NII/Ha;OIII/OII&#8217;</li>
+</ol>
+<p>You do not have to use all of them. For example, if you wanted to use only the diagnostics that do not rely on [OII], the input file would be:</p>
+<div class="highlight-python"><pre>Name OII dOII Hb dHb OIII dOIII OI dOI Ha dHa NII dNII SII dSII NII/SII;OIII/SII NII/SII;OIII/Hb NII/Ha;OIII/Hb
+628-69-208 2.88 0.11 1.0 0.05 2.015 0.045 0.036 0.002 2.72 0.12 0.497 0.017 0.500 0.016
+925-12-066 2.54 0.12 1.0 0.05 3.807 0.114 0.034 0.002 2.84 0.14 0.216 0.009 0.339 0.013</pre>
+</div>
+<p>The # symbol is used to write comments. Any line starting with # will be ignored by pyqz. The &#8216;Name&#8217; column is not strictly speaking required, but if it exists, figures will be saved with that string inside their filename (avoid spaces at all costs!). Hence, if you are processing multiple spectra at once, providing a &#8216;Name&#8217; for each of them will ensure that all the Figures will be saved separately. Missing values should be marked (by default) as &#8216;$$$&#8217;, or alternatively, the &#8216;no-value-string&#8217; can be passed as an argument to <tt class="docutils literal"><span class="pre">pyqz.get_qz_ff</span></tt>. Each item must be separated by a single space, or alternatively by a single &#8216;tab&#8217;, so that <strong>object names should not contain any space !</strong></p>
+<p>Each (non-commented) line in the file corresponds to one set of line fluxes (i.e. 1 spectrum, 1 spaxel, etc ?). The file can contain as many lines as you want, and pyqz will process them one at a time (multi-processing is not yet supported). The errors provided are assumed to be the 1-sigma standard deviation from the mean, where the probability density distribution is assumed to be gaussian. All lines errors are also assumed to be uncorrelated.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If your errors are not gaussian, and/or the errors from different lines are correlated, it is in principle possible to update pyqz accordingly. Experienced Python users can look at and update the <tt class="docutils literal"><span class="pre">pyqz.get_qz_ff</span></tt> function as needed, and/or contact us to discuss about how to implement the update.</p>
+</div>
+<p>In pyqz v0.6.1, support was added for upper limits on the line flux measurements. To mark a given flux measurement as an upper-limit, simply set its error to -1.0 in the input file. In that case, the random sample of additional line fluxes will be derived from a uniform probability distribution between 0 and the flux value provided.</p>
+</div>
+<div class="section" id="launching-the-routine">
+<h2>Launching the routine<a class="headerlink" href="#launching-the-routine" title="Permalink to this headline">¶</a></h2>
+<p>Open a IPython shell, cd to the location of your input file, and type:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pyqz</span>
+<span class="n">pyqz</span><span class="o">.</span><span class="n">get_qz_ff</span><span class="p">(</span><span class="n">kappa</span><span class="p">,</span><span class="n">fn</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>pyqz will then process the data provided in the file &#8216;fn&#8217;, assuming a value of &#8216;kappa&#8217;. You can also specify a few keywords to show and/or save some/all/none of the diagrams, to select the output format, etc? The detailed list is listed in <a class="reference internal" href="functions.html#ref-funcs"><em>The functions of pyqz</em></a>.</p>
+<p>Some keywords or of particular interest:</p>
+<ul class="simple">
+<li><strong>srs</strong>: the &#8216;size of the random sample&#8217; of line fluxes generated by pyqz. This is used to propagate the probability density function associated with each line flux measurements. In other words, this is the number of discrete estimates of the probability density function (in the z-q plane) associated with one diagnostic grid. Hence, the joint probability function density function (combining N diagnostic grids) will be reconstructed via a Kernel Density Estimation routine from N x srs points. srs=400 is the default value, and we suggest a srs=1000 for errors at the 10%-15% level. Larger errors will result in larger probability density peaks, and will require more srs points to be properly discretized - at the cost of additional computation time.</li>
+<li><strong>KDE_method</strong>: the Kernel Density Estimation routine used to reconstruct the joint probability density function the z-q plane. Either <tt class="docutils literal"><span class="pre">gaussian_kde</span></tt> from the <tt class="docutils literal"><span class="pre">scipy.stats</span></tt> module, or <tt class="docutils literal"><span class="pre">KDEMultivariate</span></tt> from the <tt class="docutils literal"><span class="pre">statsmodels</span></tt> package. The former choice is 10-100x faster, but can result is less accurate results if their is disagreement between different diagnostics. The underlying reason is that the kernel bandwidth cannot be explicitly defined individually for the q and z, so that the function tends to over-smooth the distribution. <tt class="docutils literal"><span class="pre">KDEMultivariate</span></tt> should be preferred as the bandwidth of the kernel is set individually for both the q and z direction using Scott&#8217;s rule, scaled by the standard deviation of the distribution along the q or z direction.</li>
+</ul>
+</div>
+<div class="section" id="the-output-file">
+<h2>The output file<a class="headerlink" href="#the-output-file" title="Permalink to this headline">¶</a></h2>
+<p>By default, the output file is named following the input file, plus <tt class="docutils literal"><span class="pre">_out_kxx.txt</span></tt>, where xx is replaced by the chosen kappa value. It contains all of the information of the input file, plus the q and z estimates derived by pyqz. For example, the output file corresponding to the first example above looks like that:</p>
+<div class="highlight-python"><pre>Name OII dOII Hb dHb OIII dOIII OI dOI Ha dHa NII dNII SII dSII NII/SII;OIII/SII[log_q] NII/SII;OIII/SII[log_z] NII/SII;OIII/Hb[log_q] NII/SII;OIII/Hb[log_z] &lt;q&gt; std[q] &lt;z&gt; std[z] &lt;q_rs&gt; err[q_rs] &lt;z_rs&gt; err[z_rs] flag rs_offgrid
+628-69-208 2.88 0.11 1.0 0.05 2.015 0.045 0.036 0.002 2.72 0.12 0.497 0.017 0.5 0.016 7.69436 8.59547 8.16709 8.58808 7.61864 0.06147 8.82755 0.01528 7.55806 0.04867 8.84216 0.02063 0 0.0
+925-12-066 2.54 0.12 1.0 0.05 3.807 0.114 0.034 0.002 2.84 0.14 0.216 0.009 0.339 0.013 7.69436 8.59547 8.16709 8.58808 7.93073 0.23637 8.59177 0.00369 7.69022 0.10611 8.59488 0.0297 2 11.5</pre>
+</div>
+<p>The new columns include:
+* for each diagnostic, the estimate of q and z associated with the set of line fluxes (labelled as <tt class="docutils literal"><span class="pre">ratio1;ratio2[log_q/z]</span></tt></p>
+<ul>
+<li><p class="first">the mean and standard deviation of these estimates, labelled <tt class="docutils literal"><span class="pre">&lt;q&gt;</span></tt>, <tt class="docutils literal"><span class="pre">std[q]</span></tt>, <tt class="docutils literal"><span class="pre">&lt;z&gt;</span></tt> and <tt class="docutils literal"><span class="pre">std[z]</span></tt>. Keep in mind that these do not take any error into account.</p>
+</li>
+<li><p class="first">the best estimates of q and z based on the joint probability density function, and associated uncertainty, labelled <tt class="docutils literal"><span class="pre">&lt;q_rs&gt;</span></tt>, <tt class="docutils literal"><span class="pre">err[q_rs]</span></tt>, <tt class="docutils literal"><span class="pre">&lt;z_rs&gt;</span></tt> and <tt class="docutils literal"><span class="pre">err[z_rs]</span></tt>.</p>
+</li>
+<li><dl class="first docutils">
+<dt>a flag value (can contain 1,2,3 or 4), raised when the basic and &#8216;KDE&#8217; estimates are in disagreement (defined by the <tt class="docutils literal"><span class="pre">flag_level</span></tt> keyword), and specifically:</dt>
+<dd><p class="first">[1] the <tt class="docutils literal"><span class="pre">abs(&lt;q&gt;-&lt;q_rs&gt;)/std[q]&lt;=flag_level</span></tt></p>
+<p>[2] the <tt class="docutils literal"><span class="pre">abs(&lt;q&gt;-&lt;q_rs&gt;)/err[q_rs]&lt;=flag_level</span></tt></p>
+<p>[3] the <tt class="docutils literal"><span class="pre">abs(&lt;z&gt;-&lt;z_rs&gt;)/std[z]&lt;=flag_level</span></tt></p>
+<p class="last">[4] the <tt class="docutils literal"><span class="pre">abs(&lt;z&gt;-&lt;z_rs&gt;)/err[z_rs]&lt;=flag_level</span></tt></p>
+</dd>
+</dl>
+</li>
+<li><p class="first">the number (in %) of the random sample of line fluxes ratios that are located outside of the line ratio diagnostic grids, labelled as <tt class="docutils literal"><span class="pre">rs_offgrid</span></tt>. Line ratio values landing outside of the MAPPINGS IV grid are <strong>NOT</strong> taken into account by pyqz, resulting in a possible <strong>artificial</strong> offset of the <tt class="docutils literal"><span class="pre">&lt;q_rs&gt;</span></tt> and <tt class="docutils literal"><span class="pre">&lt;z_rs&gt;</span></tt> values towards the inner part of the q-z plane. <tt class="docutils literal"><span class="pre">rs_offgrid&gt;15%</span></tt> might therefore indicate trouble. One diagnostic may often be the sole/principal contributor to these off-grid points - a WARNING message is then issued during the processing of the data by <tt class="docutils literal"><span class="pre">pyqz.get_qz_ff</span></tt> when a specific diagnostic is found to have <tt class="docutils literal"><span class="pre">rs_offgrid&gt;15%</span></tt>. At this time, these individual measurements are <strong>NOT</strong> saved to the final file.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="so-what-estimates-of-q-and-z-should-i-use">
+<h2>So, what estimates of q and z should I use ?<a class="headerlink" href="#so-what-estimates-of-q-and-z-should-i-use" title="Permalink to this headline">¶</a></h2>
+<p>[Short answer:] In principle, <tt class="docutils literal"><span class="pre">&lt;q_rs&gt;</span></tt>, <tt class="docutils literal"><span class="pre">err[q_rs]</span></tt>, <tt class="docutils literal"><span class="pre">&lt;z_rs&gt;</span></tt> and <tt class="docutils literal"><span class="pre">err[z_rs]</span></tt>.</p>
+<p>[Long answer:] In principle, <tt class="docutils literal"><span class="pre">&lt;q_rs&gt;</span></tt>, <tt class="docutils literal"><span class="pre">err[q_rs]</span></tt>, <tt class="docutils literal"><span class="pre">&lt;z_rs&gt;</span></tt> and <tt class="docutils literal"><span class="pre">err[z_rs]</span></tt>. When all goes well (reasonable errors, not close from the edge of the diagnostic grids, consistent diagnostics), these values contain the error associated both with the observational errors and the mismatch between the different MAPPINGS IV diagnostic grids.</p>
+<p>When things get difficult (large observational errors, significant mismatch between the diagnostics, etc?), <tt class="docutils literal"><span class="pre">&lt;q_rs&gt;</span></tt>, <tt class="docutils literal"><span class="pre">err[q_rs]</span></tt>, <tt class="docutils literal"><span class="pre">&lt;z_rs&gt;</span></tt> and <tt class="docutils literal"><span class="pre">err[z_rs]</span></tt> <strong>may or may not</strong> be appropriate to use. In these situations, <tt class="docutils literal"><span class="pre">&lt;q_rs&gt;</span></tt>, <tt class="docutils literal"><span class="pre">err[q_rs]</span></tt>, <tt class="docutils literal"><span class="pre">&lt;z_rs&gt;</span></tt> and <tt class="docutils literal"><span class="pre">err[z_rs]</span></tt> <strong>could</strong> be a safer bet, but it should then kept in mind that their errors solely account for the mismatch between diagnostics (i.e. no observational errors).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Through the <tt class="docutils literal"><span class="pre">flags</span></tt> and <tt class="docutils literal"><span class="pre">rs_offgrid</span></tt> values, pyqz will let you spot these difficult situations, but it is ultimately up to the user to then decide which estimates (if any) are the most appropriate.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="index.html">Table Of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installing pyqz</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Running pyqz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">The functions of pyqz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="installation.html"
+                        title="previous chapter">Installing pyqz</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="faq.html"
+                        title="next chapter">FAQ</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="faq.html" title="FAQ"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="Installing pyqz"
+             >previous</a> |</li>
+        <li><a href="index.html">pyqz 0.7.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Frédéric Vogt.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>
