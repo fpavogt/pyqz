@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>FAQ &mdash; pyqz 0.7.0 documentation</title>
+    <title>pyqz Do’s and Dont’s &mdash; pyqz 0.7.0 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -27,8 +27,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="pyqz 0.7.0 documentation" href="index.html" />
-    <link rel="next" title="The functions of pyqz" href="functions.html" />
-    <link rel="prev" title="pyqz Do’s and Dont’s" href="critical.html" /> 
+    <link rel="next" title="FAQ" href="faq.html" />
+    <link rel="prev" title="Running pyqz" href="description.html" /> 
   </head>
   <body>
     <div class="related">
@@ -38,10 +38,10 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="functions.html" title="The functions of pyqz"
+          <a href="faq.html" title="FAQ"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="critical.html" title="pyqz Do’s and Dont’s"
+          <a href="description.html" title="Running pyqz"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">pyqz 0.7.0 documentation</a> &raquo;</li> 
       </ul>
@@ -52,18 +52,18 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="faq">
-<span id="id1"></span><h1>FAQ<a class="headerlink" href="#faq" title="Permalink to this headline">¶</a></h1>
-<ol class="arabic simple">
-<li><strong>Q</strong>: When importing pyqz, I get the following <tt class="docutils literal"><span class="pre">WARNING:</span> <span class="pre">Statsmodels</span> <span class="pre">module</span> <span class="pre">not</span> <span class="pre">found.</span> <span class="pre">KDE_method</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">set</span> <span class="pre">to</span> <span class="pre">'gauss'</span> <span class="pre">or</span> <span class="pre">else</span> <span class="pre">I</span> <span class="pre">will</span> <span class="pre">crash.</span></tt></li>
-</ol>
-<blockquote>
-<div><strong>A</strong>: <tt class="docutils literal"><span class="pre">pyqz</span></tt> could not import the <tt class="docutils literal"><span class="pre">statsmodels</span></tt> module. See <a class="reference internal" href="installation.html#troubleshooting"><em>Troubleshooting</em></a> for more details.</div></blockquote>
-<ol class="arabic" start="2">
-<li><p class="first"><strong>Q</strong>: <tt class="docutils literal"><span class="pre">pyqz</span></tt> is returning a lot of different values for log(Q) and 12+log(O/H). What do they all mean and which one should I use ?</p>
-<p><strong>A</strong>: See <a class="reference internal" href="critical.html#estimates"><em>What estimates of q and z should I use ?</em></a></p>
-</li>
-</ol>
+  <div class="section" id="pyqz-do-s-and-dont-s">
+<span id="critical"></span><h1>pyqz Do&#8217;s and Dont&#8217;s<a class="headerlink" href="#pyqz-do-s-and-dont-s" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="what-estimates-of-q-and-z-should-i-use">
+<span id="estimates"></span><h2>What estimates of q and z should I use ?<a class="headerlink" href="#what-estimates-of-q-and-z-should-i-use" title="Permalink to this headline">¶</a></h2>
+<p>[Short answer:] In principle, <tt class="docutils literal"><span class="pre">&lt;q_rs&gt;</span></tt>, <tt class="docutils literal"><span class="pre">err[q_rs]</span></tt>, <tt class="docutils literal"><span class="pre">&lt;z_rs&gt;</span></tt> and <tt class="docutils literal"><span class="pre">err[z_rs]</span></tt>.</p>
+<p>[Long answer:] In principle, <tt class="docutils literal"><span class="pre">&lt;q_rs&gt;</span></tt>, <tt class="docutils literal"><span class="pre">err[q_rs]</span></tt>, <tt class="docutils literal"><span class="pre">&lt;z_rs&gt;</span></tt> and <tt class="docutils literal"><span class="pre">err[z_rs]</span></tt>. When all goes well (reasonable errors, not close from the edge of the diagnostic grids, consistent diagnostics), these values contain the error associated both with the observational errors and the mismatch between the different MAPPINGS IV diagnostic grids.</p>
+<p>When things get difficult (large observational errors, significant mismatch between the diagnostics, etc?), <tt class="docutils literal"><span class="pre">&lt;q_rs&gt;</span></tt>, <tt class="docutils literal"><span class="pre">err[q_rs]</span></tt>, <tt class="docutils literal"><span class="pre">&lt;z_rs&gt;</span></tt> and <tt class="docutils literal"><span class="pre">err[z_rs]</span></tt> <strong>may or may not</strong> be appropriate to use. In these situations, <tt class="docutils literal"><span class="pre">&lt;q_rs&gt;</span></tt>, <tt class="docutils literal"><span class="pre">err[q_rs]</span></tt>, <tt class="docutils literal"><span class="pre">&lt;z_rs&gt;</span></tt> and <tt class="docutils literal"><span class="pre">err[z_rs]</span></tt> <strong>could</strong> be a safer bet, but it should then kept in mind that their errors solely account for the mismatch between diagnostics (i.e. no observational errors).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Through the <tt class="docutils literal"><span class="pre">flags</span></tt> and <tt class="docutils literal"><span class="pre">rs_offgrid</span></tt> values, pyqz will let you spot these difficult situations, but it is ultimately up to the user to then decide which estimates (if any) are the most appropriate.</p>
+</div>
+</div>
 </div>
 
 
@@ -77,18 +77,18 @@
 <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installing pyqz</a></li>
 <li class="toctree-l1"><a class="reference internal" href="description.html">Running pyqz</a></li>
-<li class="toctree-l1"><a class="reference internal" href="critical.html">pyqz Do&#8217;s and Dont&#8217;s</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">FAQ</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">pyqz Do&#8217;s and Dont&#8217;s</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="functions.html">The functions of pyqz</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="critical.html"
-                        title="previous chapter">pyqz Do&#8217;s and Dont&#8217;s</a></p>
+  <p class="topless"><a href="description.html"
+                        title="previous chapter">Running pyqz</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="functions.html"
-                        title="next chapter">The functions of pyqz</a></p>
+  <p class="topless"><a href="faq.html"
+                        title="next chapter">FAQ</a></p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
@@ -113,10 +113,10 @@
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="functions.html" title="The functions of pyqz"
+          <a href="faq.html" title="FAQ"
              >next</a> |</li>
         <li class="right" >
-          <a href="critical.html" title="pyqz Do’s and Dont’s"
+          <a href="description.html" title="Running pyqz"
              >previous</a> |</li>
         <li><a href="index.html">pyqz 0.7.0 documentation</a> &raquo;</li> 
       </ul>

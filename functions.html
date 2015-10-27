@@ -309,7 +309,8 @@ Estimation.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>data</strong> &#8211; {numpy array of size NxMx2}  
-N sets of M line fluxes and errors</li>
+N sets of M line fluxes and errors. An error =-1 implies
+the associated line flux is an upper limit.</li>
 <li><strong>data_cols</strong> &#8211; {list of Mx2 strings}
 Data content, e.g. [&#8216;[NII]+,stdHa&#8217;,...]
 Syntax MUST match the MAPPINGS + pyqz conventions !</li>
@@ -470,8 +471,9 @@ Location where figures are saved.</li>
 <h3><a href="index.html">Table Of Contents</a></h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installing <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installing pyqz</a></li>
 <li class="toctree-l1"><a class="reference internal" href="description.html">Running pyqz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="critical.html">pyqz Do&#8217;s and Dont&#8217;s</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">The functions of pyqz</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>

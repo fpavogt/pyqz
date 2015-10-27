@@ -1,6 +1,6 @@
 .. _runningpyqz:
 
-Running ``pyqz``
+Running pyqz
 ================
 From a set of emission line fluxes and errors, ``pyqz`` measures the associated value of the oxygen abundance 12+log(O/H) (a.k.a. "z") and ionization parameters log(Q) (a.k.a. "q"), given a set of MAPPINGS simulations of HII regions. The code uses **flat(-ish)** emission line diagnostic grids to disentangle and interpolate the values of log(Q) and 12+log(O/H).  
 
@@ -10,14 +10,14 @@ This page describes the basic use of the module from a **practical** point of vi
 Before we begin: a note on the pyqz syntax
 ------------------------------------------
 
-The ``pyqz`` module is intimately linked to the MAPPIINGS code. While both are stand alone and distinct programs, ``pyqz`` was designed to employ the same notation conventions that that of the MAPPINGS code for clarity, both from a user and programming perspective. 
+The ``pyqz`` module is intimately linked to the MAPPIINGS code. While both are stand alone and distinct programs, ``pyqz`` was designed to employ the same notation conventions than that of the MAPPINGS code for clarity, both from a user and programming perspective. 
 
 These conventions, designed to maximise clarity while minimizing the overall character counts, are as follows:
 
 * the ionization parameter is ``logQ``
 * the oxygen abundance is ``Tot[O]+12`` (total) or ``gas[O]+12`` (for the gas-phase)
-* the Balmer lines from Hydrogen are ``Ha``, ``Hb``, etc …
-* forbidden lines are marked as ``[OIII]``, ``[NII]``, ``[SII]``, ``[OI]``, etc …
+* the Balmer lines from Hydrogen are ``Ha``, ``Hb``, etc ...
+* forbidden lines are marked as ``[OIII]``, ``[NII]``, ``[SII]``, ``[OI]``, etc ...
 * for the usual strong line doublets, when the doublet line fluxes are considered together (i.e. [OIII]5007 + 4959), a ``+`` is appended to the said emission line, e.g. ``[OIII]+``. By convention, the single line is always the strongest within the doublet. In short, ``[OIII]`` corresponds to [OIII]5007, ``[OIII]+`` corresponds to [OIII]5007+4959, ``[NII]`` corresponds to [NII]6584, ``[NII]+`` corresponds to [NII]6584+6548, etc ...
 
 This syntax must be followed carefully when using ``pyqz``, or errors will arise.
@@ -28,7 +28,7 @@ The structure of ``pyqz``
 The pyqz module is composed of a core function: ``pyqz.get_qz``. 
 This function is responsible for interpolating the MAPPINGS IV grid of simulations of HII regions (using ``scipy.interpolate.griddata``) and returns the corresponding value of z or q for a given pair of line ratios. This function is basic, in that it does not propagate errors on its own. You feed it a pair of line ratio, it returns q or z, and that's it. The spirit of the ``pyqz.get_qz`` function really is to be embedded inside a larger Python script to take care of these extra-tasks.
 
-The function ``pyqz.get_qz_ff`` is a wrapper around ``pyqz.get_qz``. It is designed as a top interaction layer for the pyqz module, and can propagate errors or upper-limits on the line flux measurements. It was designed to be self-contained and therefore requires little to no Python coding at all to be run (you still need a Python shell to run it, though…). You feed it an input file (with a specific format) containing all the line fluxes and associated errors, and ``pyqz.get_qz_ff`` returns a text file with all the q and z estimates and the associated errors.
+The function ``pyqz.get_qz_ff`` is a wrapper around ``pyqz.get_qz``. It is designed as a top interaction layer for the pyqz module, and can propagate errors or upper-limits on the line flux measurements. It was designed to be self-contained and therefore requires little to no Python coding at all to be run (you still need a Python shell to run it, though!). You feed it an input file (with a specific format) containing all the line fluxes and associated errors, and ``pyqz.get_qz_ff`` returns a text file with all the q and z estimates and the associated errors.
 
 The input text file
 """""""""""""""""""
@@ -110,18 +110,6 @@ The new columns include:
    [4] the ``abs(<z>-<z_rs>)/err[z_rs]<=flag_level``
 
 * the number (in %) of the random sample of line fluxes ratios that are located outside of the line ratio diagnostic grids, labelled as ``rs_offgrid``. Line ratio values landing outside of the MAPPINGS IV grid are **NOT** taken into account by pyqz, resulting in a possible **artificial** offset of the ``<q_rs>`` and ``<z_rs>`` values towards the inner part of the q-z plane. ``rs_offgrid>15%`` might therefore indicate trouble. One diagnostic may often be the sole/principal contributor to these off-grid points - a WARNING message is then issued during the processing of the data by ``pyqz.get_qz_ff`` when a specific diagnostic is found to have ``rs_offgrid>15%``. At this time, these individual measurements are **NOT** saved to the final file.
-
-So, what estimates of q and z should I use ?
-""""""""""""""""""""""""""""""""""""""""""""
-
-[Short answer:] In principle, ``<q_rs>``, ``err[q_rs]``, ``<z_rs>`` and ``err[z_rs]``.
-
-[Long answer:] In principle, ``<q_rs>``, ``err[q_rs]``, ``<z_rs>`` and ``err[z_rs]``. When all goes well (reasonable errors, not close from the edge of the diagnostic grids, consistent diagnostics), these values contain the error associated both with the observational errors and the mismatch between the different MAPPINGS IV diagnostic grids. 
-
-When things get difficult (large observational errors, significant mismatch between the diagnostics, etc…), ``<q_rs>``, ``err[q_rs]``, ``<z_rs>`` and ``err[z_rs]`` **may or may not** be appropriate to use. In these situations, ``<q_rs>``, ``err[q_rs]``, ``<z_rs>`` and ``err[z_rs]`` **could** be a safer bet, but it should then kept in mind that their errors solely account for the mismatch between diagnostics (i.e. no observational errors). 
-
-.. NOTE:: Through the ``flags`` and ``rs_offgrid`` values, pyqz will let you spot these difficult situations, but it is ultimately up to the user to then decide which estimates (if any) are the most appropriate.
-
 
 
 

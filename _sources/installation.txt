@@ -1,8 +1,8 @@
 
-Installing ``pyqz``
+Installing pyqz
 ===================
 
-The most recent release of ``pyqz`` is available for download from its Github repository: https://github.com/fvogt57/pyqz/releases
+The most recent release of ``pyqz`` is available for download from its Github repository: https://github.com/fpavogt/pyqz/releases
 
 Installing ``pyqz`` merely requires to let your Python installation know about its existence. Specifically:
 
@@ -35,22 +35,24 @@ Testing the installation
 First, launch a Python shell and check that you can import ``pyqz``:
 ::
   
-  import pyqz
+  >>> import pyqz
  
 If this fails, then the ``pyqz`` folder is not in your Python path. 
 
-Next, try to run the example provided with the code:
+Next, you ought to make sure that you are using the ``pyqz`` you intended:
+::
+  >>> pyqz.__version__
+  '0.7.0'
+
+Then, try to run the example provided with the code:
 ::
 
-  cd /path-to-pyqz/pyqz/example/	
-  pyqz.get_qz_ff(20,'Input.txt', plot = True, savefig='KDE_all')	
+  >>> cd /path-to-pyqz/pyqz/example/	
+  >>> pyqz.get_qz_ff(20,'Input.txt', plot = True, savefig='KDE_all')	
 
 This will run the default example, generate (a lot) of figures, and save two of them (the KDE ones). 
 
-If it fails, 
-
-If the error persists, submit an issue on the project's Github repository: https://github.com/fvogt57/pyqz/issues
-
+.. _troubleshooting:
 
 Troubleshooting
 ---------------
@@ -65,9 +67,9 @@ Troubleshooting
 
 3) If you still encounter errors after doing all that, check the :ref:`faq`.
 
-4) If you still can't figure out what's wrong, please submit a new issue on the Github repository of the project (https://github.com/fvogt57/pyqz/issues) so we can take a look at it. Please provide as much detail as possible (error message, operating system, Python version, etc É).
+4) If you still can't figure out what's wrong, please submit a new issue on the Github repository of the project (https://github.com/fpavogt/pyqz/issues) so we can take a look at it. Please provide as much detail as possible (error message, operating system, Python version, etc É).
 
 .. warning::
-   Submitting a Github issue is the best way for you to get help rapidly, for us to keep track of the problems that need solving, and for future users to see what changes have been made over time (and look for existing solutions to their problem which may be the same as yours). Submitting a new issue on Github is rapid and easy, but if you are really (really!) against doing it, you can always email frederic.vogt@anu.edu.au for help. 
+   Submitting a Github issue is the best way for you to get help rapidly, for us to keep track of the problems that need solving, and for future users to see what changes have been made over time (and look for existing solutions to their problem which may be the same as yours). Submitting a new issue on Github is rapid and easy, but if you are really (really!) against doing it, you can always email frederic.vogt@alumni.anu.edu.au for help. 
 
  

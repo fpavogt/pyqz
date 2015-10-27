@@ -1,13 +1,13 @@
 .. pyqz documentation master file, created by
    sphinx-quickstart on Fri Nov 28 18:17:46 2014.
 
-``pyqz`` |release|
+pyqz |release|
 ==================
 
 .. warning::
-   These pages describe ``pyqz`` |release|. The module is currently being updated, and NOT yet ready for deployment. For more information, send an email to frederic.vogt@anu.edu.au.
+   These pages describe ``pyqz`` |release|. The module is currently being updated, and NOT yet ready for deployment. For more information, send an email to frederic.vogt@alumni.anu.edu.au.
 
-   You can also track the latest changes on the Github repository of the code: https://github.com/fvogt57/pyqz
+   You can also track the latest changes on the Github repository of the code: https://github.com/fpavogt/pyqz
 
    The last publicly released version of ``pyqz`` is 0.4: https://datacommons.anu.edu.au:8443/DataCommons/item/anudc:5037
 
@@ -24,20 +24,33 @@ The log(Q) and 12+log(O/H) values are interpolated from a finite set of **diagno
 
 ``pyqz`` has since been subject to a major overhaul to track the latest heroic developments in the MAPPINGS code, support the propagation of observational errors on the emission lines fluxes and the construction of the probability density function associated with the estimates of log(Q) and 12+log(O/H), auto-detect wraps in the diagnostics grids, and more. See the :ref:`changelog` for a complete list of changes.
 
+.. warning:: **Garbage in, garbage out !** 
+
+    Simplicity and ease of use are important design drivers for ``pyqz``. These (hopefully!) imply an easy-to-run code, where all parameters are accessible but most come with a default setting. 
+
+    But be aware that **the default settings will not be optimum for everyone**. Before you use ``pyqz``, check carefully the :ref:`critical`, or chances are, you will be deriving wrong estimates of 12+log(O/H) and log(Q) ! No one wants this to happen.
+
+
 Acknowledging ``pyqz``
 ----------------------
 
-``pyqz`` was originally introduced in 
+``pyqz`` will be described in detail in 
 
-Dopita et al., ApJS, 208, 10 (2013). `ADS entry <http://adsabs.harvard.edu/abs/2013ApJS..208...10D>`_ 
+    **Vogt et al.**, in prep.
 
-and the updated error propagation mechanisms (first implemented in ``pyqz`` 0.6.0) were described Appendix B of
+and the associated MAPPINGS V models in
 
-Vogt et al., MNRAS, 450, 2593 (2015). `ADS entry <http://adsabs.harvard.edu/cgi-bin/bib_query?arXiv:1504.03337>`_
+    **Sutherland et al.**, in prep.
 
 If you find ``pyqz`` useful for your research, please cite these references accordingly.
 
+Additional references you may wish to cite as well include the article first introducing ``pyqz`` 
 
+    **Dopita, Sutherland, Nicholls, Kewley & Vogt**, *New Strong Line Abundance Diagnostics for HII Regions: Effects of Updated Atomic Data and kappa-Distributed Electron Energies*, ApJS, 208, 10 (2013). `ADS entry <http://adsabs.harvard.edu/abs/2013ApJS..208...10D>`_ 
+
+and the initial description of the updated error propagation mechanism (first implemented in ``pyqz`` 0.6.0), described Appendix B of
+
+    **Vogt, Dopita, Borthakur, Verdes-Montenegro, Heckman, Yun & Chambers**, *Galaxy interactions in compact groups - II. Abundance and kinematic anomalies in HCG 91c*, MNRAS, 450, 2593 (2015). `ADS entry <http://adsabs.harvard.edu/abs/2015MNRAS.450.2593V>`_
 
 
 Contents
@@ -48,6 +61,7 @@ Contents
    Home <self>
    installation
    description
+   critical
    faq
    functions
    changelog

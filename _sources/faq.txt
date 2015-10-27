@@ -1,8 +1,12 @@
 .. _faq:
 
 FAQ 
-===
+====
 
 1) **Q**: When importing pyqz, I get the following ``WARNING: Statsmodels module not found. KDE_method must be set to 'gauss' or else I will crash.``
 
-  **A**: ``pyqz`` could not import the ``statsmodels`` module. This module is required **only if** you want to use the ``KDEMultivariate`` function to construct the joint   probability density function (which we suggest you do). To remove the warning, install ``statsmodels`` and try reloading ``pyqz``. See :ref:`runningpyqz` for more details.
+  **A**: ``pyqz`` could not import the ``statsmodels`` module. See :ref:`troubleshooting` for more details.
+
+2) **Q**: ``pyqz`` is returning a lot of different values for log(Q) and 12+log(O/H). What do they all mean and which one should I use ?
+
+   **A**: See :ref:`estimates`

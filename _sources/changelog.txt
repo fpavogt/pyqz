@@ -1,7 +1,7 @@
 .. _changelog:
 
 Changelog
-=========
+==========
 
 v0.7.0 August 2015, F.P.A. Vogt
  - added the function "refine_MVphotogrid", which uses Akima splines (in 1-D) to resample a given MAPPINGS grid.
