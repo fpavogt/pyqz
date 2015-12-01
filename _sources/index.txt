@@ -34,6 +34,8 @@ The log(Q) and 12+log(O/H) values are interpolated from a finite set of **diagno
 Acknowledging pyqz
 ----------------------
 
+Only use lower case letters when mentioning ``pyqz``, and always include the version number, e.g. ``pyqz v0.7.1`` . 
+
 ``pyqz`` will be described in detail in 
 
     **Vogt et al.**, in prep.
