@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Changelog &mdash; pyqz 0.7.0 documentation</title>
+    <title>Changelog &mdash; pyqz 0.7.1 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.7.0',
+        VERSION:     '0.7.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="pyqz 0.7.0 documentation" href="index.html" />
+    <link rel="top" title="pyqz 0.7.1 documentation" href="index.html" />
     <link rel="prev" title="The functions of pyqz" href="functions.html" /> 
   </head>
   <body>
@@ -39,7 +39,7 @@
         <li class="right" >
           <a href="functions.html" title="The functions of pyqz"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">pyqz 0.7.0 documentation</a> &raquo;</li> 
+        <li><a href="index.html">pyqz 0.7.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -51,6 +51,26 @@
   <div class="section" id="changelog">
 <span id="id1"></span><h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
 <dl class="docutils">
+<dt>v0.7.1 November 2015, F.P.A. Vogt</dt>
+<dd><ul class="first last simple">
+<li>created &#8220;get_MVphotogrid_fn&#8221; to construct the filename of the MAPPINGS grids once only (for more portability in future updates).</li>
+<li>added safety check for the diagnostic grids given by the user in &#8220;get_global_qz&#8221;</li>
+<li>updated MAPPINGS models to latest version</li>
+<li>adjusted the resampling function for more consistency with the &#8220;resampling factor&#8221;</li>
+<li>updated FAQ with point about the &#8220;paired&#8221; colormap, to avoid the wrath of the internet ...</li>
+<li>improved the looping of the grid inside interp_qz (by checking the presence of data point inside each panel prior to the interpolation) to speed up the process</li>
+<li>implemented the automatic reshaping of arrays to a 1xN array inside interp_qz (and reshaping to the original shape prior to returning the results)</li>
+<li>updated the &#8220;plot regions&#8221; assigned to each diagnostic grid for the latest MAPPINGS grids (no scientific meaning - just to get pretty plots)</li>
+<li>fixed minor typo in get_global_qz_ff: flag is now written as an integer to the file</li>
+<li>added the KDE_QZ_sampling and KDE_do_singles keywords to get_global_qz for easier access</li>
+<li>moved QZs_lim and PDF-cont_level to pyqz_metadata for easy access</li>
+<li>re-instated the ability to calculate the individual KDE alongside the global one</li>
+<li>created custom colormap for the KDE plot</li>
+<li>added ability to save all the reconstucted PDFs (individuals AND global) to a pickle file via the KDE_save_PDF keyword</li>
+<li>fixed bugs when srs = 0 or all errors = 0: the code now doesn&#8217;t compute any KDEs in those cases, and issues the flag -1</li>
+<li>fixed minor &#8220;aesthetic&#8221; sign issue with axes labeling</li>
+</ul>
+</dd>
 <dt>v0.7.0 August 2015, F.P.A. Vogt</dt>
 <dd><ul class="first last simple">
 <li>added the function &#8220;refine_MVphotogrid&#8221;, which uses Akima splines (in 1-D) to resample a given MAPPINGS grid.</li>
@@ -230,6 +250,7 @@ triangles (only for the 1-D array input type)</li>
 <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installing pyqz</a></li>
 <li class="toctree-l1"><a class="reference internal" href="description.html">Running pyqz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="critical.html">pyqz Do&#8217;s and Dont&#8217;s</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="functions.html">The functions of pyqz</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Changelog</a></li>
@@ -264,7 +285,7 @@ triangles (only for the 1-D array input type)</li>
         <li class="right" >
           <a href="functions.html" title="The functions of pyqz"
              >previous</a> |</li>
-        <li><a href="index.html">pyqz 0.7.0 documentation</a> &raquo;</li> 
+        <li><a href="index.html">pyqz 0.7.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

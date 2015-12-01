@@ -1,3 +1,2 @@
-Id,[NII]+/Ha;[OII]/Hb|LogQ,[NII]+/Ha;[OII]/Hb|Tot[O]+12,<LogQ>,std(LogQ),<Tot[O]+12>,std(Tot[O]+12),<LogQ{KDE}>,err(LogQ{KDE}),<Tot[O]+12{KDE}>,err(Tot[O]+12{KDE}),flag,rs_offgrid
-628-69-208,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,81234.0,nan
-925-12-066,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,81234.0,nan
+Id,[NII]/[SII]+;[OIII]/[SII]+|LogQ,[NII]/[SII]+;[OIII]/[SII]+|Tot[O]+12,[NII]/[SII]+;[OIII]/[OII]+|LogQ,[NII]/[SII]+;[OIII]/[OII]+|Tot[O]+12,<LogQ>,std(LogQ),<Tot[O]+12>,std(Tot[O]+12),[NII]/[SII]+;[OIII]/[SII]+|LogQ{KDE},err([NII]/[SII]+;[OIII]/[SII]+|LogQ{KDE}),[NII]/[SII]+;[OIII]/[SII]+|Tot[O]+12{KDE},err([NII]/[SII]+;[OIII]/[SII]+|Tot[O]+12{KDE}),[NII]/[SII]+;[OIII]/[OII]+|LogQ{KDE},err([NII]/[SII]+;[OIII]/[OII]+|LogQ{KDE}),[NII]/[SII]+;[OIII]/[OII]+|Tot[O]+12{KDE},err([NII]/[SII]+;[OIII]/[OII]+|Tot[O]+12{KDE}),<LogQ{KDE}>,err(LogQ{KDE}),<Tot[O]+12{KDE}>,err(Tot[O]+12{KDE}),flag,rs_offgrid
+628-69-208,7.31602,8.36186,7.50302,8.30151,7.40952,0.0935,8.33169,0.03017,7.31994,0.0086,8.36394,0.01198,7.50464,0.01831,8.29628,0.04454,7.31787,0.04302,8.36427,0.04352,924,0.0

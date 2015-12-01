@@ -1,13 +1,17 @@
 .. _ref-funcs:
 
 The functions of pyqz
-=====================
+======================
+
+.. autofunction:: pyqz.get_MVphotogrid_fn
+
+--------
 
 .. autofunction:: pyqz.get_MVphotogrid_metadata
 
 --------
 
-.. autofunction:: pyqz.refine_MVphotogrid
+.. autofunction:: pyqz.resample_MVphotogrid
 
 --------
 

@@ -1,20 +1,22 @@
 # -*- coding: utf-8 -*-
 #
 # This program returns the values of log(q) and 12+log(O/H) following the 
-# latest MAPPINGS IV simulations, and different kappa values.
+# latest MAPPINGS V simulations, and different kappa values.
 #
 # See the documentation for installation, changelog and usage instructions.
 #
 # TO DO:
 # - account for the different areas of different diagnostics in KDE
+# - implement multi-processing inside get_global_qz
+# - perform a double-blind test, trying to recover MAPPINGS simulations between 
+# the nodes
+# - fix Ipython Notebook example
 #
 # If you find this code useful, please cite the corresponding paper
 #
 # Dopita et al., ApJ (2013).
 #
-# And don't hesitate to let us know about it !
-#
-# Copyright 2014 Frédéric Vogt (frederic.vogt -at- anu.edu.au)
+# Copyright 2014-2015 Frédéric Vogt (frederic.vogt -at- alumni.anu.edu.au)
 #
 # This file is part of the pyqz Python module.
 #
@@ -29,8 +31,10 @@
 #
 #   You should have received a copy of the GNU General Public License along 
 #   with the pyqz Python module.  If not, see <http://www.gnu.org/licenses/>.
+# ------------------------------------------------------------------------------
 
-# Import required modules
+
+# ------------------- Import the required modules ------------------------------
 import sys
 import warnings
 import numpy as np
@@ -38,6 +42,7 @@ import scipy
 from scipy import interpolate
 import scipy.stats as stats
 import itertools
+import pickle
 
 # For the Kernel Density Estimator (don't force it if it's not there, but issue
 # a Warning)
@@ -45,7 +50,7 @@ try:
     import statsmodels.api as sm 
 except:
     warnings.warn("Statsmodels module not found. KDE_method must be set to "+\
-                    "'gaussian_kde' or else I will crash.")
+                    "'gauss' or else I will crash.")
                     
 # For plotting
 from matplotlib import pyplot as plt
@@ -63,13 +68,14 @@ pyqz_dir = os.path.dirname(__file__)
 # Where are the reference data ?
 pyqz_grid_dir = os.path.join(pyqz_dir, 'reference_data')
 
-# Get some important metadata
+# Get some important metadata and the code version
 from pyqz_metadata import *
-from pyqz_metadata import __version__ as pyqz_version
+from pyqz_metadata import __version__
+# ------------------------------------------------------------------------------
 
-# --- Make the plots look good ----
+# ------------------- Make the plots look good ---------------------------------
 import matplotlib as mpl
-# Use mathtext & Helvetica
+# Use mathtext & Helvetica: avoid usetex for portability's sake ...
 mpl.rc('font',**{'family':'sans-serif', 'serif':['Bitstream Vera Serif'], 
                  'sans-serif':['Helvetica'], 'size':20, 
                  'weight':'normal'})
@@ -80,6 +86,53 @@ mpl.rc('mathtext',**{'default':'regular','fontset':'cm',
                      'bf':'monospace:bold'})
 mpl.rc('text', **{'usetex':False})
 
+# Define a custom colorbar for the PDF plot - just because I can.
+cbdict = {
+'red'  :  ((0.0, 0.50, 0.50),(1.00, 1.00, 1.00)),
+'green':  ((0.0, 0.50, 0.50),(1.00, 1.00, 1.00)),
+'blue' :  ((0.0, 0.50, 0.50),(1.00, 1.00, 1.00))
+}
+pyqz_cmap_1 = plt.matplotlib.colors.LinearSegmentedColormap('light_gray', 
+                                                            cbdict, 1024)
+# and define a color for nan's and other bad points
+pyqz_cmap_1.set_bad(color=(0,0,0), alpha=1) 
+
+# ------------------------------------------------------------------------------
+
+
+# ------------------- And now for the pyqz functions ---------------------------
+
+# A function to construct the filename (str) of a given MAPPINGS V grid
+def get_MVphotogrid_fn(Pk = 5.0, calibs = 'GCZO', kappa = np.inf, 
+                        struct = 'sph', sampling = 1):
+    '''
+        Returns the filename of a MAPPINGS V grid, given a set of parameters.
+        
+        :param Pk: {float;default = 5.0} 
+                    MAPPINGS model pressure. 
+                    Value must match an existing reference grid file !
+        :param calibs: {string; default = GCZO}
+                    Input models to the MV simulations.
+                    Value must match an existing reference grid file !
+        :param kappa: {float; default = np.inf} 
+                    The kappa value.
+                    Value must match an existing reference grid file !
+        :param struct: {string; default = 'sph'}
+                    spherical ('sph') or plane-parallel ('pp') HII regions.
+                    Value must match an existing reference grid file !
+        :param sampling: {int; default = 1}
+                    Use a resampled grid ?
+                    
+        :returns: string of the MV filename, incl. the path.
+    '''
+    
+    if sampling >1:
+        resam = '_samp_'+np.str(sampling)
+    else:
+        resam = ''
+    fn = os.path.join(pyqz_grid_dir,'grid_QZ-'+struct+'_'+calibs+'_Pk'+
+                    str(np.int(10*Pk))+'_k'+str(kappa)+resam+'.csv')
+    return fn
 
 # A function to fetch the header information from the MAPPINGS files (csv)
 def get_MVphotogrid_metadata(fn):
@@ -99,8 +152,6 @@ def get_MVphotogrid_metadata(fn):
     # Open the file, and extract the info
     try:
         data_file = open(fn, 'r')
-        #header = data_file.readline().split('\r')[:4]
-        #data_file.close()
     except:
         sys.exit('Grid file not found: %s' % fn)
          
@@ -109,7 +160,7 @@ def get_MVphotogrid_metadata(fn):
     metadata['MV_id'] = data_file.readline().split('\n')[0]
     metadata['params'] = data_file.readline().split('\n')[0]
     metadata['resampled'] = {}
-    if 'resampled' in fn:
+    if 'samp' in fn:
         metadata['resampled'] = {}
         metadata['resampled']['info'] = data_file.readline().split('\n')[0]
         metadata['resampled']['LogQ'] = [np.float(j) for j in data_file.readline().split(']')[0].split('[')[1].split(' ') if j !='']
@@ -117,8 +168,8 @@ def get_MVphotogrid_metadata(fn):
         
     data_content = data_file.readline().split('\n')[0].split(',')
     data_file.close()
-
-    # For each column header, remove any '()' if they are present ...
+    
+    # For each column header, remove any '(x)' if they are present ...
     for (i,column_name) in enumerate(data_content):
          data_content[i] = column_name.split('(')[0]
 
@@ -129,7 +180,7 @@ def get_MVphotogrid_metadata(fn):
 
 # A function to interpolate the MAPPINGS grid into thiner grid. 
 # uses Akyma splines (1-D) in the Q/Z planes (one axis at a time).
-def refine_MVphotogrid(fn, sampling = 2):
+def resample_MVphotogrid(fn, sampling = 2):
     ''' 
         A function to interpolate the MAPPINGS grid into thiner grid. 
         uses Akyma splines (1-D) in the Q/Z planes (one axis at a time).
@@ -153,17 +204,17 @@ def refine_MVphotogrid(fn, sampling = 2):
 
     # 4) Create the finer arrays.
     # Round them up to deal with "exact" node points
-    TotZ_fine = np.zeros(len(TotZ_orig)+((len(TotZ_orig)-1)*sampling))
-    LogQ_fine = np.zeros(len(LogQ_orig)+((len(LogQ_orig)-1)*sampling))
+    TotZ_fine = np.zeros(len(TotZ_orig)+((len(TotZ_orig)-1)*(sampling-1)))
+    LogQ_fine = np.zeros(len(LogQ_orig)+((len(LogQ_orig)-1)*(sampling-1)))
 
     for (k,Q) in enumerate(LogQ_orig[:-1]):
-        LogQ_fine[(sampling+1)*k:(sampling+1)*(k+1)] = \
-                    np.round(np.linspace(Q,LogQ_orig[k+1],num=sampling+1,
+        LogQ_fine[sampling*k:sampling*(k+1)] = \
+                    np.round(np.linspace(Q,LogQ_orig[k+1],num=sampling,
                                                     endpoint=False),4)
 
     for (k,Z) in enumerate(TotZ_orig[:-1]):
-        TotZ_fine[(sampling+1)*k:(sampling+1)*(k+1)] = \
-                    np.round(np.linspace(Z,TotZ_orig[k+1],num=sampling+1,
+        TotZ_fine[sampling*k:sampling*(k+1)] = \
+                    np.round(np.linspace(Z,TotZ_orig[k+1],num=sampling,
                                                     endpoint=False),4)
     # Don't forget the last element as well
     LogQ_fine[-1] = LogQ_orig[-1]
@@ -207,19 +258,22 @@ def refine_MVphotogrid(fn, sampling = 2):
     file_header =  metadata['date'] +'\n'
     file_header += metadata['MV_id'] + '\n'
     file_header += metadata['params'] +'\n'
-    file_header += 'Resampled with pyqz '+pyqz_version+' (sampling='+np.str(sampling)+') '+str(dt.now())+'\n'
+    file_header += 'Resampled with pyqz '+__version__+' (sampling='+np.str(sampling)+') '+str(dt.now())+'\n'
     file_header += 'Original LogQ: '+np.str(LogQ_orig)+'\n'
     file_header += 'Original Tot[O]+12: '+np.str(TotZ_orig)+'\n'
     for (i,col) in enumerate(metadata['columns']):
         file_header += col+'('+str(i)+'),'
-    np.savetxt(fn[:-4]+'_resampled.csv',fine_grid,delimiter=',',header=file_header[:-1],fmt='%0.4f', comments='')
+        
+    out_fn = fn[:-4]+'_samp_'+np.str(sampling)+'.csv'    
+    np.savetxt(out_fn,fine_grid,delimiter=',',header=file_header[:-1],fmt='%0.4f', comments='')
     
-    return metadata['date']
+    print ' '
+    print '  Success: %s resampled by a factor %ix%i and saved as %s' % (fn.split('/')[-1],sampling,sampling,out_fn.split('/')[-1])
     
 
 # A function to get the reference grid - useful to make plots !
 def get_grid(ratios, coeffs=[[1,0],[0,1]],
-                Pk = 5.0, kappa=np.inf, model='sph', resampled = True):
+                Pk = 5.0, kappa=np.inf, struct='sph', sampling = 1):
     ''' 
         Returns a given line ratio diagnostic grid generated using MAPPINGS
         for a given kappa value.
@@ -238,11 +292,11 @@ def get_grid(ratios, coeffs=[[1,0],[0,1]],
         :param kappa: {float; default = np.inf} 
                         The kappa value.
                         Value must match an existing reference grid file !
-        :param model: {string; default = 'sph'}
+        :param struct: {string; default = 'sph'}
                         spherical ('sph') or plane-parallel ('pp') HII regions.
                         Value must match an existing reference grid file !
-        :param resampled: {bool; default = True}
-                            Use a resampled grid ?
+        :param sampling: {int; default = 1}
+                        Use a resampled grid ?
         
         :returns: [grid,grid_cols,metadata]
                   grid {numpy array}: the diagnostic grid as a numpy array.
@@ -253,14 +307,14 @@ def get_grid(ratios, coeffs=[[1,0],[0,1]],
     # 0) Do some basic tests on the input
     if kappa == 'inf':
         kappa = np.inf
-    if resampled:
-        resamp = '_resampled'
-    else:
-        resamp = ''
+    #if sampling > 1 :
+    #    resamp = '_samp_'+np.str(sampling)
+    #else:
+    #    resamp = ''
   
     # 1) Get the metadata about the file
-    fn = os.path.join(pyqz_grid_dir,'grid_ZQ-'+model+'_Pk'+str(np.int(10*Pk))+
-                        '_k'+str(kappa)+resamp+'.csv')
+    fn = get_MVphotogrid_fn(Pk = Pk, kappa = kappa, 
+                            struct = struct, sampling = sampling)
     metadata = get_MVphotogrid_metadata(fn)
 
     # Extract the individual line ratios
@@ -280,7 +334,7 @@ def get_grid(ratios, coeffs=[[1,0],[0,1]],
        
     # For now, export Q, Z tot and Z gas. Could add more later ...
     data_cols = ['LogQ', 'Tot[O]+12','gas[O]+12']+ratios+['Mix_x','Mix_y']
-    data = np.loadtxt(fn, comments='c', delimiter=',',skiprows=4+3*resampled, 
+    data = np.loadtxt(fn, comments='c', delimiter=',',skiprows=4+3*(sampling>1), 
                         usecols = [metadata['columns'].index(m) for m in data_cols[:-2]])
                         
     # And add space for the combined line ratios as well
@@ -338,7 +392,7 @@ def seg_intersect(A,B,C,D):
 
 # This function is designed to inspect a given line ratio grid.
 def check_grid(ratios, coeffs = [[1,0],[0,1]],
-                Pk = 5.0, kappa=np.inf, model='sph', resampled=True,
+                Pk = 5.0, kappa=np.inf, struct='sph', sampling=1,
                 color_mode = 'Tot[O]+12', show_plot=False,
                 nfig=False, save_plot=False):
     '''
@@ -358,10 +412,10 @@ def check_grid(ratios, coeffs = [[1,0],[0,1]],
         :param kappa: {float; default = np.inf} 
                         The kappa value.
                         Value must match an existing reference grid file !
-        :param model: {string; default = 'sph'}
+        :param struct: {string; default = 'sph'}
                         spherical ('sph') or plane-parallel ('pp') HII regions.
                         Value must match an existing reference grid file !
-        :param resampled: {bool; default = True}
+        :param sampling: {int; default = 1}
                             Use a resampled grid ?
         :param color_mode: {string; default = 'Tot[O]+12'}
                         'Tot[O]+12'(default) or 'gas[O]+12' or 'LogQ' to 
@@ -379,7 +433,7 @@ def check_grid(ratios, coeffs = [[1,0],[0,1]],
     # 0) Let's get the data in question
     [grid, grid_cols, metadata] = get_grid(ratios, 
                                             coeffs=coeffs, Pk=Pk, kappa=kappa,     
-                                            model=model, resampled = resampled)
+                                            struct=struct, sampling = sampling)
                                             
     # 1) Start the plotting
     if show_plot or save_plot:
@@ -402,12 +456,12 @@ def check_grid(ratios, coeffs = [[1,0],[0,1]],
     if show_plot or save_plot:
         # Let's make the distinction between the 'TRUE' MAPPINGS point, 
         # and those that were interpolated in a finer grid using Akima splines
-        if resampled:
+        if sampling > 1:
             grid_pts = ax1.scatter(grid[:,grid_cols.index('Mix_x')],
                             grid[:,grid_cols.index('Mix_y')],
                             marker='o',
                             c=grid[:,grid_cols.index(color_mode)],
-                            s=30, cmap='Paired', edgecolor='none', 
+                            s=30, cmap=pyqz_cmap_0, edgecolor='none', 
                             vmin=np.min(grid[:,grid_cols.index(color_mode)]), 
                             vmax=np.max(grid[:,grid_cols.index(color_mode)]), 
                             zorder=3)
@@ -418,7 +472,7 @@ def check_grid(ratios, coeffs = [[1,0],[0,1]],
                                     marker='o',
                                     c=grid[ [n for n in range(len(grid)) 
                                              if (grid[n,metadata['columns'].index('LogQ')] in metadata['resampled']['LogQ']) and (grid[n,metadata['columns'].index('Tot[O]+12')] in metadata['resampled']['Tot[O]+12'])],grid_cols.index(color_mode)],
-                                    s=60, cmap='Paired', edgecolor='k', facecolor='white',
+                                    s=60, cmap=pyqz_cmap_0, edgecolor='k', facecolor='white',
                                     vmin=np.min(grid[:,grid_cols.index(color_mode)]), 
                                     vmax=np.max(grid[:,grid_cols.index(color_mode)]), 
                                     zorder=5)          
@@ -428,7 +482,7 @@ def check_grid(ratios, coeffs = [[1,0],[0,1]],
                             grid[:,grid_cols.index('Mix_y')],
                             marker='o',
                             c=grid[:,grid_cols.index(color_mode)],
-                            s=60, cmap='Paired', edgecolor='k', 
+                            s=60, cmap=pyqz_cmap_0, edgecolor='k', 
                             vmin=np.min(grid[:,grid_cols.index(color_mode)]), 
                             vmax=np.max(grid[:,grid_cols.index(color_mode)]), 
                             zorder=3)
@@ -506,21 +560,27 @@ def check_grid(ratios, coeffs = [[1,0],[0,1]],
         # Make sure the labels look pretty in ALL cases ...
         for n in range(len(rats)): 
             if coeffs[0][n] !=0:
-                if coeffs[0][n] != 1:
-                    labelx += '%+.03g ' % coeffs[0][n] 
+                if not(coeffs[0][n] in [1,-1]):
+                    if n !=0:
+                        labelx += '%+.03g ' % coeffs[0][n]
+                    else:
+                        labelx += '%.03g ' % coeffs[0][n] 
                 elif coeffs[0][n] == 1 and labelx != '':
                     labelx += '+ '
                 elif coeffs[0][n] == -1:
                     labelx += '- ' 
-                labelx += rats[n]+ ' '
+                labelx += rats[n].replace('+','$^{+}$') + ' '
             if coeffs[1][n] != 0:
-                if coeffs[1][n] != 1:
-                    labely += '%+.03g ' % coeffs[1][n] 
+                if not(coeffs[1][n] in [1,-1]):
+                    if n != 0:
+                        labely += '%+.03g ' % coeffs[1][n] 
+                    else:
+                        labely += '%.03g ' % coeffs[1][n]
                 elif coeffs[1][n] == 1 and labely != '':
                     labely += '+ '
                 elif coeffs[1][n] == -1:
                     labely += '- '
-                labely += rats[n]+' '   
+                labely += rats[n].replace('+','$^{+}$')+' '   
                             
                                                   
         ax1.set_xlabel(labelx,labelpad = 10)
@@ -548,12 +608,12 @@ def check_grid(ratios, coeffs = [[1,0],[0,1]],
     return bad_segs
 
 # The core function - returns 'q' or'z' for a given ratio (and a given grid !)
-# Interpolate slice by slice for even better results !
+# Interpolate case by case for even better results !
 def interp_qz ( qz, 
                 data,
                 ratios,
                 coeffs =[[1,0],[0,1]],
-                Pk = 5.0, kappa=np.inf, model='sph',resampled=True,
+                Pk = 5.0, kappa=np.inf, struct='sph',sampling=1,
                 method = 'cubic',
                 show_plot = False, n_plot = False, save_plot = False 
                 ):
@@ -565,7 +625,7 @@ def interp_qz ( qz,
         :param qz: {string} 
                     Which estimate to return, 'LogQ', 'Tot[O]+12' or 'gas[O]+12'  
         :param data: {list of numpy array} 
-                        Array of the line ratio values. One array per line ratio
+                        List of Arrays of the line ratio values. One array per line ratio
                         of size NxM for NxM values).
         :param ratios: {string} 
                         The line ratios involved in the grid, e.g.
@@ -581,10 +641,10 @@ def interp_qz ( qz,
         :param kappa: {float; default = np.inf} 
                         The kappa value.
                         Value must match an existing reference grid file !
-        :param model: {string; default = 'sph'}
+        :param struct: {string; default = 'sph'}
                         spherical ('sph') or plane-parallel ('pp') HII regions.
                         Value must match an existing reference grid file !
-        :param resampled: {bool; default = True}
+        :param sampling: {int; default = 1}
                             Use a resampled grid ?
         :param method: {string; default = 'cubic'}
                         'linear' or 'cubic' interpolation
@@ -607,7 +667,14 @@ def interp_qz ( qz,
                         type(dat))
         if np.shape(dat) != np.shape(data[0]):
             sys.exit('Input data arrays size mismatch !')    
-                    
+    
+    # Save the input shape for later - I'll reshape everything in 
+    # 1-dimension for simplicity.
+    input_data_shape = np.shape(data[0])
+    input_data_size = np.array(input_data_shape).prod()
+    for i in range(len(data)):
+            data[i] = data[i].reshape(input_data_size)
+                                                                      
     # Compute the combined "observed" ratios
     data_comb = [np.zeros_like(data[0]),np.zeros_like(data[1])]    
     for k in range(len(ratios.split(';'))): 
@@ -618,12 +685,12 @@ def interp_qz ( qz,
     [the_grid, grid_cols, the_metadata] = get_grid(ratios, 
                                                     coeffs=coeffs, Pk=Pk, 
                                                     kappa=kappa,
-                                                    model=model, 
-                                                    resampled=resampled)
+                                                    struct=struct, 
+                                                    sampling=sampling)
 
     # 1-2) Check for wraps and other bad segments
     bad_segs = check_grid(ratios, coeffs=coeffs, Pk=Pk, kappa=kappa, 
-                            model=model, resampled=resampled)                     
+                            struct=struct, sampling=sampling)                     
             
     # 2-1) Now, get ready to do the interpolation-s ...  
     # Figure out over what range we are stepping ...
@@ -673,7 +740,7 @@ def interp_qz ( qz,
             # 2-4aa) Check if this box has any bad segments and if so, skip it !
             nedges = len(this_panel[:,grid_cols.index(ratios.split(';')[0])])
             if nedges != 4:
-                sys.exit('Something went terribly wrong ...')
+                sys.exit('Something went terribly wrong ... (L736)')
             
             seg_keys = {0:[0,1],
                         1:[1,3],
@@ -699,27 +766,45 @@ def interp_qz ( qz,
             # Skip it !
             if is_bad_panel:
                 continue
+            
+            # Here, I need to add a check for the presence of data points
+            # inside the grid panel. If there's nothing, no need to interpolate 
+            # anything !
+            path_codes = [Path.MOVETO,Path.LINETO,Path.LINETO,Path.LINETO,
+                            Path.CLOSEPOLY,]
+            # Mind the order of the nodes ... !                                              
+            path_verts = this_panel[[0,1,3,2,0],:][:,[rat1_ind,rat2_ind]].tolist()            
+            panel_path = Path(path_verts, path_codes)
+            
+            points_in_panel = panel_path.contains_points([(data_comb[0][k],data_comb[1][k]) for k in range(len(data_comb[0]))],
+                                                            radius=0.001)
+                                                            
+            # Only do the interpolation if I actually have some point inside 
+            # this panel ...
+            if np.any(points_in_panel):             
 
-            # 2-4b) Sretch slice between 0 and 1 for better results
-            this_stretched_panel = np.zeros_like(this_panel)
-            xmin = np.min(this_panel[:,rat1_ind])
-            dxmax = np.max(this_panel[:,rat1_ind]-xmin)
-            ymin = np.min(this_panel[:,rat2_ind])
-            dymax = np.max(this_panel[:,rat2_ind]-ymin)
+                # 2-4b) Stretch slice between 0 and 1 for better results
+                this_stretched_panel = np.zeros_like(this_panel)
+                xmin = np.min(this_panel[:,rat1_ind])
+                dxmax = np.max(this_panel[:,rat1_ind]-xmin)
+                ymin = np.min(this_panel[:,rat2_ind])
+                dymax = np.max(this_panel[:,rat2_ind]-ymin)
 
-            this_stretched_panel[:,rat1_ind] = (this_panel[:,rat1_ind]-xmin)/\
-                                                                        dxmax
-            this_stretched_panel[:,rat2_ind] = (this_panel[:,rat2_ind]-ymin)/\
-                                                                        dymax
+                this_stretched_panel[:,rat1_ind] = (this_panel[:,rat1_ind]-xmin)/\
+                                                                            dxmax
+                this_stretched_panel[:,rat2_ind] = (this_panel[:,rat2_ind]-ymin)/\
+                                                                            dymax
     
-            # 2-4c) Also do it for the input ratios
-            stretched_data = np.zeros_like([data_comb[0],data_comb[1]], 
-                                            dtype = np.float)
-            stretched_data[0] = (data_comb[0]-xmin)/dxmax
-            stretched_data[1] = (data_comb[1]-ymin)/dymax
+                # 2-4c) Also do it for the input ratios - only use those that 
+                # are INSIDE the panel (or near by, to avoid edge effects)
+                stretched_data = np.zeros_like([data_comb[0][points_in_panel],
+                                                data_comb[1][points_in_panel]
+                                               ],dtype = np.float)
+                stretched_data[0] = (data_comb[0][points_in_panel]-xmin)/dxmax
+                stretched_data[1] = (data_comb[1][points_in_panel]-ymin)/dymax
 
-            # 2-4d) Interpolate !
-            this_interp_data = interpolate.griddata(this_stretched_panel[:,
+                # 2-4d) Interpolate !
+                this_interp_data = interpolate.griddata(this_stretched_panel[:,
                                                                     [rat1_ind,
                                                                     rat2_ind]
                                                                     ],
@@ -728,9 +813,9 @@ def interp_qz ( qz,
                                         method=method,
                                         fill_value=np.nan)
             
-            # 3-4) Store the cleaned interpolated values in the final array
-            interp_data[this_interp_data>0] = \
-                        this_interp_data[this_interp_data>0]
+                # 3-4) Store the cleaned interpolated values in the final array
+                interp_data[np.where(points_in_panel)[0][np.where(this_interp_data>0)[0]]] = \
+                            this_interp_data[this_interp_data>0]
 
             # 4) Plot for test purposes
             if show_plot or save_plot:
@@ -742,17 +827,17 @@ def interp_qz ( qz,
                 for simplex in panel_hull.simplices:
                     ax1.plot(this_panel[:,[rat1_ind,rat2_ind]][simplex,0],
                             this_panel[:,[rat1_ind,rat2_ind]][simplex,1],
-                            'k-',lw=0.5)                                                      
+                            'k-',lw=0.5,zorder=0)                                                      
             
                 # 4-2) Grid points
-                if resampled:
+                if sampling > 1:
                     ref_pts = ax1.scatter(this_panel[:,rat1_ind],
                                             this_panel[:,rat2_ind],
                                             marker='o',
                                             c=this_panel[:,var],
-                                            s=40, cmap='Paired', edgecolor='none', 
+                                            s=40, cmap=pyqz_cmap_0, edgecolor='none', 
                                             vmin=np.min(the_grid[:,var]), 
-                                            vmax=np.max(the_grid[:,var]))
+                                            vmax=np.max(the_grid[:,var]),zorder=1)
                     
                     
                     
@@ -763,25 +848,25 @@ def interp_qz ( qz,
                                     marker='o',
                                     c=this_panel[ [n for n in range(len(this_panel)) 
                                              if (this_panel[n,the_metadata['columns'].index('LogQ')] in the_metadata['resampled']['LogQ']) and (this_panel[n,the_metadata['columns'].index('Tot[O]+12')] in the_metadata['resampled']['Tot[O]+12'])],var],
-                                    s=40, cmap='Paired', edgecolor='k', facecolor='white',
+                                    s=40, cmap=pyqz_cmap_0, edgecolor='k', facecolor='white',
                                     vmin=np.min(the_grid[:,var]), 
                                     vmax=np.max(the_grid[:,var]), 
-                                    zorder=5) 
+                                    zorder=1) 
                                     
                 else:
                     ref_pts = ax1.scatter(this_panel[:,rat1_ind],this_panel[:,rat2_ind],
                                             marker='o',
                                             c=this_panel[:,var],
-                                            s=40, cmap='Paired', edgecolor='k', 
+                                            s=40, cmap=pyqz_cmap_0, edgecolor='k', 
                                             vmin=np.min(the_grid[:,var]), 
                                             vmax=np.max(the_grid[:,var]))
 
     if show_plot or save_plot:
         # 4-3) Interpolated points
         ax1.scatter(data_comb[0],data_comb[1],marker='s', c=interp_data,
-                        s=60, cmap = 'Paired', edgecolor='none',
+                        s=60, cmap = pyqz_cmap_0, edgecolor='none',
                         vmin = np.min(the_grid[:,var]),
-                        vmax = np.max(the_grid[:,var]),zorder=0)
+                        vmax = np.max(the_grid[:,var]),zorder=2)
 
                                 
                                                                         
@@ -791,7 +876,8 @@ def interp_qz ( qz,
         my_out_pts = ~np.isnan(data[0]) * ~np.isnan(data[1]) * \
             np.isnan(interp_data)
   
-        if not(np.all(data[0]==grid_x)) and not(np.all(data[1]==grid_y)):
+        
+        if not(np.all(data[0].reshape(input_data_shape)==fullgrid_x)):
             ax1.scatter(data[0][my_out_pts], 
                         data[1][my_out_pts],
                                   marker = '^', facecolor = 'none', 
@@ -853,13 +939,15 @@ def interp_qz ( qz,
         if not(show_plot) and save_plot : 
             plt.close()
 
-    return interp_data
+    # Finish it all, without forgetting to return an array of the same initial
+    # dimension !
+    return interp_data.reshape(input_data_shape)
 
 # Get the "global" Q/Z values from a set of line ratios and diagnostics
 def get_global_qz(data, data_cols, which_grids,
                   ids = False,
                   qzs = ['LogQ','Tot[O]+12'],
-                  Pk = 5.0, kappa=np.inf, model='sph',resampled=True,
+                  Pk = 5.0, kappa=np.inf, struct='sph',sampling=1,
                   error_pdf = 'normal', 
                   srs = 400,
                   flag_level=2., # any float >0: flag_level*std = level above 
@@ -872,6 +960,9 @@ def get_global_qz(data, data_cols, which_grids,
                                            # statsmodel 'KDEMultivariate':
                                            # 100x slower but can fine-tune 2-D 
                                            # bandwidth
+                  KDE_qz_sampling=101j,
+                  KDE_do_singles = True,   
+                  KDE_save_PDFs = False,                      
                   show_plot = False,
                   save_plot = False, 
                   plot_loc = './',
@@ -890,9 +981,10 @@ def get_global_qz(data, data_cols, which_grids,
         Estimation.
         
         :param data: {numpy array of size NxMx2}  
-                        N sets of M line fluxes and errors
+                        N sets of M line fluxes and errors. An error =-1 implies
+                        the associated line flux is an upper limit.
         :param data_cols: {list of Mx2 strings}
-                        Data content, e.g. ['[NII]+,stdHa',...]
+                        Data content, e.g. ['[NII]+','stdHa',...]
                         Syntax MUST match the MAPPINGS + pyqz conventions !
         :param which_grids: {list of strings}
                             list of the model grids to use for the estimations,
@@ -908,14 +1000,14 @@ def get_global_qz(data, data_cols, which_grids,
         :param kappa: {float; default = np.inf} 
                         The kappa value.
                         Value must match an existing reference grid file !
-        :param model: {string; default = 'sph'}
+        :param struct: {string; default = 'sph'}
                         spherical ('sph') or plane-parallel ('pp') HII regions.
                         Value must match an existing reference grid file !
-        :param resampled: {bool; default = True}
-                            Use a resampled grid ?
+        :param sampling: {int; default = 1}
+                        Use a resampled grid ?
         :param error_pdf: {string; default = 'normal'}
-                            The shape of the error function for the line fluxes. 
-                            Currently, only 'normal' is supported.
+                        The shape of the error function for the line fluxes. 
+                        Currently, only 'normal' is supported.
         :param srs: {int; default = 400}
                     The number of random line fluxes generated 
                     to discretize (and reconstruct) the joint probability 
@@ -927,11 +1019,19 @@ def get_global_qz(data, data_cols, which_grids,
                            flag_level * standard_deviation.
                            Might indicate trouble.
                            A flag is always raised when a point is outside all of 
-                           the grids (8), or when the KDE PDF is multipeaked (9).
+                           the grids (8), when the KDE PDF is multipeaked (9) or 
+                           when srs = 0 (-1, no KDE computed)
         :param KDE_method: {string; default = 'gauss'}
                             Whether to use scipy.stats.gaussian_kde ('gauss') or 
                             sm.nonparametric.KDEMultivariate ('multiv') to 
-                            perform the 2-D Kernel Density Estimation
+                            perform the 2-D Kernel Density Estimation.
+        :param KDE_qz_sampling: {complex; default= 101j}
+                            Sampling of the QZ plane for the KDE reconstruction. 
+        :param KDE_do_singles: {bool; default=True}
+                             Weather to compute KDE for single diagnostics also.
+        :param KDE_save_PDFs: {bool/string; default = False}
+                           If not False, the location to save all the PDFs 
+                           computed by the code.
         :param show_plot: {string/bool; default = False}
                             Show all plots (True), none (False), only the grids 
                             ('grids') or the KDE maps ('KDE').
@@ -970,6 +1070,13 @@ def get_global_qz(data, data_cols, which_grids,
     if not(KDE_method in ['gauss','multiv']):
         sys.exit('KDE_method unrecognized: %s' % KDE_method)
 
+    for grid in which_grids:
+        if not(grid in diagnostics.keys()): 
+            sys.exit('Diagnostic grid unvalid: %s' % grid)
+            
+    if srs == 0:
+        warnings.warn('srs set to 0. No KDE will be computed.')        
+
     # 3) Create the final storage stucture
 
     npoints = len(data)
@@ -980,11 +1087,18 @@ def get_global_qz(data, data_cols, which_grids,
     
     # The final_data storage structure ... only contains floats for now ...        
     final_data = np.zeros([npoints,
-                           len(qzs)*len(which_grids)+# the individual estimates
-                           2*len(qzs)+# the "direct" combined estimates + std
-                           2*len(qzs)+# the combined KDE estimates + errors
-                           1+# the flag value
-                           1 # the number of random point landing offgrid
+                           # the individual estimates
+                           len(qzs)*len(which_grids)+
+                           # the individual KDE estimates and their errors
+                           2*len(qzs)*len(which_grids)+
+                           # the "direct" combined estimates + std
+                           2*len(qzs)+
+                           # the combined KDE estimates + errors
+                           2*len(qzs)+
+                           # the flag value
+                           1+
+                           # the number of random point landing offgrid
+                           1 
                            ])*np.nan
 
     # The names of the different columns of the final_data matrix
@@ -994,7 +1108,12 @@ def get_global_qz(data, data_cols, which_grids,
             final_cols.append(grid+'|'+qz)
     for qz in qzs:
         final_cols.append('<'+qz+'>')
-        final_cols.append('std('+qz+')')
+        final_cols.append('std('+qz+')')        
+            
+    for grid in which_grids:
+        for qz in qzs:
+            final_cols.append(grid+'|'+qz+'{KDE}')
+            final_cols.append('err('+grid+'|'+qz+'{KDE})')
     for qz in qzs:
         final_cols.append('<'+qz+'{KDE}>')
         final_cols.append('err('+qz+'{KDE})')
@@ -1008,6 +1127,14 @@ def get_global_qz(data, data_cols, which_grids,
     # Loop through each value, generate many random ones, etc ...
     for j in range(npoints):
         flag = ''
+        
+        # Are all the errors 0 ? Then this means no KDE ! 
+        if srs == 0:
+            noKDE = True
+        elif np.all( data[j,[i for i in range(len(data_cols)) if 'std' in data_cols[i]]]==0):
+            noKDE = True
+        else:
+            noKDE = False
         
         # Generate the random data around this point
         nlines = len(data_cols)/2
@@ -1025,7 +1152,7 @@ def get_global_qz(data, data_cols, which_grids,
                 rsf[0,nline] = data[j,l]
             
                 # Avoid issues if this line is bad - make it a nan everywhere:
-                if rsf[0,nline] == 0.0 or np.isnan(rsf[0,nline]):
+                if rsf[0,nline] <= 0.0 or np.isnan(rsf[0,nline]):
                     rsf[1:,nline] = np.nan
                 else:
                     f0 = data[j,l] # Flux
@@ -1046,7 +1173,7 @@ def get_global_qz(data, data_cols, which_grids,
                         rsf[1:,nline] = cut_func.rvs(srs)
                     elif df == 0.0 :  
                         # If the error is 0, then this value is exact.
-                        rsf[1:,nline] = np.nan
+                        rsf[1:,nline] = f0
                     elif df == -1.0:
                         # This flux is an upper limit -> draw fluxes with a 
                         # uniform
@@ -1066,7 +1193,7 @@ def get_global_qz(data, data_cols, which_grids,
         for (i,calc) in enumerate(final_cols):
             
             # Individual diagnostics
-            if calc.split('|')[0] in diagnostics :
+            if calc.split('|')[0] in diagnostics and not('KDE' in calc) :
                 qz = calc.split('|')[1]
                 ratios = calc.split('|')[0]
                 Rval = []
@@ -1082,17 +1209,17 @@ def get_global_qz(data, data_cols, which_grids,
 
                 # Do I want to save the files ?
                 if (save_plot in [True,'grids']):
-                    # TODO: give the user the ability to feed the custom file
+                    # TODO?: give the user the ability to feed the custom file
                     # name for EACH point ... maybe via optional function param
                     if ids:
                         pname = np.str(ids[j])+'_'
                     else:
                         pname = '' 
                     plot_name = plot_loc + pname+\
-                                ratios.replace(';','_')+'_'+qz+'_'+\
+                                ratios.replace(';','_vs_').replace('/','_')+'_'+qz+'_'+\
                                 'Pk'+str(np.int(10*Pk))+'_'+\
                                 'k'+str(kappa)+'_'+\
-                                model+\
+                                struct+\
                                 '.'+plot_fmt
                 else:
                     plot_name=False
@@ -1100,7 +1227,7 @@ def get_global_qz(data, data_cols, which_grids,
                 # launch the qz interpolation
                 qz_values = interp_qz(qz,Rval,ratios, 
                                         coeffs = coeffs, 
-                                        Pk=Pk,kappa=kappa,model=model,resampled=resampled,
+                                        Pk=Pk,kappa=kappa,struct=struct,sampling=sampling,
                                         show_plot = (show_plot in [True,'grids']),
                                         save_plot=plot_name)
 
@@ -1119,7 +1246,6 @@ def get_global_qz(data, data_cols, which_grids,
                                     width_ratios=[1.,1.])
             gs.update(left=0.1,right=0.95,bottom=0.1,top=0.9,
                         wspace=0.15,hspace=0.07 )
-
             ax1 = plt.subplot(gs[1,0])
             ax2 = plt.subplot(gs[1,1])
 
@@ -1132,14 +1258,15 @@ def get_global_qz(data, data_cols, which_grids,
         
         # Total number of outside points and number of diagnostics
         all_my_rs_offgrid = [0.,0.]
+        all_my_single_kernels = {}
         
         for (i,item) in enumerate(discrete_pdf.keys()):
-            # Only use a diagnostic if the data is actually within it !
-            if 'LogQ' in item and not(np.isnan(discrete_pdf[item][0])) :
+            if 'LogQ' in item and not(np.isnan(discrete_pdf[item][0])):
             
                 # the random points
                 rs_points = {}
                 rs_ref = {}
+
                 for qz in qzs:
                     rs_points[qz] = discrete_pdf[item.split('|')[0]+'|'+qz][1:]
                     rs_ref[qz] = discrete_pdf[item.split('|')[0]+'|'+qz][0]
@@ -1155,53 +1282,75 @@ def get_global_qz(data, data_cols, which_grids,
                     all_estimates[qz] = np.append(all_estimates[qz],
                                                     rs_points[qz])
             
-                # No need to calculate the individual KDE, only the global one 
-                # Saves some time ...
-                '''
-                if KDE_method == 'gauss':
-                    # Ok, 
-                    values = np.vstack([my_z, my_q])                
-                    # Work out the kernel magic ...
-                    my_kernel = stats.gaussian_kde(values, bw_method='scott')
-                    all_my_kernel[i] = my_kernel
-                '''        
-                if KDE_method == 'multiv':
+                # Do we need to calculate the individual KDE ? 
+                if KDE_method == 'gauss' and KDE_do_singles and not(noKDE):
+                    try:
+                        values = np.vstack([rs_points[qzs[0]],rs_points[qzs[1]]])                
+                        # Work out the kernel magic ...
+                        my_kernel = stats.gaussian_kde(values, bw_method='scott')
+                        # Save the kernel for later
+                        all_my_single_kernels[item.split('|')[0]] = my_kernel
+                    except:
+                          warnings.warn('Unexpected issue with single KDE: not enough points ?')
+                          all_my_single_kernels[item.split('|')[0]] = np.nan
+                      
+                if KDE_method == 'multiv' and not(noKDE):
                     # Calculate the bandwidths (along the 'qz' axis) for the 
                     # sample
-                    # Just store the bw ... I will do a proper KDE later ...   
                     # WARNING: calculate the BW manually to match the code
                     # sm.nonparametric.bandwidths.bw_scott contains an 
                     # 'IQR' thingy that differs from what KDE Multivariate is 
                     # actually calling !    
-                    if len(rs_points[qzs[0]])>0:  
+                    try:  
                         for qz in qzs:
                             all_bws[qz] = np.append(all_bws[qz],
                                                 1.06*np.std(rs_points[qz])*
                                                 len(rs_points[qz])**(-1./6.))
+                                                
+                        if KDE_do_singles:                            
+                            my_kernel = sm.nonparametric.KDEMultivariate(
+                                                data=[rs_points[qzs[0]],
+                                                      rs_points[qzs[1]]],
+                                                var_type='cc', 
+                                                bw=np.array([all_bws[qzs[0]][-1],
+                                                             all_bws[qzs[1]][-1]]) 
+                                                                    )
+                        all_my_single_kernels[item.split('|')[0]] = my_kernel                                     
+                    except:
+                        warnings.warn('Unexpected issue with single KDE: not enough points ?')
+                        all_my_single_kernels[item.split('|')[0]] = np.nan                                                                           
+                                                
                 # Plot these ... 
-                try:
-                    for ax in [ax1,ax2]: 
+                #try:
+                for ax in [ax1,ax2]: 
+                    if not(noKDE):
                         ax.scatter(rs_points[qzs[0]],rs_points[qzs[1]],
-                                    marker='o',edgecolor='darkorange',
-                                    facecolor='none',linewidth=0.7, s=2, c='k', 
+                                    marker='o',edgecolor='k',#'darkorange',
+                                    facecolor='k',linewidth=0.7, s=2, c='k', 
                                     zorder=1)  
-                        ax.plot(rs_ref[qzs[0]],rs_ref[qzs[1]],c='w', 
-                                marker = 's',markeredgewidth=1.5,
-                                markerfacecolor='w', 
-                                markeredgecolor='k',markersize=11, zorder=4)
-                        ax.text(rs_ref[qzs[0]],rs_ref[qzs[1]],
-                                which_grids.index(item.split('|')[0])+1,size=12,
-                                ha='center',va='center', zorder=4)
+                                        
+                    ax.plot(rs_ref[qzs[0]],rs_ref[qzs[1]],c='w', 
+                            marker = 's',markeredgewidth=1.5,
+                            markerfacecolor='w', 
+                            markeredgecolor='firebrick',markersize=11, zorder=10)
+                    ax.text(rs_ref[qzs[0]],rs_ref[qzs[1]],
+                            which_grids.index(item.split('|')[0])+1,size=12,
+                            ha='center',va='center', zorder=11,color='firebrick')
 
-                except:
-                    pass
+                #except:
+                #    pass
 
-        # Store the number of points outside all the grid (cumulative)
+        # Store the number of points outside all the grids (cumulative)
         # only do this, if the central point is actually ON the grid !
         if all_my_rs_offgrid[1]>0:
-            final_data[j,final_cols.index('rs_offgrid')] = \
-                    np.round(all_my_rs_offgrid[0]/(all_my_rs_offgrid[1]*srs)*100,1)
+            if noKDE:
+                flag = -1
+            else:
+                final_data[j,final_cols.index('rs_offgrid')] = \
+                        np.round(all_my_rs_offgrid[0]/(all_my_rs_offgrid[1]*srs)*100,1)
+                        
         else:
+            # No point lands in any of the grids ! Raise a flag for that.
             final_data[j,final_cols.index('rs_offgrid')] = np.nan
             flag += '8'
 
@@ -1209,57 +1358,48 @@ def get_global_qz(data, data_cols, which_grids,
         
         # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         # What is the acceptable range of the diagnostic ?   
-        QZs_lim = {'LogQ':np.array([6.5,8.5]),
-                    'Tot[O]+12':np.array([7.459, 9.237]),
-                    'gas[O]+12':np.array([7.349, 9.127]),
-                    }
+        # QZs_lim is now defined in pyqz_metadata for easier access and clarity
         # WARNING: Different diagnostics have different areas ... 
         # I really should account for this eventually ...
-        '''
-        if (kappa == np.inf):
-            my_lims = diagnostics[item[:-7]]['range']['inf']
-        else:    
-            my_lims = diagnostics[item[:-7]]['range'][kappa]
-        '''
         # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         
-        # Discretize the QZ space ... 200 is a good compromise 
+        # Discretize the QZ space ... 201 is a good compromise 
         # (speed vs accuracy)
         QZs_grid = {}
         for qz in qzs:
-            QZs_grid[qz] = np.mgrid[QZs_lim[qz][0]:QZs_lim[qz][1]:200j]
+            QZs_grid[qz] = np.mgrid[QZs_lim[qz][0]:QZs_lim[qz][1]:KDE_qz_sampling]
 
         # WARNING: HERE, I ASSUME THAT qzs has a length of only 2 !
         # Unfortunate, but that's all you get for now ...
-        gridX, gridY = np.mgrid[QZs_lim[qzs[0]][0]:QZs_lim[qzs[0]][1]:200j, 
-                                QZs_lim[qzs[1]][0]:QZs_lim[qzs[1]][1]:200j]
+        gridX, gridY = np.mgrid[QZs_lim[qzs[0]][0]:QZs_lim[qzs[0]][1]:KDE_qz_sampling, 
+                                QZs_lim[qzs[1]][0]:QZs_lim[qzs[1]][1]:KDE_qz_sampling]
         grid_positions = np.vstack([gridX.ravel(), gridY.ravel()])
 
-        # This structure is a left-over from earlier times when KDE where
-        # computed for all the diagnostics together AND for each individual 
-        # diagnostics. This is not the case anymore, but the approach was left 
-        # in place for possible future use ...
+        # This structure is used to store all the reconstructed (sampled) KDE
         all_my_gridZ = {}
-
-        if KDE_method == 'gauss':
+        
+        # Compute the global kernel
+        if noKDE:
+            all_my_single_kernels['all'] = np.nan
+                
+        elif KDE_method == 'gauss' and not(noKDE):
+                        
             values = np.vstack([all_estimates[qzs[0]], all_estimates[qzs[1]]])                
             # Work out the kernel magic ...
             try:
                 kernel = stats.gaussian_kde(values, bw_method='scott')
-                gridZ = np.reshape(kernel(grid_positions), gridX.shape)
+                all_my_single_kernels['all'] = kernel
+                
 
             except:
-                if srs > 0:
+                if not(noKDE):
                     # Could happen if srs is too small, or if the errors are all
                     # zero !
-                    warnings.warn('WARNING: not enough valid srs points '+
-                                    '(spectra #%s)' % j)
-                
-                gridZ = np.zeros_like(gridX)*np.nan
-                          
-            all_my_gridZ['all'] = gridZ
+                    warnings.warn('Not enough valid srs points '+
+                                    '(spectra #%s) to run the KDE' % j)
+                    all_my_single_kernels['all'] = np.nan
        
-        elif KDE_method == 'multiv':
+        elif KDE_method == 'multiv' and not(noKDE):
 
             # Scipy doesn't let me set the bandwidth along both axes ... not 
             # good enough !
@@ -1280,21 +1420,52 @@ def get_global_qz(data, data_cols, which_grids,
                                                       all_estimates[qzs[1]]],
                                                     var_type='cc', 
                                                     bw=bw_mean)
-                # Reshape as needed ...
-                gridZ = np.reshape(kernel.pdf(grid_positions), gridX.shape)
+                all_my_single_kernels['all'] = kernel
+
             except:
-                if srs>0:
+                if not(noKDE):
                     # Could happen if srs is too small, or if the errors are all
                     # zero !
-                     warnings.warn('WARNING: not enough valid srs points '+
+                    warnings.warn('WARNING: not enough valid srs points '+
                                     '(spectra #%s)' % j)
-
-                gridZ = np.zeros_like(gridX)*np.nan  
-
-            all_my_gridZ['all'] = gridZ
+                    all_my_single_kernels['all'] = np.nan
+          
+        # Very well. Now with all the singles and the one global kernel, 
+        # let's reconstruct the PDF on the discretized QZ space    
+        for kern in all_my_single_kernels.keys():
+            if type(all_my_single_kernels[kern]) == type(np.nan):
+                gridZ = np.zeros_like(gridX)*np.nan
+            elif KDE_method == 'gauss':
+                gridZ = np.reshape(all_my_single_kernels[kern](grid_positions), 
+                                    gridX.shape)
+            elif KDE_method == 'multiv':
+                gridZ = np.reshape(all_my_single_kernels[kern].pdf(grid_positions), 
+                                    gridX.shape)                      
+            else:
+               sys.exit('Something went terribly wrong ...(L1402)')                     
             
+            # And store the grid for later
+            all_my_gridZ[kern] = gridZ
+         
+        if KDE_save_PDFs:
+            # I want to save the different PDF arrays ... how ?
+            # pickle would be easy ... I guess I should allow some
+            # CSV files as well eventually ... but not before I assess the
+            # need for these.
+            if ids:
+                d_fn = np.str(ids[j]) + '_KDE-sampled-PDF_' + \
+                       np.str(KDE_qz_sampling) + '.pkl'
+  
+            else:    
+                d_fn = np.str(j) + '_KDE-sampled-PDF_' + \
+                       np.str(KDE_qz_sampling) + '.pkl'
+                
+            dump_fn = os.path.join(KDE_save_PDFs,d_fn)
+            dump_file = open(dump_fn, 'w')
+            pickle.dump([gridX,gridY,all_my_gridZ], dump_file)                    
+                     
         # Now, extract some useful values from the KDE ... 
-        for key in all_my_gridZ.keys(): # only 'all' at this time ...
+        for key in all_my_gridZ.keys(): 
             gridZ = all_my_gridZ[key]
             gridZ = np.rot90(gridZ)[::-1,:]
             # Find the location of the peak
@@ -1305,39 +1476,47 @@ def get_global_qz(data, data_cols, which_grids,
                 gridZ/= peak_val
             else:
                 peak_loc = [np.nan,np.nan]         
-    
-            # Plot it
-            try:
-                for ax in [ax1,ax2]:
-                    if key == 'all':
-                        my_c = 'darkorange'
-                        kde = ax.imshow(gridZ,
-                                        extent=[QZs_lim[qzs[0]][0],
-                                                QZs_lim[qzs[0]][1],
-                                                QZs_lim[qzs[1]][0],
-                                                QZs_lim[qzs[1]][1],
-                                                ], 
-                                        cmap='gist_yarg', 
-                                        origin='lower', 
-                                        zorder=0, interpolation='nearest')
-                    else:
-                        my_c = 'pink'
-            
-                    # 0.61 ~ 1-sigma value of a normalized normal distribution
-                    kde_cont = ax.contour(QZs_grid[qzs[0]],QZs_grid[qzs[1]],
-                                            gridZ,[0.61], colors=my_c, 
-                                            linestyles='-',linewidths=2, 
-                                            zorder=2)
 
-                    ax.plot(QZs_grid[qzs[0]][peak_loc[1]],
-                            QZs_grid[qzs[1]][peak_loc[0]],
-                            c=my_c, marker='^',
-                            markeredgecolor='darkorange', 
-                            markerfacecolor='w', 
-                            markeredgewidth = 2,markersize=10, zorder=5)
-            
-            except:
-                if key == 'all':                    
+            # Plot it
+            if not(noKDE):
+                try:
+                    for ax in [ax1,ax2]:
+                        if key == 'all':
+                            my_c = 'darkorange'
+                            my_c2 = 'none'
+                            my_lw = 2.5
+                            kde = ax.imshow(gridZ,
+                                            extent=[QZs_lim[qzs[0]][0],
+                                                    QZs_lim[qzs[0]][1],
+                                                    QZs_lim[qzs[1]][0],
+                                                    QZs_lim[qzs[1]][1],
+                                                    ], 
+                                            cmap=pyqz_cmap_1,#'GnBu_r', 
+                                            origin='lower', 
+                                            zorder=0, interpolation='nearest')         
+                                        
+                        else:
+                            my_c = 'k'
+                            my_c2 = 'none'
+                            my_lw = 1
+                            my_zo = 7
+                        # 0.61 ~ 1-sigma value of a normalized normal distribution
+                        kde_cont = ax.contour(QZs_grid[qzs[0]],QZs_grid[qzs[1]],
+                                                gridZ,[PDF_cont_level], 
+                                                colors=my_c, 
+                                                linestyles='-',linewidths=my_lw, 
+                                                zorder=my_zo)
+                        # Not showing this anymore ... 
+                        # Avoid crowding the plots for nothing ...
+                        '''
+                        ax.plot(QZs_grid[qzs[0]][peak_loc[1]],
+                                QZs_grid[qzs[1]][peak_loc[0]],
+                                c=my_c, marker='^',
+                                markeredgecolor=my_c, 
+                                markerfacecolor='none', 
+                                markeredgewidth = 2,markersize=10, zorder=5)
+                        '''
+                except:                   
                     # Ok, the user doesn't want a plot, but I still need one to 
                     # get the contours !
                     plt.figure()
@@ -1351,15 +1530,23 @@ def get_global_qz(data, data_cols, which_grids,
                                     interpolation='nearest')
                     # 0.61 ~ 1-sigma value of a normalized normal distribution
                     kde_cont = plt.contour(QZs_grid[qzs[0]],QZs_grid[qzs[1]],
-                                            gridZ,[0.61], 
+                                            gridZ,[PDF_cont_level], 
                                             colors='darkorange', linestyles='-',
                                             linewidths=2, zorder=2)
                     plt.close()            
 
             # Get the 'mean location of the 0.61 level contour
             # First, fetch the contour as path; only if contour actually exists
-            if np.any(all_my_gridZ['all'] == all_my_gridZ['all']):
+            if np.any(all_my_gridZ[key] == all_my_gridZ[key]):
                 path = kde_cont.collections[0].get_paths()[0]
+                # If the path/contour is broken, use the one that contains 
+                # the peak of the distribution
+                
+                for path in kde_cont.collections[0].get_paths():
+                    if path.contains_point([QZs_grid[qzs[0]][peak_loc[1]],
+                                            QZs_grid[qzs[1]][peak_loc[0]]]):
+                        break
+
                 vert = path.vertices
                 mean_vert = (np.mean(vert[:,0]),np.mean(vert[:,1]))
                 # For the error, take the max extent of the ellipse
@@ -1368,8 +1555,8 @@ def get_global_qz(data, data_cols, which_grids,
 
                 # WARNING: what if the contour is not continuous ?
                 # I.e. if multiple peaks exist ?
-                # For now, simply raise a flag.
-                if len(kde_cont.collections[0].get_paths())>1:
+                # For now, simply raise a flag for the combined KDE case
+                if key == 'all' and len(kde_cont.collections[0].get_paths())>1:
                     flag = '9'
             
             else:
@@ -1377,27 +1564,32 @@ def get_global_qz(data, data_cols, which_grids,
                 vert = [np.nan,np.nan]
                 mean_vert = [np.nan,np.nan]
                 err_vert = [np.nan,np.nan]                
-            
+
             try:
                 # Plot it
                 if np.any(mean_vert == mean_vert):
                     for ax in [ax1,ax2]:
                         ax.errorbar(mean_vert[0],mean_vert[1],
                                     xerr=err_vert[0],yerr=err_vert[1],
-                                    elinewidth=2., ecolor='darkorange', capthick=2., 
-                                    zorder=6)  
+                                    elinewidth=2., ecolor=my_c, capthick=2., 
+                                    zorder=my_zo)  
                         ax.plot(np.mean(vert[:,0]),np.mean(vert[:,1]),c=my_c, 
                                     marker='o', markersize=10,
-                                    markeredgecolor='darkorange',
-                                    markerfacecolor='w',
-                                    markeredgewidth=2, zorder=6)
+                                    markeredgecolor=my_c,
+                                    markerfacecolor=my_c2,
+                                    markeredgewidth=2, zorder=my_zo)
             except:
                 pass
  
-        # Save the values as appropriate
-        for (k,qz) in enumerate(qzs):
-            final_data[j,final_cols.index('<'+qz+'{KDE}>')] = mean_vert[k]
-            final_data[j,final_cols.index('err('+qz+'{KDE})')] = err_vert[k]
+            # Save the values as appropriate
+            if key =='all':
+                for (k,qz) in enumerate(qzs):
+                    final_data[j,final_cols.index('<'+qz+'{KDE}>')] = mean_vert[k]
+                    final_data[j,final_cols.index('err('+qz+'{KDE})')] = err_vert[k]
+            else:
+                for (k,qz) in enumerate(qzs):
+                    final_data[j,final_cols.index(key+'|'+qz+'{KDE}')] = mean_vert[k]
+                    final_data[j,final_cols.index('err('+key+'|'+qz+'{KDE})')] = err_vert[k]
 
         # Now, look at the real data 'mean' and 'variance'
         which_qz = {}
@@ -1408,7 +1600,7 @@ def get_global_qz(data, data_cols, which_grids,
         for (i,name) in enumerate(final_cols):
             for qz in qzs:
                 try:
-                    if name.split('|')[1]==qz:
+                    if name.split('|')[1]==qz and not('KDE' in name):
                         which_qz[qz].append(True)
                     else:
                         which_qz[qz].append(False)
@@ -1439,7 +1631,7 @@ def get_global_qz(data, data_cols, which_grids,
                                     err_vert[qzs.index(qz)]<=flag_level
             
             for (i,check) in enumerate([check1,check2]):
-                if not(check):
+                if not(check) and not(noKDE):
                     flag+=str((len(qzs)*np.int(qzs.index(qz))+i+1))
 
         if flag == '':
@@ -1457,7 +1649,7 @@ def get_global_qz(data, data_cols, which_grids,
                 ax.plot(basic_qz[qzs[0]][0],basic_qz[qzs[1]][0],    
                         '*',c='w', markeredgecolor='firebrick',
                         markeredgewidth=2,markerfacecolor='w',
-                        markersize=20, zorder=3)
+                        markersize=20, zorder=9)
                 ax.set_xlabel(qzs[0])
                 ax.grid(True) 
 
@@ -1477,13 +1669,13 @@ def get_global_qz(data, data_cols, which_grids,
                             np.min([np.max(all_estimates[qzs[1]])+0.05,
                                 QZs_lim[qzs[1]][1]])]            
             else:
-                xlims2 = [np.max([np.min(all_estimates[qzs[0]])-2*basic_qz[qz][1],
+                xlims2 = [np.max([basic_qz[qzs[0]][0]-0.25,
                                 QZs_lim[qzs[0]][0]]),
-                            np.min([np.max(all_estimates[qzs[0]])+2*basic_qz[qz][1],
+                          np.min([basic_qz[qzs[0]][0]+0.25,
                                 QZs_lim[qzs[0]][1]])]
-                ylims2 = [np.max([np.min(all_estimates[qzs[1]])-2*basic_qz[qz][1],
+                ylims2 = [np.max([basic_qz[qzs[1]][0]-0.25,
                                 QZs_lim[qzs[1]][0]]),
-                            np.min([np.max(all_estimates[qzs[1]])+2*basic_qz[qz][1],
+                          np.min([basic_qz[qzs[1]][0]+0.25,  
                                 QZs_lim[qzs[1]][1]])]
 
             ax2.set_xlim(xlims2)
@@ -1501,18 +1693,21 @@ def get_global_qz(data, data_cols, which_grids,
             ax2.locator_params(axis='x',nbins=5)
 
             # Plot the colorbar
-            cb_ax = plt.subplot(gs[0,:])
-            cb = Colorbar(ax = cb_ax, mappable = kde, orientation='horizontal')
-            # Colorbar legend
-            cb.set_label(r'Joint Probability Density (normalized to peak)', 
-                         labelpad = -75)
-            cb.ax.xaxis.set_ticks_position('top')
-            cb.solids.set_edgecolor('face')
-            # Draw the 1-sigma level (assuming gaussian = 61% of the peak)
-            cb.add_lines(kde_cont)
+            if not(noKDE):
+                cb_ax = plt.subplot(gs[0,:])
+                cb = Colorbar(ax = cb_ax, mappable = kde, orientation='horizontal')
+                # Colorbar legend
+                cb.set_label(r'Joint Probability Density (normalized to peak)', 
+                            labelpad = -75)
+                cb.ax.xaxis.set_ticks_position('top')
+                cb.solids.set_edgecolor('face')
+                # Draw the 1-sigma level (assuming gaussian = 61% of the peak)
+                cb.ax.axvline(x=PDF_cont_level, color = 'darkorange', linewidth = 3, 
+                                linestyle = '-')
 
             if (save_plot in [True, 'KDE_all']) or ((save_plot == 'KDE_flag') and 
-                                                  (np.int(flag) >0)):
+                                                  (np.int(flag) !=0)):
+                
                 if ids:
                     pname = np.str(ids[j])+'_'
                 else:    
@@ -1525,7 +1720,7 @@ def get_global_qz(data, data_cols, which_grids,
                                 'srs'+np.str(np.int(srs))+'_'+\
                                 'Pk'+str(np.int(10*Pk))+'_'+\
                                 'k'+str(kappa)+'_'+\
-                                model+\
+                                struct+\
                                 '.'+plot_fmt
    
                 plt.savefig(plot_name, bbox_inches='tight')            
@@ -1551,8 +1746,8 @@ def get_global_qz_ff(fn,
                      qzs = ['LogQ', 'Tot[O]+12'],
                      Pk = 5.0,
                      kappa = np.infty,
-                     model = 'sph',
-                     resampled=True,
+                     struct = 'sph',
+                     sampling=1,
                      error_pdf = 'normal', 
                      srs = 400,
                      flag_level=2., # any float >0: flag_level*std = level above 
@@ -1564,10 +1759,13 @@ def get_global_qz_ff(fn,
                                            # statsmodel 'multiv':
                                            # 100x slower but can fine-tune 2-D 
                                            # bandwidth
+                     KDE_qz_sampling=101j,
+                     KDE_do_singles = True,     
+                     KDE_save_PDFs = False,                 
                      decimals=5,
                      missing_values='$$$', # How missing values are marked - will be 
                                             # replaced by nan's
-                    suffix_out = '_out',
+                     suffix_out = '_out',
                      show_plot = False,
                      save_plot = False, 
                      plot_loc = './',
@@ -1586,8 +1784,8 @@ def get_global_qz_ff(fn,
                 The path+filename of the input file, in CSV format    
     :param which_grids: {list of strings}
                             list of the model grids to use for the estimations,
-                            e.g. ['[NII]+/Ha;[OII]/Hb',...]
-     :param qzs: {list; default = ['LogQ','Tot[O]+12']}
+                            e.g. ['[NII]/Ha;[OIII]/Hb',...]
+    :param qzs: {list; default = ['LogQ','Tot[O]+12']}
                     list of Q/Z values to compute
     :param Pk: {float;default = 5.0} 
                 MAPPINGS model pressure. 
@@ -1595,11 +1793,11 @@ def get_global_qz_ff(fn,
     :param kappa: {float; default = np.inf} 
                     The kappa value.
                     Value must match an existing reference grid file !
-    :param model: {string; default = 'sph'}
+    :param struct: {string; default = 'sph'}
                     spherical ('sph') or plane-parallel ('pp') HII regions.
                     Value must match an existing reference grid file !
-    :param resampled: {bool; default = True}
-                            Use a resampled grid ?
+    :param sampling: {int; default = 1}
+                    Use a resampled grid ?
     :param error_pdf: {string; default = 'normal'}
                         The shape of the error function for the line fluxes. 
                         Currently, only 'normal' is supported.
@@ -1614,11 +1812,19 @@ def get_global_qz_ff(fn,
                        flag_level * standard_deviation.
                        Might indicate trouble.
                        A flag is always raised when a point is outside all of 
-                       the grids (8), or when the KDE PDF is multipeaked (9).
+                       the grids (8), when the KDE PDF is multipeaked (9) or 
+                       when srs = 0 (-1, no KDE computed)
     :param KDE_method: {string; default = 'gauss'}
                         Whether to use scipy.stats.gaussian_kde ('gauss') or 
                         sm.nonparametric.KDEMultivariate ('multiv') to 
                         perform the 2-D Kernel Density Estimation
+    :param KDE_qz_sampling: {complex; default= 101j}
+                        Sampling of the QZ plane for the KDE reconstruction. 
+    :param KDE_do_singles: {bool; default=True}
+                        Weather to compute KDE for single diagnostics also.
+    :param KDE_save_PDFs: {bool/string; default = False}
+                        If not False, the location to save all the PDFs 
+                        computed by the code.
     :param decimals: {int; default = 5}
                         Number of decimals to print in the final CSV file.
     :param missing_values: {string; default = '$$$'}
@@ -1667,19 +1873,27 @@ def get_global_qz_ff(fn,
                         filling_values = '',dtype='S15',
                         usecols = (rats.index('Id')),
                         delimiter=',',comments='#')
-
+                        
+    # Need to be careful if there's only one spectrum in the file ...
+    if len(np.shape(data)) == 1:
+        data = data.reshape(1,np.shape(data)[0])
+        ids = ids.reshape(1)      
+        
     # 2) Alright, ready to launch the machine !
     [P, r] = get_global_qz(data, [rat for rat in rats if rat!='Id'],
                             which_grids=which_grids,qzs=qzs,
                             ids = ids,
                             Pk = Pk,
                             kappa = kappa,
-                            model = model, 
-                            resampled=resampled,
+                            struct = struct, 
+                            sampling=sampling,
                             error_pdf = error_pdf,
                             srs = srs,
                             flag_level = flag_level,
                             KDE_method = KDE_method,
+                            KDE_qz_sampling = KDE_qz_sampling,
+                            KDE_do_singles = KDE_do_singles,
+                            KDE_save_PDFs = KDE_save_PDFs,
                             show_plot = show_plot,
                             save_plot = save_plot,
                             plot_loc = plot_loc,
@@ -1703,12 +1917,11 @@ def get_global_qz_ff(fn,
         line = ''
         if 'Id' in rats:
             line = ids[i]+','
-        for item in P[i]:
-            if r[i] =='flag':
-                my_dec = 0
+        for (j,item) in enumerate(P[i]):
+            if r[j] =='flag':
+                line +=  np.str(np.int(item))+','
             else:
-                my_dec = decimals
-            line +=  np.str(np.round(item,my_dec))+','
+                line +=  np.str(np.round(item,decimals))+','
         line = line[:-1]+'\n'
         out_file.write(line)      
     out_file.close()    
@@ -1716,3 +1929,4 @@ def get_global_qz_ff(fn,
     return P,r
    
 # End of the World as we know it.
+# ------------------------------------------------------------------------------

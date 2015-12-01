@@ -1,7 +1,24 @@
 .. _changelog:
 
 Changelog
-=========
+==========
+v0.7.1 November 2015, F.P.A. Vogt
+ - created "get_MVphotogrid_fn" to construct the filename of the MAPPINGS grids once only (for more portability in future updates).
+ - added safety check for the diagnostic grids given by the user in "get_global_qz"
+ - updated MAPPINGS models to latest version
+ - adjusted the resampling function for more consistency with the "resampling factor"
+ - updated FAQ with point about the "paired" colormap, to avoid the wrath of the internet ...
+ - improved the looping of the grid inside interp_qz (by checking the presence of data point inside each panel prior to the interpolation) to speed up the process
+ - implemented the automatic reshaping of arrays to a 1xN array inside interp_qz (and reshaping to the original shape prior to returning the results) 
+ - updated the "plot regions" assigned to each diagnostic grid for the latest MAPPINGS grids (no scientific meaning - just to get pretty plots)
+ - fixed minor typo in get_global_qz_ff: flag is now written as an integer to the file
+ - added the KDE_QZ_sampling and KDE_do_singles keywords to get_global_qz for easier access
+ - moved QZs_lim and PDF-cont_level to pyqz_metadata for easy access
+ - re-instated the ability to calculate the individual KDE alongside the global one
+ - created custom colormap for the KDE plot
+ - added ability to save all the reconstucted PDFs (individuals AND global) to a pickle file via the KDE_save_PDF keyword
+ - fixed bugs when srs = 0 or all errors = 0: the code now doesn't compute any KDEs in those cases, and issues the flag -1
+ - fixed minor "aesthetic" sign issue with axes labeling
 
 v0.7.0 August 2015, F.P.A. Vogt
  - added the function "refine_MVphotogrid", which uses Akima splines (in 1-D) to resample a given MAPPINGS grid.
