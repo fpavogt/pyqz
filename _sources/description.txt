@@ -10,7 +10,7 @@ This page describes the basic use of the module from a **practical** point of vi
 Before we begin: a note on the pyqz syntax
 ------------------------------------------
 
-The ``pyqz`` module is intimately linked to the MAPPIINGS code. While both are stand alone and distinct programs, ``pyqz`` was designed to employ the same notation conventions than that of the MAPPINGS code for clarity, both from a user and programming perspective. 
+The ``pyqz`` module is intimately linked to the MAPPINGS code. While both are stand alone and distinct programs, ``pyqz`` was designed to employ the same notation conventions than that of the MAPPINGS code for clarity, both from a user and programming perspective. 
 
 These conventions, designed to maximise clarity while minimizing the overall character counts, are as follows:
 
