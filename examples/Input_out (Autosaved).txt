@@ -1,0 +1,8 @@
+Id,
+[NII]/[SII]+;[OIII]/[SII]+|LogQ,
+[NII]/[SII]+;[OIII]/[SII]+|Tot[O]+12,
+<LogQ>,std(LogQ),
+<Tot[O]+12>,std(Tot[O]+12),
+[NII]/[SII]+;[OIII]/[SII]+|LogQ{KDE},err([NII]/[SII]+;[OIII]/[SII]+|LogQ{KDE}),[NII]/[SII]+;[OIII]/[SII]+|Tot[O]+12{KDE},err([NII]/[SII]+;[OIII]/[SII]+|Tot[O]+12{KDE}),<LogQ{KDE}>,err(LogQ{KDE}),<Tot[O]+12{KDE}>,err(Tot[O]+12{KDE}),flag,rs_offgrid
+628-69-208,7.31602,8.36186,7.31602,0.0,8.36186,0.0,8.34488,0.00654,nan,nan,nan,nan,nan,nan,91234,0.0
+925-12-066,7.44907,7.90178,7.44907,0.0,7.90178,0.0,7.90103,0.06393,nan,nan,nan,nan,nan,nan,13,0.0
