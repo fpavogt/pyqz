@@ -2,6 +2,9 @@
 
 Changelog
 ==========
+v0.7.2 December 2015, F.P.A. Vogt
+ - updated documentation with IPython notebook (static HTML in doc + notebook in ./examples/ folder).
+ 
 v0.7.1 November 2015, F.P.A. Vogt
  - created "get_MVphotogrid_fn" to construct the filename of the MAPPINGS grids once only (for more portability in future updates).
  - added safety check for the diagnostic grids given by the user in "get_global_qz"

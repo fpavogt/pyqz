@@ -28,7 +28,7 @@ The log(Q) and 12+log(O/H) values are interpolated from a finite set of **diagno
 
     Simplicity and ease of use are important design drivers for ``pyqz``. These (hopefully!) imply an easy-to-run code, where all parameters are accessible but most come with a default setting. 
 
-    But be aware that **the default settings will not be optimum for everyone**. Before you use ``pyqz``, check carefully the :ref:`critical`, or chances are, you will be deriving wrong estimates of 12+log(O/H) and log(Q) ! No one wants this to happen.
+    But be aware that **the default settings will not be optimum for everyone**. Before you use ``pyqz``, check carefully the :ref:`understandingpyqz`, or chances are, you will be deriving wrong estimates of 12+log(O/H) and log(Q) ! No one wants this to happen.
 
 
 Acknowledging pyqz
@@ -62,8 +62,8 @@ Contents
    
    Home <self>
    installation
-   description
-   critical
+   pyqz_demo/pyqz_demo
+   understanding
    faq
    functions
    changelog
