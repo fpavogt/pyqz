@@ -1,0 +1,17 @@
+To build the site:
+
+sphinx-build -a -b html source build
+
+The "pyqz_demo.rst" page must be modified prior to compilation:
+- python blocks must be removed in favor of 
+
+blablabla:
+::
+   >>> some code …
+   results
+
+- images must be centered by adding
+
+    :align: center
+
+right after the input tag

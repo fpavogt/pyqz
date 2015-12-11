@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>FAQ &mdash; pyqz 0.7.1 documentation</title>
+    <title>FAQ &mdash; pyqz 0.7.2 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.7.1',
+        VERSION:     '0.7.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,9 +26,9 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="pyqz 0.7.1 documentation" href="index.html" />
+    <link rel="top" title="pyqz 0.7.2 documentation" href="index.html" />
     <link rel="next" title="The functions of pyqz" href="functions.html" />
-    <link rel="prev" title="pyqz Do’s and Dont’s" href="critical.html" /> 
+    <link rel="prev" title="Understanding pyqz" href="understanding.html" /> 
   </head>
   <body>
     <div class="related">
@@ -41,9 +41,9 @@
           <a href="functions.html" title="The functions of pyqz"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="critical.html" title="pyqz Do’s and Dont’s"
+          <a href="understanding.html" title="Understanding pyqz"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">pyqz 0.7.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">pyqz 0.7.2 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -55,22 +55,28 @@
   <div class="section" id="faq">
 <span id="id1"></span><h1>FAQ<a class="headerlink" href="#faq" title="Permalink to this headline">¶</a></h1>
 <ol class="arabic simple">
-<li><strong>Q</strong>: When importing pyqz, I get the following <tt class="docutils literal"><span class="pre">WARNING:</span> <span class="pre">Statsmodels</span> <span class="pre">module</span> <span class="pre">not</span> <span class="pre">found.</span> <span class="pre">KDE_method</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">set</span> <span class="pre">to</span> <span class="pre">'gauss'</span> <span class="pre">or</span> <span class="pre">else</span> <span class="pre">I</span> <span class="pre">will</span> <span class="pre">crash.</span></tt> What does this mean ?</li>
+<li><strong>Q</strong>: When importing <tt class="docutils literal"><span class="pre">pyqz</span></tt>, I get the following <tt class="docutils literal"><span class="pre">WARNING:</span> <span class="pre">Statsmodels</span> <span class="pre">module</span> <span class="pre">not</span> <span class="pre">found.</span> <span class="pre">KDE_method</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">set</span> <span class="pre">to</span> <span class="pre">'gauss'</span> <span class="pre">or</span> <span class="pre">else</span> <span class="pre">I</span> <span class="pre">will</span> <span class="pre">crash.</span></tt> What does this mean ?</li>
 </ol>
 <blockquote>
 <div><strong>A</strong>: <tt class="docutils literal"><span class="pre">pyqz</span></tt> could not import the <tt class="docutils literal"><span class="pre">statsmodels</span></tt> module. See <a class="reference internal" href="installation.html#troubleshooting"><em>Troubleshooting</em></a> for more details.</div></blockquote>
 <hr class="docutils" />
 <ol class="arabic" start="2">
-<li><p class="first"><strong>Q</strong>: <tt class="docutils literal"><span class="pre">pyqz</span></tt> is returning a lot of different values for log(Q) and 12+log(O/H). What do they all mean and which one should I use ?</p>
-<p><strong>A</strong>: See <a class="reference internal" href="critical.html#estimates"><em>What estimates of q and z should I use ?</em></a></p>
+<li><p class="first"><strong>Q</strong>: <tt class="docutils literal"><span class="pre">pyqz</span></tt> is returning a lot of different values for <tt class="docutils literal"><span class="pre">LogQ</span></tt> and <tt class="docutils literal"><span class="pre">Tot[O]+12</span></tt>. What do they all mean and which one should I use ?</p>
+<p><strong>A</strong>: See <a class="reference internal" href="understanding.html#estimates"><em>What estimates of LogQ and Tot[O]+12 should one use ?</em></a></p>
 </li>
 </ol>
 <hr class="docutils" />
-<ol class="arabic simple" start="3">
+<ol class="arabic" start="4">
+<li><p class="first"><strong>Q</strong>: I have my own set of simulations of HII regions. Can I use <tt class="docutils literal"><span class="pre">pyqz</span></tt> with those ?</p>
+<p><strong>A</strong>: In principle, yes. <tt class="docutils literal"><span class="pre">pyqz</span></tt> is designed to be fed by an awk script shipped with the MAPPINGS code. But if you make your simulations look like what <tt class="docutils literal"><span class="pre">pyqz</span></tt> is expecting (namely, a suitable filename and file structure matching the ones inside <tt class="docutils literal"><span class="pre">pyqz/reference_data/</span></tt>), then you ought to be able to use <tt class="docutils literal"><span class="pre">pyqz</span></tt> just fine with non-MAPPINGS data.</p>
+</li>
+</ol>
+<hr class="docutils" />
+<ol class="arabic simple" start="4">
 <li><strong>Q</strong>: What&#8217;s with the &#8220;Paired&#8221; colorbar ? Doesn&#8217;t that violate all the rules about valid color schemes in scientific diagrams ?</li>
 </ol>
 <blockquote>
-<div><strong>A</strong>: Well, yes. But it is also an excellent way of visualizing rapid local changes in the Q and Z plane, e.g. across the PDF associated with specific Q and Z estimates, AND throughout the entire extent of the MAPPINGS V grids - especially when resampled 2 or 3 times. If it hurts your eyes too much, you can easily enable a colorbar of your choosing via <tt class="docutils literal"><span class="pre">pyqz_cmap_0</span></tt> defined in <tt class="docutils literal"><span class="pre">pyqz_metadata.py</span></tt>.</div></blockquote>
+<div><strong>A</strong>: Well, yes. But it is also an excellent way of visualizing rapid local changes in the <tt class="docutils literal"><span class="pre">LogQ</span></tt> and <tt class="docutils literal"><span class="pre">Tot[O]+12</span></tt> plane, e.g. across the PDF associated with specific <tt class="docutils literal"><span class="pre">LogQ</span></tt> and <tt class="docutils literal"><span class="pre">Tot[O]+12</span></tt> estimates, AND throughout the entire extent of the MAPPINGS grids - especially when resampled 2 or 3 times. In any case, you can easily enable a colorbar of your choosing via <tt class="docutils literal"><span class="pre">pyqz_cmap_0</span></tt> defined in <tt class="docutils literal"><span class="pre">pyqz_metadata.py</span></tt>.</div></blockquote>
 </div>
 
 
@@ -82,20 +88,20 @@
 <h3><a href="index.html">Table Of Contents</a></h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installing pyqz</a></li>
-<li class="toctree-l1"><a class="reference internal" href="description.html">Running pyqz</a></li>
-<li class="toctree-l1"><a class="reference internal" href="critical.html">pyqz Do&#8217;s and Dont&#8217;s</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installing <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyqz_demo/pyqz_demo.html">Running <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="understanding.html">Understanding <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">FAQ</a></li>
-<li class="toctree-l1"><a class="reference internal" href="functions.html">The functions of pyqz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">The functions of <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="critical.html"
-                        title="previous chapter">pyqz Do&#8217;s and Dont&#8217;s</a></p>
+  <p class="topless"><a href="understanding.html"
+                        title="previous chapter">Understanding <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="functions.html"
-                        title="next chapter">The functions of pyqz</a></p>
+                        title="next chapter">The functions of <tt class="docutils literal docutils literal"><span class="pre">pyqz</span></tt></a></p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
@@ -123,9 +129,9 @@
           <a href="functions.html" title="The functions of pyqz"
              >next</a> |</li>
         <li class="right" >
-          <a href="critical.html" title="pyqz Do’s and Dont’s"
+          <a href="understanding.html" title="Understanding pyqz"
              >previous</a> |</li>
-        <li><a href="index.html">pyqz 0.7.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">pyqz 0.7.2 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

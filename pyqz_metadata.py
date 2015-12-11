@@ -19,7 +19,7 @@
 import numpy as np
 
 # Define the version of pyqz
-__version__ = '0.7.1'
+__version__ = '0.7.2'
 
 # For test purposes
 fullgrid_x, fullgrid_y = np.mgrid[-3:3:0.01,-3:3:0.01]
@@ -65,7 +65,7 @@ diagnostics = {'[NII]/[SII]+;[OIII]/[SII]+':
                     'xliml':-2.0, 'xlimr':1.5, 'ylimb': -2.5, 'ylimt':1.0},
                '[NII]/[OII]+;[OIII]/[SII]+':
                     {'coeffs':[[1,0],[0,1]],
-                    'xliml':-2.0, 'xlimr':1.5, 'ylimb': -4.0, 'ylimt':3.0},
+                    'xliml':-1.6, 'xlimr':0.2, 'ylimb': -3.0, 'ylimt':2.0},
                '[NII]/[OII]+;[OIII]/Hb':
                     {'coeffs':[[1,0],[0,1]],
                     'xliml':-2.0, 'xlimr':1.5, 'ylimb': -4.0, 'ylimt':2.0},

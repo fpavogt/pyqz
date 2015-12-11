@@ -1,7 +1,12 @@
 .. _ref-funcs:
 
-The functions of pyqz
+The functions of ``pyqz``
 ======================
+
+
+.. autofunction:: pyqz.run_awk_loop
+
+--------
 
 .. autofunction:: pyqz.get_MVphotogrid_fn
 

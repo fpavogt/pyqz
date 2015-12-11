@@ -55,13 +55,14 @@ except:
 # For plotting
 from matplotlib import pyplot as plt
 from matplotlib.path import Path
-import matplotlib.patches as patches
+#import matplotlib.patches as patches
 import matplotlib.gridspec as gridspec
 from matplotlib.colorbar import Colorbar
 
 # For generic things
 import os
 from datetime import datetime as dt
+import subprocess # To launch shell scripts from within Python the proper way ...
 
 # Where are we located ?
 pyqz_dir = os.path.dirname(__file__)
@@ -101,7 +102,93 @@ pyqz_cmap_1.set_bad(color=(0,0,0), alpha=1)
 
 
 # ------------------- And now for the pyqz functions ---------------------------
-
+def run_awk_loop(Pks = [5.0], kappas = ['inf'], structs = ['sph'], ncpu = 1,
+                 awk_loc = '.'):
+    '''
+         Runs the awk script provided with MAPPINGS in a loop, to easily
+         generate all the default MAPPINGS grid required by pyqz. 
+         This function is not designed for general use - proceed with caution.
+         
+         :param Pks: list
+                      the values of Pk to compute the grids at.
+         :param kappas: list
+                      the values of kappa to compute the grids at.
+         :param struct: list
+                      this values of struct to compute the grids at.
+         :param ncpu: int
+                      the number of cpus to use.
+         :param awk_loc: string
+                      path to the awk script provided with MAPPINGS
+    '''
+    
+    # Run some tests first, before crashing after 27 hours ...
+    try:
+        if np.any(Pks <=0):
+            sys.exit('Invalid Pks. Must be >0.')
+    except:
+        sys.exit('Invalid Pks.')
+     
+    for kappa in kappas:
+        if not(kappa in [2,3,4,6,10,20,50,100,'inf', np.inf]):
+            sys.exit('Invalid kappa value(s). Can be [2,3,4,6,10,20,50,100, "inf", np.inf].')
+            
+    for struct in structs:
+        if not struct in ['pp','sph']:
+            sys.exit('Invalid structs. Must be in ["pp","sph"].')
+            
+    # All good, now, let's start the show
+    fn_raw = os.path.join(awk_loc,'rungrid.sh')
+    fn_tmp = os.path.join(awk_loc,'tmp.sh')
+    
+    # Start the loop, and the grid constructions
+    loop_size = len(Pks)*len(kappas)*len(structs)
+    counter = 0
+    for Pk in Pks:
+        for kappa in kappas:
+            for struct in structs:
+                
+                counter += 1
+                
+                # Open the original script
+                f = open(fn_raw,'r')
+                content = f.readlines()
+                f.close()
+                
+                # Replace the specifc lines as required:
+                content[57] = 'type="'+struct+'"\n'
+                content[70] = 'pres="'+np.str(Pk)+'"\n'
+                if not(kappa in ['inf',np.inf]):
+                    content[162] = 'kappa="'+np.str(np.round(kappa,1))+'"\n'
+                else:
+                    content[162] = 'kappa="inf"\n'
+                
+                # And write this to a temporary .sh file
+                f = open(fn_tmp,'w')
+                f.writelines(content)
+                f.close()
+                
+                # And make sure it can be run by a Python script ...
+                os.system("chmod +x "+fn_tmp)
+                
+                # perfect, now, I am ready to launch this ...
+                # but first, what name do I want to give to this file ?
+                fn_out = get_MVphotogrid_fn(Pk=Pk,calibs='GCZO', kappa = kappa,
+                                            struct=struct, sampling=1)
+                fn_out = fn_out.split('grid_QZ_')[1].split('.csv')[0]
+                print ' '
+                print np.str(counter)+'/'+np.str(loop_size)+': Running '+fn_out
+                print ' '
+                sys.stdout.flush()
+                
+                # And launch it
+                subprocess.call([fn_tmp,fn_out,np.str(np.int(ncpu))])
+                
+    # And don't forget to clean-up the temporary .sh file ...
+    os.remove(fn_tmp)
+    
+    return True                                                    
+   
+                                                                  
 # A function to construct the filename (str) of a given MAPPINGS V grid
 def get_MVphotogrid_fn(Pk = 5.0, calibs = 'GCZO', kappa = np.inf, 
                         struct = 'sph', sampling = 1):
@@ -125,13 +212,22 @@ def get_MVphotogrid_fn(Pk = 5.0, calibs = 'GCZO', kappa = np.inf,
                     
         :returns: string of the MV filename, incl. the path.
     '''
-    
+    # Only allows Pk to have a precision of 1 for now. Issue an error otherwise.
+    # If people really want more precision (why?), then they should send
+    # frederic.vogt@alumni.anu.edu.au an email when they read this ...
+    if np.round(Pk,1) != Pk:
+        sys.exit('Error: Pk cnanot have more than 1 decimals. L219')    
+
     if sampling >1:
         resam = '_samp_'+np.str(sampling)
     else:
         resam = ''
-    fn = os.path.join(pyqz_grid_dir,'grid_QZ-'+struct+'_'+calibs+'_Pk'+
-                    str(np.int(10*Pk))+'_k'+str(kappa)+resam+'.csv')
+    if kappa == 'inf':
+        kappa = np.inf
+    elif kappa != np.inf:
+        kappa = np.int(kappa)
+    fn = os.path.join(pyqz_grid_dir,'grid_QZ_'+struct+'_'+calibs+'_Pk'+
+                    np.str(np.int(10*Pk))+'_k'+np.str(kappa)+resam+'.csv')
     return fn
 
 # A function to fetch the header information from the MAPPINGS files (csv)
@@ -1215,12 +1311,12 @@ def get_global_qz(data, data_cols, which_grids,
                         pname = np.str(ids[j])+'_'
                     else:
                         pname = '' 
-                    plot_name = plot_loc + pname+\
+                    plot_name = os.path.join(plot_loc, pname+\
                                 ratios.replace(';','_vs_').replace('/','_')+'_'+qz+'_'+\
                                 'Pk'+str(np.int(10*Pk))+'_'+\
                                 'k'+str(kappa)+'_'+\
                                 struct+\
-                                '.'+plot_fmt
+                                '.'+plot_fmt)
                 else:
                     plot_name=False
 
@@ -1485,6 +1581,7 @@ def get_global_qz(data, data_cols, which_grids,
                             my_c = 'darkorange'
                             my_c2 = 'none'
                             my_lw = 2.5
+                            my_ls = '-'
                             kde = ax.imshow(gridZ,
                                             extent=[QZs_lim[qzs[0]][0],
                                                     QZs_lim[qzs[0]][1],
@@ -1493,19 +1590,24 @@ def get_global_qz(data, data_cols, which_grids,
                                                     ], 
                                             cmap=pyqz_cmap_1,#'GnBu_r', 
                                             origin='lower', 
-                                            zorder=0, interpolation='nearest')         
+                                            zorder=0, interpolation='nearest')
+                            my_zo = 6         
                                         
                         else:
-                            my_c = 'k'
+                            my_c = 'skyblue'
                             my_c2 = 'none'
-                            my_lw = 1
+                            my_lw = 1.5
                             my_zo = 7
+                            my_ls = '-'
+   
                         # 0.61 ~ 1-sigma value of a normalized normal distribution
                         kde_cont = ax.contour(QZs_grid[qzs[0]],QZs_grid[qzs[1]],
                                                 gridZ,[PDF_cont_level], 
                                                 colors=my_c, 
-                                                linestyles='-',linewidths=my_lw, 
+                                                linestyles=my_ls,
+                                                linewidths=my_lw, 
                                                 zorder=my_zo)
+                                                
                         # Not showing this anymore ... 
                         # Avoid crowding the plots for nothing ...
                         '''
@@ -1528,6 +1630,7 @@ def get_global_qz(data, data_cols, which_grids,
                                             ],
                                     cmap='gist_yarg', origin='lower', zorder=0, 
                                     interpolation='nearest')
+                    print ' What the ...?'               
                     # 0.61 ~ 1-sigma value of a normalized normal distribution
                     kde_cont = plt.contour(QZs_grid[qzs[0]],QZs_grid[qzs[1]],
                                             gridZ,[PDF_cont_level], 
@@ -1713,7 +1816,7 @@ def get_global_qz(data, data_cols, which_grids,
                 else:    
                     pname= '' 
 
-                plot_name = plot_loc + pname+\
+                plot_name = os.path.join(plot_loc, pname+\
                                 qzs[0]+'_'+\
                                 qzs[1]+'_'+\
                                 KDE_method+'_'+\
@@ -1721,8 +1824,8 @@ def get_global_qz(data, data_cols, which_grids,
                                 'Pk'+str(np.int(10*Pk))+'_'+\
                                 'k'+str(kappa)+'_'+\
                                 struct+\
-                                '.'+plot_fmt
-   
+                                '.'+plot_fmt)
+                
                 plt.savefig(plot_name, bbox_inches='tight')            
                             
             if show_plot in [True, 'KDE']:

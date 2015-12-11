@@ -1,5 +1,5 @@
 
-Installing pyqz
+Installing ``pyqz``
 ===================
 
 The most recent release of ``pyqz`` is available for download from its Github repository: https://github.com/fpavogt/pyqz/releases
@@ -7,7 +7,7 @@ The most recent release of ``pyqz`` is available for download from its Github re
 Installing ``pyqz`` merely requires to let your Python installation know about its existence. Specifically:
 
 1. Unzip the compressed files (downloaded from the link above), 
-2. place the ``./pyqz`` folder anywhere you like, and 
+2. place the ``pyqz/`` folder anywhere you like, and 
 3. add its location to your Python path. 
    
 In my case (on MAC OSX), my ``.bash_profile`` would look like : 
@@ -17,7 +17,7 @@ In my case (on MAC OSX), my ``.bash_profile`` would look like :
       
 Requirements
 ------------
-The basic packages below are required for pyqz to work properly:
+The basic packages below are required for ``pyqz`` to work properly:
 
 * ``numpy`` (1.8.1 or or above)
 * ``scipy`` (0.14.0 or above)
@@ -39,10 +39,10 @@ First, launch a Python shell and check that you can import ``pyqz``:
  
 If this fails, then the ``pyqz`` folder is not in your Python path. 
 
-Next, you ought to make sure that you are using the ``pyqz`` you intended:
+Next, you ought to make sure that you are using the ``pyqz`` version you intended:
 ::
   >>> pyqz.__version__
-  '0.7.0'
+  '0.7.2'
 
 Then, try to run the example provided with the code:
 ::
