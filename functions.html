@@ -53,7 +53,36 @@
           <div class="body">
             
   <div class="section" id="the-functions-of-pyqz">
-<span id="ref-funcs"></span><h1>The functions of pyqz<a class="headerlink" href="#the-functions-of-pyqz" title="Permalink to this headline">¶</a></h1>
+<span id="ref-funcs"></span><h1>The functions of <tt class="docutils literal"><span class="pre">pyqz</span></tt><a class="headerlink" href="#the-functions-of-pyqz" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="pyqz.run_awk_loop">
+<tt class="descclassname">pyqz.</tt><tt class="descname">run_awk_loop</tt><big>(</big><em>Pks=[5.0], kappas=['inf'], structs=['sph'], ncpu=1, awk_loc='.'</em><big>)</big><a class="headerlink" href="#pyqz.run_awk_loop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs the awk script provided with MAPPINGS in a loop, to easily
+generate all the default MAPPINGS grid required by pyqz. 
+This function is not designed for general use - proceed with caution.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>Pks</strong> &#8211; list
+the values of Pk to compute the grids at.</li>
+<li><strong>kappas</strong> &#8211; list
+the values of kappa to compute the grids at.</li>
+<li><strong>struct</strong> &#8211; list
+this values of struct to compute the grids at.</li>
+<li><strong>ncpu</strong> &#8211; int
+the number of cpus to use.</li>
+<li><strong>awk_loc</strong> &#8211; string
+path to the awk script provided with MAPPINGS</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<hr class="docutils" />
 <dl class="function">
 <dt id="pyqz.get_MVphotogrid_fn">
 <tt class="descclassname">pyqz.</tt><tt class="descname">get_MVphotogrid_fn</tt><big>(</big><em>Pk=5.0</em>, <em>calibs='GCZO'</em>, <em>kappa=inf</em>, <em>struct='sph'</em>, <em>sampling=1</em><big>)</big><a class="headerlink" href="#pyqz.get_MVphotogrid_fn" title="Permalink to this definition">¶</a></dt>
@@ -511,11 +540,11 @@ Location where figures are saved.</li>
 <h3><a href="index.html">Table Of Contents</a></h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installing pyqz</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyqz_demo/pyqz_demo.html">Running pyqz</a></li>
-<li class="toctree-l1"><a class="reference internal" href="understanding.html">Understanding pyqz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installing <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyqz_demo/pyqz_demo.html">Running <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="understanding.html">Understanding <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">The functions of pyqz</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">The functions of <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 </ul>
 

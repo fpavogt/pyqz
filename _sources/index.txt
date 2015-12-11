@@ -1,7 +1,7 @@
 .. pyqz documentation master file, created by
    sphinx-quickstart on Fri Nov 28 18:17:46 2014.
 
-pyqz |release|
+``pyqz`` |release|
 ==================
 
 .. warning::
@@ -9,7 +9,7 @@ pyqz |release|
 
    You can also track the latest changes on the Github repository of the code: https://github.com/fpavogt/pyqz
 
-   The last publicly released version of ``pyqz`` is 0.4: https://datacommons.anu.edu.au:8443/DataCommons/item/anudc:5037
+   The last publicly released version of the code is ``pyqz 0.4``: https://datacommons.anu.edu.au:8443/DataCommons/item/anudc:5037
 
    See the :ref:`changelog` for more details.
 
@@ -18,7 +18,7 @@ The ``pyqz`` Python module computes the values of log(Q) [the ionization paramet
 
 The log(Q) and 12+log(O/H) values are interpolated from a finite set of **diagnostic line ratio grids** computed with the MAPPINGS code. The grids used by ``pyqz`` are chosen to be **flat, without wraps, to decouple the influence of log(Q) and 12+log(O/H)** on the emission line ratios.
 
-``pyqz`` 0.4 was the first publicly released version of the code, which is described in detail in
+``pyqz 0.4`` was the first publicly released version of the code, which is described in detail in
 
   Dopita et al., *New Strong Line Abundance Diagnostics for HII Regions: Effects of Updated Atomic Data and kappa-Distributed Electron Energies*, ApJS, 208, 10 (2013). `ADS entry <http://adsabs.harvard.edu/abs/2013ApJS..208...10D>`_ 
 
@@ -28,13 +28,13 @@ The log(Q) and 12+log(O/H) values are interpolated from a finite set of **diagno
 
     Simplicity and ease of use are important design drivers for ``pyqz``. These (hopefully!) imply an easy-to-run code, where all parameters are accessible but most come with a default setting. 
 
-    But be aware that **the default settings will not be optimum for everyone**. Before you use ``pyqz``, check carefully the :ref:`understandingpyqz`, or chances are, you will be deriving wrong estimates of 12+log(O/H) and log(Q) ! No one wants this to happen.
+    But be aware that **the default settings will not be optimum for everyone**. Before you use ``pyqz``, read carefully the :ref:`understandingpyqz` section, or chances are, you will be deriving wrong estimates of 12+log(O/H) and log(Q) ! No one wants this to happen.
 
 
-Acknowledging pyqz
-----------------------
+Acknowledging ``pyqz``
+-------------------
 
-Only use lower case letters when mentioning ``pyqz``, and always include the version number, e.g. ``pyqz v0.7.1`` . 
+Only use lower case letters when mentioning ``pyqz``, and always include the version number, e.g. ``pyqz 0.7.1`` . 
 
 ``pyqz`` will be described in detail in 
 
@@ -50,7 +50,7 @@ Additional references you may wish to cite as well include the article first int
 
     **Dopita, Sutherland, Nicholls, Kewley & Vogt**, *New Strong Line Abundance Diagnostics for HII Regions: Effects of Updated Atomic Data and kappa-Distributed Electron Energies*, ApJS, 208, 10 (2013). `ADS entry <http://adsabs.harvard.edu/abs/2013ApJS..208...10D>`_ 
 
-and the initial description of the updated error propagation mechanism (first implemented in ``pyqz`` 0.6.0), described Appendix B of
+and the initial description of the updated error propagation mechanism (first implemented in ``pyqz 0.6.0``), described Appendix B of
 
     **Vogt, Dopita, Borthakur, Verdes-Montenegro, Heckman, Yun & Chambers**, *Galaxy interactions in compact groups - II. Abundance and kinematic anomalies in HCG 91c*, MNRAS, 450, 2593 (2015). `ADS entry <http://adsabs.harvard.edu/abs/2015MNRAS.450.2593V>`_
 
@@ -73,11 +73,11 @@ Contents
 
 Copyright notice:
  
-This file is part of the pyqz Python module.
-The pyqz Python module is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3 of the License.
+This file is part of the ``pyqz`` Python module.
+The ``pyqz`` Python module is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3 of the License.
  
-The pyqz Python module is distributed in the hope that it will be useful, but without any warranty; without even the implied warranty of merchantability or fitness for a particular purpose.  See the GNU General Public License for more details.
+The ``pyqz`` Python module is distributed in the hope that it will be useful, but without any warranty; without even the implied warranty of merchantability or fitness for a particular purpose.  See the GNU General Public License for more details.
  
-You should have received a copy of the GNU General Public License along with the pyqz Python module.  If not, see http://www.gnu.org/licenses/ .
+You should have received a copy of the GNU General Public License along with the ``pyqz`` Python module.  If not, see http://www.gnu.org/licenses/ .
  
 

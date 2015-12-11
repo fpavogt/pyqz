@@ -53,7 +53,9 @@
 <dl class="docutils">
 <dt>v0.7.2 December 2015, F.P.A. Vogt</dt>
 <dd><ul class="first last simple">
-<li>updated documentation with IPython notebook (static HTML in doc + notebook in ./examples/ folder).</li>
+<li>updated documentation with IPython notebook (static HTML in doc + notebook in <tt class="docutils literal"><span class="pre">pyqz/examples/</span></tt>).</li>
+<li>added <tt class="docutils literal"><span class="pre">run_awk_loop</span></tt> function to rapidly create the basic grids for pyqz. This is not intended as a main pyqz feature, but rather as an internal tool to make my life easier. It basically runs the MAPPINGS awk sripts in a loop to avoid many (error prone) manual modifications of the rungrid.sh file. Requires MAPPINGS to be installed properly, as well as the awk scripts - neither provided within <tt class="docutils literal"><span class="pre">pyqz</span></tt> itself.</li>
+<li>used <tt class="docutils literal"><span class="pre">os.path.join()</span></tt> for proper handling across different OS</li>
 </ul>
 </dd>
 <dt>v0.7.1 November 2015, F.P.A. Vogt</dt>
@@ -63,22 +65,22 @@
 <li>updated MAPPINGS models to latest version</li>
 <li>adjusted the resampling function for more consistency with the &#8220;resampling factor&#8221;</li>
 <li>updated FAQ with point about the &#8220;paired&#8221; colormap, to avoid the wrath of the internet ...</li>
-<li>improved the looping of the grid inside interp_qz (by checking the presence of data point inside each panel prior to the interpolation) to speed up the process</li>
-<li>implemented the automatic reshaping of arrays to a 1xN array inside interp_qz (and reshaping to the original shape prior to returning the results)</li>
+<li>improved the looping of the grid inside <tt class="docutils literal"><span class="pre">interp_qz</span></tt> (by checking the presence of data point inside each panel prior to the interpolation) to speed up the process</li>
+<li>implemented the automatic reshaping of arrays to a 1xN array inside <tt class="docutils literal"><span class="pre">interp_qz</span></tt> (and reshaping to the original shape prior to returning the results)</li>
 <li>updated the &#8220;plot regions&#8221; assigned to each diagnostic grid for the latest MAPPINGS grids (no scientific meaning - just to get pretty plots)</li>
-<li>fixed minor typo in get_global_qz_ff: flag is now written as an integer to the file</li>
-<li>added the KDE_QZ_sampling and KDE_do_singles keywords to get_global_qz for easier access</li>
-<li>moved QZs_lim and PDF-cont_level to pyqz_metadata for easy access</li>
+<li>fixed minor typo in <tt class="docutils literal"><span class="pre">get_global_qz_ff</span></tt>: flag is now written as an integer to the file</li>
+<li>added the <tt class="docutils literal"><span class="pre">KDE_QZ_sampling</span></tt> and <tt class="docutils literal"><span class="pre">KDE_do_singles</span></tt> keywords to <tt class="docutils literal"><span class="pre">get_global_qz</span></tt> for easier access</li>
+<li>moved <tt class="docutils literal"><span class="pre">QZs_lim</span></tt> and <tt class="docutils literal"><span class="pre">PDF_cont_level</span></tt> to <tt class="docutils literal"><span class="pre">pyqz_metadata.py</span></tt> for easy access</li>
 <li>re-instated the ability to calculate the individual KDE alongside the global one</li>
 <li>created custom colormap for the KDE plot</li>
-<li>added ability to save all the reconstucted PDFs (individuals AND global) to a pickle file via the KDE_save_PDF keyword</li>
-<li>fixed bugs when srs = 0 or all errors = 0: the code now doesn&#8217;t compute any KDEs in those cases, and issues the flag -1</li>
-<li>fixed minor &#8220;aesthetic&#8221; sign issue with axes labeling</li>
+<li>added ability to save all the reconstucted PDFs (individuals AND global) to a pickle file via the <tt class="docutils literal"><span class="pre">KDE_save_PDF</span></tt> keyword</li>
+<li>fixed bugs when <tt class="docutils literal"><span class="pre">srs</span> <span class="pre">=</span> <span class="pre">0</span></tt> or all errors are 0: the code now doesn&#8217;t compute any KDEs in those cases, and issues the flag -1</li>
+<li>fixed minor &#8220;aesthetic&#8221; sign issue with axes labelling</li>
 </ul>
 </dd>
 <dt>v0.7.0 August 2015, F.P.A. Vogt</dt>
 <dd><ul class="first last simple">
-<li>added the function &#8220;refine_MVphotogrid&#8221;, which uses Akima splines (in 1-D) to resample a given MAPPINGS grid.</li>
+<li>added the function <tt class="docutils literal"><span class="pre">refine_MVphotogrid</span></tt>, which uses Akima splines (in 1-D) to resample a given MAPPINGS grid.</li>
 <li>updated code to allow the use of resampled MAPPINGS grid (or not)</li>
 <li>updated plots to differentiate between &#8220;genuine&#8221; MAPPINGS points and resampled nodes</li>
 </ul>
@@ -88,7 +90,7 @@
 <dl class="docutils">
 <dt>v0.6.3 July-August 2015, F.P.A. Vogt</dt>
 <dd><ul class="first last">
-<li><p class="first">updated input files to MAPPINGS V files (csv created by Awk scripts, incl. Pk, kappa, sph/pp, ...)</p>
+<li><p class="first">updated input files to MAPPINGS V files (csv created by Awk scripts, incl. <tt class="docutils literal"><span class="pre">Pk</span></tt>, <tt class="docutils literal"><span class="pre">kappa</span></tt>, <tt class="docutils literal"><span class="pre">sph/pp</span></tt>, ...)</p>
 </li>
 <li><p class="first">added functions to check grids</p>
 </li>
@@ -123,7 +125,7 @@
 </li>
 <li><p class="first">started implementing 3-D diagnostics diagrams</p>
 </li>
-<li><p class="first">added get_global_qz_ff, to feed the data in via CSV files</p>
+<li><p class="first">added <tt class="docutils literal"><span class="pre">get_global_qz_ff</span></tt>, to feed the data in via CSV files</p>
 </li>
 <li><p class="first">moved project to Github, consolidated the Sphinx Documentation as Github pages.</p>
 </li>
@@ -156,15 +158,15 @@
 <dl class="docutils">
 <dt>v0.5.0 November 2013, F.P.A. Vogt</dt>
 <dd><ul class="first last simple">
-<li>implemented a work around in get_qz, to ensure that savefig works fine also
-with eps and pdf (note: the real issue is deep. In some cases (e.g. NII/SII
-vs OIII/Hb, k=50), the original code would save different images in eps/pdf
-or png ! It is linked to facecolor=&#8217;none&#8217; in the path. Work-around:
-facecolor=&#8217;w&#8217;, and zorder=0.</li>
-<li>get_qzff can now handle files with only 1 spectrum properly</li>
-<li>added savefig/plot/plot_loc/save_fmt keywords to get_qzff for better
+<li>implemented a work around in <tt class="docutils literal"><span class="pre">get_qz</span></tt>, to ensure that <tt class="docutils literal"><span class="pre">savefig</span></tt> works fine also
+with eps and pdf (note: the real issue is deep. In some cases (e.g. [NII]/[SII]
+vs [OIII]/Hb, k=50), the original code would save different images in eps/pdf
+or png ! It is linked to <tt class="docutils literal"><span class="pre">facecolor='none'</span></tt> in the path. Work-around:
+<tt class="docutils literal"><span class="pre">facecolor='w'</span></tt>, and <tt class="docutils literal"><span class="pre">zorder=0</span></tt>.</li>
+<li><tt class="docutils literal"><span class="pre">get_qzff</span></tt> can now handle files with only 1 spectrum properly</li>
+<li>added <tt class="docutils literal"><span class="pre">savefig/plot/plot_loc/save_fmt</span></tt> keywords to <tt class="docutils literal"><span class="pre">get_qzff</span></tt> for better
 control and ability to save figures</li>
-<li>fixed a bug in get_qzff: the function can now handle &#8216;extra&#8217; column
+<li>fixed a bug in <tt class="docutils literal"><span class="pre">get_qzff</span></tt>: the function can now handle &#8216;extra&#8217; column
 containing numbers and/or text</li>
 </ul>
 </dd>
@@ -180,10 +182,10 @@ containing numbers and/or text</li>
 <dd><ul class="first last simple">
 <li>fixed several bugs related with 2D input arrays</li>
 <li>limited the number of bad points plotted to 1500
-(for compatibility with grid_x and grid_y)</li>
+(for compatibility with <tt class="docutils literal"><span class="pre">grid_x</span></tt> and <tt class="docutils literal"><span class="pre">grid_y</span></tt>)</li>
 <li>clarified the required input structure - must be numpy arrays (1D or 2D)</li>
 <li>plots are now prettier, and more robust (defined via local rcParams)</li>
-<li>added possibility to save plot via &#8216;savefig&#8217; keyword</li>
+<li>added possibility to save plot via <tt class="docutils literal"><span class="pre">savefig</span></tt> keyword</li>
 <li>improved axis labels in the plots to make them &#8216;publication-ready&#8217; (if one wanted to)</li>
 </ul>
 </dd>
@@ -214,19 +216,19 @@ triangles (only for the 1-D array input type)</li>
 </dd>
 <dt>v0.3.1b, April 2013, F. Vogt</dt>
 <dd><ul class="first last simple">
-<li>fixed indentation of 4 lines in get_qzff</li>
+<li>fixed indentation of 4 lines in <tt class="docutils literal"><span class="pre">get_qzff</span></tt></li>
 </ul>
 </dd>
 <dt>v0.3.1 April 2013, F. Vogt</dt>
 <dd><ul class="first last simple">
-<li>added .csv output for the get_qzff (or txt, which ever you like best)</li>
+<li>added .csv output for the <tt class="docutils literal"><span class="pre">get_qzff</span></tt> (or txt, which ever you like best)</li>
 <li>changed header column of output files (only &#8216;z&#8217; is used for consistency)</li>
 </ul>
 </dd>
 <dt>v0.3.0 April 2013, F.P.A. Vogt</dt>
 <dd><ul class="first last simple">
-<li>added get_qzff function to directly work from a txt file</li>
-<li>corrected get_pyqz for when points are &#8216;on&#8217; the grid.</li>
+<li>added <tt class="docutils literal"><span class="pre">get_qzff</span></tt> function to directly work from a txt file</li>
+<li>corrected <tt class="docutils literal"><span class="pre">get_pyqz</span></tt> for when points are &#8216;on&#8217; the grid.</li>
 </ul>
 </dd>
 <dt>v0.2.0 April 2013, F.P.A. Vogt</dt>
@@ -253,17 +255,17 @@ triangles (only for the 1-D array input type)</li>
 <h3><a href="index.html">Table Of Contents</a></h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installing pyqz</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyqz_demo/pyqz_demo.html">Running pyqz</a></li>
-<li class="toctree-l1"><a class="reference internal" href="understanding.html">Understanding pyqz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installing <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyqz_demo/pyqz_demo.html">Running <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="understanding.html">Understanding <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
-<li class="toctree-l1"><a class="reference internal" href="functions.html">The functions of pyqz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">The functions of <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Changelog</a></li>
 </ul>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="functions.html"
-                        title="previous chapter">The functions of pyqz</a></p>
+                        title="previous chapter">The functions of <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">

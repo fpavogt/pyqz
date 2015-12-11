@@ -1,6 +1,6 @@
 .. _understandingpyqz:
 
-Understanding pyqz
+Understanding ``pyqz``
 ================
 For a set of emission line fluxes and errors (from observed HII regions), ``pyqz`` measures the associated value of the oxygen abundance 12+log(O/H) and ionization parameters log(Q), given a set of MAPPINGS simulations of HII regions. The code uses **flat(-ish)** emission line diagnostic grids to disentangle and interpolate the values of log(Q) and 12+log(O/H).  
 
@@ -12,7 +12,7 @@ If you have read this doc from the start, you probably have ``pyqz`` installed o
 
    We're serious here - read this page or be doomed !
 
-A note on the pyqz syntax
+A note on the ``pyqz`` syntax
 ------------------------------------------
 
 The ``pyqz`` module is intimately linked to the MAPPINGS code. While both are stand alone and distinct programs, ``pyqz`` was designed to employ the same notation conventions than that of the MAPPINGS code for clarity, both from a user and programming perspective. 
@@ -30,17 +30,17 @@ This syntax must be followed carefully when using ``pyqz``, or errors will arise
 The spirit of ``pyqz``
 -------------------------
 
-The pyqz module is composed of a core function: ``pyqz.interp_qz``. 
+The ``pyqz`` module is composed of a core function: ``pyqz.interp_qz``. 
 This function is responsible for interpolating the MAPPINGS IV grid of simulations of HII regions (using ``scipy.interpolate.griddata``) and returns the corresponding value of z or q for a given pair of line ratios. This function is basic, in that it does not propagate errors on its own. You feed it a pair of line ratio, it returns ``LogQ``, ``Tot[O]+12`` or ``gas[O]+12``, and that's it.
 
-The function ``pyqz.get_global_qz`` is a wrapper around ``pyqz.interp_qz``. It is designed as a top interaction layer for the pyqz module, and can propagate errors or upper-limits on the line flux measurements. You feed it your measured line fluxes and associated errors, and it returns all the ``LogQ`` and ``Tot[O]+12`` or ``gas[O]+12`` estimates and associated errors.
+The function ``pyqz.get_global_qz`` is a wrapper around ``pyqz.interp_qz``. It is designed as a top interaction layer for the ``pyqz`` module, and can propagate errors or upper-limits on the line flux measurements. You feed it your measured line fluxes and associated errors, and it returns all the ``LogQ`` and ``Tot[O]+12`` or ``gas[O]+12`` estimates and associated errors.
 
 Yep, that's right: estimateS. What are these ? 
 
 Direct estimates
 """"""""""""""""
 
-pyqz uses a well defined set of line ratio diagnostic grids (the list of which can be seen using ``pyqz.diagnostics.keys()``) to interpolate ``LogQ`` and ``Tot[O]+12``. Given a set of line fluxes, pyqz can therefore compute 1 estimate of ``LogQ`` and ``Tot[O]+12`` per diagnostic diagram chosen by the user, e.g. ``[NII]/[SII]+;[OIII]/[SII]+``. These **direct estimates** (labelled with ``|LogQ`` and ``|Tot[O]+12`` for each diagnostic diagram, e.g. ``[NII]/[SII]+;[OIII]/[SII]+|LogQ``) are the most straightforward ones computed by ``pyqz``.
+``pyqz`` uses a well defined set of line ratio diagnostic grids (the list of which can be seen using ``pyqz.diagnostics.keys()``) to interpolate ``LogQ`` and ``Tot[O]+12``. Given a set of line fluxes, ``pyqz`` can therefore compute 1 estimate of ``LogQ`` and ``Tot[O]+12`` per diagnostic diagram chosen by the user, e.g. ``[NII]/[SII]+;[OIII]/[SII]+``. These **direct estimates** (labelled with ``|LogQ`` and ``|Tot[O]+12`` for each diagnostic diagram, e.g. ``[NII]/[SII]+;[OIII]/[SII]+|LogQ``) are the most straightforward ones computed by ``pyqz``.
 
 Of course, because all line ratio diagnostic grids are constructed from the same set of MAPPINGS simulations, all these individual direct estimates ought to be consistent, so that computing their mean value is a sensible thing to do. These **averaged direct estimates** are labelled ``<LogQ>``, ``<Tot[O]+12>``, etc É and the associated standard deviations are labelled ``std(LogQ)``, std(Tot[O]+12)``, etc É
 
@@ -51,7 +51,7 @@ As we do not leave in a perfect world, some errors are usually associated with t
 
 The idea is as follows. First, a set of ``srs`` (where ``srs=400`` is the default) random flux values (for each emission line) sampling the probability density function of each measurement is generated. Each of these ``srs`` pseudo-sets of line fluxes are fed through ``pyqz.interp_qz()``, which returns ``srs`` random estimates of ``LogQ`` and ``Tot[O]+12``. ``pyqz`` then uses a Kernel Density Estimation tool to reconstruct a) the probability density function (PDF) in the ``LogQ`` and ``Tot[O]+12`` plane for every single diagnostic grid selected by the user, and b) the full probability density function in the ``LogQ`` and ``Tot[O]+12`` plane resulting from the combination of all ``srs`` estimates for all chosen diagnostic grids. Python users have the ability to pickle these (individual and global) reconstructed PDFs for external use (via the ``KDE_save_PDFs`` keyword). 
 
-From the reconstructed probability density functions, pyqz computes the 0.61% (i.e. the 1-:math:sigma contour for a log normal distributions) level contour in the ``LogQ`` vs ``Tot[O]+12`` plane, with respect to the peak. ``pyqz`` subsequently returns as an (individual or global) KDE estimate the mean of the 0.61% contour and its associated half spatial extent along the ``LogQ`` and ``Tot[O]+12`` directions.  
+From the reconstructed probability density functions, ``pyqz`` computes the 0.61% (i.e. the 1-:math:sigma contour for a log normal distributions) level contour in the ``LogQ`` vs ``Tot[O]+12`` plane, with respect to the peak. ``pyqz`` subsequently returns as an (individual or global) KDE estimate the mean of the 0.61% contour and its associated half spatial extent along the ``LogQ`` and ``Tot[O]+12`` directions.  
 
 These KDE estimates are referred to (accordingly) using ``|LogQ{KDE}`` and ``|Tot[O]+12{KDE}`` for the individual diagnostic grids (e.g. ``[NII]/[SII]+;[OIII]/[SII]+|LogQ{KDE}`` with an error ``err([NII]/[SII]+;[OIII]/[SII]+|LogQ{KDE})``). The global KDE estimates are labelled as ``<LogQ{KDE}>`` and ``<Tot[O]+12>``, with associated errors ``err(LogQ{KDE})`` and ``err(Tot[O]+12{KDE})``.
 
@@ -85,10 +85,10 @@ In the end, it remains to the user to decide which estimate(s) to use. The final
 
 **It cannot be stressed enough that choosing appropriate HII regions parameters (in terms of pressure, spatial structure, abundances, etc É) for the MAPPINGS simulations can and will influence the final estimates of ``LogQ`` and ``Tot[O]+12``, both individual and global ones**. If you are using ``pyqz``, chances are that you do not possess enough information to define these elements with certainty, and simply use the default diagnostic grids provided. This is fine. But in case of estimates mismatch, one must then keep this fact in mind.
 
-Some pyqz parameters of particular interest
+Some ``pyqz`` parameters of particular interest
 -------------------------------------------
 
-* **srs**: the 'size of the random sample' of line fluxes generated by pyqz. This is used to propagate the probability density function associated with each line flux measurements. In other words, this is the number of discrete estimates of the probability density function (in the ``LogQ - Tot[O]+12`` plane) associated with one diagnostic grid. Hence, the joint probability function density function (combining N diagnostic grids) will be reconstructed via a Kernel Density Estimation routine from N x srs points. ``srs=400`` is the default value, and we suggest a ``srs=1000`` for errors at the 10%-15% level. Larger errors result in wider probability density peaks, and require more ``srs`` points to be properly discretized - at the cost of additional computation time of course  É 
+* **srs**: the 'size of the random sample' of line fluxes generated by ``pyqz``. This is used to propagate the probability density function associated with each line flux measurements. In other words, this is the number of discrete estimates of the probability density function (in the ``LogQ - Tot[O]+12`` plane) associated with one diagnostic grid. Hence, the joint probability function density function (combining N diagnostic grids) will be reconstructed via a Kernel Density Estimation routine from N x srs points. ``srs=400`` is the default value, and we suggest a ``srs=1000`` for errors at the 10%-15% level. Larger errors result in wider probability density peaks, and require more ``srs`` points to be properly discretized - at the cost of additional computation time of course  É 
 
 * **KDE_method**: the Kernel Density Estimation routine used to reconstruct the individual and joint probability density functions in the ``LogQ - Tot[O]+12`` plane. Either ``gauss`` to use ``gaussian_kde`` from the ``scipy.stats`` module, or ``multiv`` to use ``KDEMultivariate`` from the ``statsmodels`` package. The former choice is 10-100x faster, but usually results in less accurate results if different diagnostics grid diagree. The underlying reason is that with ``gaussian_kde``, the kernel bandwidth cannot be explicitly set individually for the ``LogQ`` and ``Tot[O]+12`` directions, so that the function tends to over-smooth the distribution. ``KDEMultivariate`` should be preferred as the bandwidth of the kernel is set individually for both the ``LogQ`` and ``Tot[O]+12`` directions using Scott's rule, scaled by the standard deviation of the distribution along these directions. 
 
