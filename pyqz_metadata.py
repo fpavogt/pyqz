@@ -53,31 +53,31 @@ PDF_cont_level = 0.61
 # create decent plots)
 diagnostics = {'[NII]/[SII]+;[OIII]/[SII]+':
                     {'coeffs':[[1,0],[0,1]],
-                    'xliml':-0.8, 'xlimr':1.0, 'ylimb': -4.0, 'ylimt':3.0},
+                    'xliml':-0.6, 'xlimr':0.6, 'ylimb': -3.0, 'ylimt':2.0},
                '[NII]/[SII]+;[OIII]/Hb':
                     {'coeffs':[[1,0],[0,1]],
-                    'xliml':-0.8, 'xlimr':1.0, 'ylimb': -4.0, 'ylimt':2.0},
+                    'xliml':-0.6, 'xlimr':0.6, 'ylimb': -2.5, 'ylimt':1.0},
                '[NII]/[SII]+;[OIII]/[OII]+':
                     {'coeffs':[[1,0],[0,1]],
-                    'xliml':-0.8, 'xlimr':1.0, 'ylimb': -2.5, 'ylimt':1.5},
+                    'xliml':-0.6, 'xlimr':0.6, 'ylimb': -2.5, 'ylimt':1.0},
                '[NII]/[OII]+;[OIII]/[OII]+':
                     {'coeffs':[[1,0],[0,1]],
-                    'xliml':-2.0, 'xlimr':1.5, 'ylimb': -2.5, 'ylimt':1.0},
+                    'xliml':-1.6, 'xlimr':0.2, 'ylimb': -2.5, 'ylimt':1.0},
                '[NII]/[OII]+;[OIII]/[SII]+':
                     {'coeffs':[[1,0],[0,1]],
                     'xliml':-1.6, 'xlimr':0.2, 'ylimb': -3.0, 'ylimt':2.0},
                '[NII]/[OII]+;[OIII]/Hb':
                     {'coeffs':[[1,0],[0,1]],
-                    'xliml':-2.0, 'xlimr':1.5, 'ylimb': -4.0, 'ylimt':2.0},
-               '[NII]/Ha;[OIII]/Hb':
-                    {'coeffs':[[1,0],[0,1]],
-                    'xliml':-3.0, 'xlimr':0.0, 'ylimb': -4.0, 'ylimt':2.0},
-               '[NII]/Ha;[OIII]/[OII]+':
-                    {'coeffs':[[1,0],[1,0]],
-                    'xliml':-3.0, 'xlimr':0.0, 'ylimb': -2.5, 'ylimt':1.5},
+                    'xliml':-1.6, 'xlimr':0.2, 'ylimb': -2.5, 'ylimt':1.0},
+               #'[NII]/Ha;[OIII]/Hb':
+               #     {'coeffs':[[1,0],[0,1]],
+               #     'xliml':-3.0, 'xlimr':0.0, 'ylimb': -4.0, 'ylimt':2.0},
+               #'[NII]/Ha;[OIII]/[OII]+':
+               #     {'coeffs':[[1,0],[0,1]],
+               #     'xliml':-3.0, 'xlimr':0.0, 'ylimb': -2.5, 'ylimt':1.5},
                 ### And now some 3-D line ratios diagnostics
                 '[NII]/[SII]+;[NII]/Ha;[OIII]/Hb': # From Dopita (2015) Hi-z
                     {'coeffs':[[1.0,0.264,0.0],[0.242,-0.910,0.342]],
-                    'xliml':-1.5, 'xlimr':0.7, 'ylimb': -0.7, 'ylimt':3.0},
+                    'xliml':-0.8, 'xlimr':0.4, 'ylimb': -1.0, 'ylimt':2.0},
                }
 

@@ -303,7 +303,7 @@ defines the plot window number</li>
 <hr class="docutils" />
 <dl class="function">
 <dt id="pyqz.interp_qz">
-<tt class="descclassname">pyqz.</tt><tt class="descname">interp_qz</tt><big>(</big><em>qz, data, ratios, coeffs=[[1, 0], [0, 1]], Pk=5.0, kappa=inf, struct='sph', sampling=1, method='cubic', show_plot=False, n_plot=False, save_plot=False</em><big>)</big><a class="headerlink" href="#pyqz.interp_qz" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">pyqz.</tt><tt class="descname">interp_qz</tt><big>(</big><em>qz, data, ratios, coeffs=[[1, 0], [0, 1]], Pk=5.0, kappa=inf, struct='sph', sampling=1, method='cubic', show_plot=False, n_plot=False, save_plot=False, verbose=True</em><big>)</big><a class="headerlink" href="#pyqz.interp_qz" title="Permalink to this definition">¶</a></dt>
 <dd><p>The core function of pyqz.</p>
 <p>Returns the &#8216;q&#8217; or &#8216;z&#8217; value for a given set of line ratios based on a
 given 2-D diagnostic grid.</p>
@@ -344,6 +344,7 @@ method of scipy.interpolate.griddata.</li>
 defines the plot window number</li>
 <li><strong>save_plot</strong> &#8211; {string; default = False}
 &#8216;path+name+format&#8217; to export the Figure to.</li>
+<li><strong>verbose</strong> &#8211; {bool; default=True}</li>
 </ul>
 </td>
 </tr>
@@ -357,7 +358,7 @@ defines the plot window number</li>
 <hr class="docutils" />
 <dl class="function">
 <dt id="pyqz.get_global_qz">
-<tt class="descclassname">pyqz.</tt><tt class="descname">get_global_qz</tt><big>(</big><em>data, data_cols, which_grids, ids=False, qzs=['LogQ', 'Tot[O]+12'], Pk=5.0, kappa=inf, struct='sph', sampling=1, error_pdf='normal', srs=400, flag_level=2.0, KDE_method='gauss', KDE_qz_sampling=101j, KDE_do_singles=True, KDE_save_PDFs=False, show_plot=False, save_plot=False, plot_loc='./', plot_fmt='png'</em><big>)</big><a class="headerlink" href="#pyqz.get_global_qz" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">pyqz.</tt><tt class="descname">get_global_qz</tt><big>(</big><em>data, data_cols, which_grids, ids=False, qzs=['LogQ', 'Tot[O]+12'], Pk=5.0, kappa=inf, struct='sph', sampling=1, error_pdf='normal', srs=400, flag_level=2.0, KDE_method='gauss', KDE_qz_sampling=101j, KDE_do_singles=True, KDE_save_PDFs=False, show_plot=False, save_plot=False, plot_loc='./', plot_fmt='png', verbose=True</em><big>)</big><a class="headerlink" href="#pyqz.get_global_qz" title="Permalink to this definition">¶</a></dt>
 <dd><p>Derives the LogQ and [O]+12 values for a given set of line 
 fluxes based on a given set of diagnostic grids.</p>
 <p>This function only uses &#8220;valid&#8221; grids defined in pyqz_metadata.py.</p>
@@ -434,6 +435,7 @@ KDE maps raising a flag (&#8216;KDE_flag&#8217;).</li>
 Location where figures are saved.</li>
 <li><strong>plot_fmt</strong> &#8211; {string; default = &#8216;png&#8217;}
 &#8216;eps&#8217;, &#8216;pdf&#8217;, or &#8216;png&#8217;.</li>
+<li><strong>verbose</strong> &#8211; {bool; default=True}</li>
 </ul>
 </td>
 </tr>
@@ -448,7 +450,7 @@ values, and r contains the columns name</p>
 <hr class="docutils" />
 <dl class="function">
 <dt id="pyqz.get_global_qz_ff">
-<tt class="descclassname">pyqz.</tt><tt class="descname">get_global_qz_ff</tt><big>(</big><em>fn, which_grids, qzs=['LogQ', 'Tot[O]+12'], Pk=5.0, kappa=inf, struct='sph', sampling=1, error_pdf='normal', srs=400, flag_level=2.0, KDE_method='gauss', KDE_qz_sampling=101j, KDE_do_singles=True, KDE_save_PDFs=False, decimals=5, missing_values='$$$', suffix_out='_out', show_plot=False, save_plot=False, plot_loc='./', plot_fmt='png'</em><big>)</big><a class="headerlink" href="#pyqz.get_global_qz_ff" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">pyqz.</tt><tt class="descname">get_global_qz_ff</tt><big>(</big><em>fn, which_grids, qzs=['LogQ', 'Tot[O]+12'], Pk=5.0, kappa=inf, struct='sph', sampling=1, error_pdf='normal', srs=400, flag_level=2.0, KDE_method='gauss', KDE_qz_sampling=101j, KDE_do_singles=True, KDE_save_PDFs=False, decimals=5, missing_values='$$$', suffix_out='_out', show_plot=False, save_plot=False, plot_loc='./', plot_fmt='png', verbose=True</em><big>)</big><a class="headerlink" href="#pyqz.get_global_qz_ff" title="Permalink to this definition">¶</a></dt>
 <dd><p>The get_global_qz-&#8216;from a file&#8217; function. Gets the line ratios from a csv 
 file, and not directly as Python arrays.</p>
 <p>Save to file the log(q) and 12+log(O/H) values for a given set of line 
@@ -522,6 +524,7 @@ KDE maps raising a flag (&#8216;KDE_flag&#8217;).</li>
 Location where figures are saved.</li>
 <li><strong>plot_fmt</strong> &#8211; {string; default = &#8216;png&#8217;}
 &#8216;eps&#8217;, &#8216;pdf&#8217;, or &#8216;png&#8217;.</li>
+<li><strong>verbose</strong> &#8211; {bool; default=True}</li>
 </ul>
 </td>
 </tr>

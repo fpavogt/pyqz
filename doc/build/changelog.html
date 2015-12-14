@@ -55,7 +55,12 @@
 <dd><ul class="first last simple">
 <li>updated documentation with IPython notebook (static HTML in doc + notebook in <tt class="docutils literal"><span class="pre">pyqz/examples/</span></tt>).</li>
 <li>added <tt class="docutils literal"><span class="pre">run_awk_loop</span></tt> function to rapidly create the basic grids for pyqz. This is not intended as a main pyqz feature, but rather as an internal tool to make my life easier. It basically runs the MAPPINGS awk sripts in a loop to avoid many (error prone) manual modifications of the rungrid.sh file. Requires MAPPINGS to be installed properly, as well as the awk scripts - neither provided within <tt class="docutils literal"><span class="pre">pyqz</span></tt> itself.</li>
-<li>used <tt class="docutils literal"><span class="pre">os.path.join()</span></tt> for proper handling across different OS</li>
+<li>used <tt class="docutils literal"><span class="pre">os.path.join()</span></tt> for proper handling across different OS.</li>
+<li>created a test environment for <tt class="docutils literal"><span class="pre">pyqz</span></tt> using the The Python unit testing framework (<tt class="docutils literal"><span class="pre">unittest</span></tt>) inside <tt class="docutils literal"><span class="pre">pyqz/self_checks/</span></tt>.</li>
+<li>added test functions for node points and bad points.</li>
+<li>fixed typo in <tt class="docutils literal"><span class="pre">coeffs</span></tt> for <tt class="docutils literal"><span class="pre">'[NII]/Ha;[OIII]/[OII]+'</span></tt>.</li>
+<li>added <tt class="docutils literal"><span class="pre">verbose</span></tt> keyword</li>
+<li>added test function for MV models with mid-Qs.</li>
 </ul>
 </dd>
 <dt>v0.7.1 November 2015, F.P.A. Vogt</dt>

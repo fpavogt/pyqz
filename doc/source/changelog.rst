@@ -5,7 +5,12 @@ Changelog
 v0.7.2 December 2015, F.P.A. Vogt
  - updated documentation with IPython notebook (static HTML in doc + notebook in ``pyqz/examples/``).
  - added ``run_awk_loop`` function to rapidly create the basic grids for pyqz. This is not intended as a main pyqz feature, but rather as an internal tool to make my life easier. It basically runs the MAPPINGS awk sripts in a loop to avoid many (error prone) manual modifications of the rungrid.sh file. Requires MAPPINGS to be installed properly, as well as the awk scripts - neither provided within ``pyqz`` itself.
- - used ``os.path.join()`` for proper handling across different OS
+ - used ``os.path.join()`` for proper handling across different OS.
+ - created a test environment for ``pyqz`` using the The Python unit testing framework (``unittest``) inside ``pyqz/self_checks/``.
+ - added test functions for node points and bad points.
+ - fixed typo in ``coeffs`` for ``'[NII]/Ha;[OIII]/[OII]+'``.
+ - added ``verbose`` keyword
+ - added test function for MV models with mid-Qs.
  
 v0.7.1 November 2015, F.P.A. Vogt
  - created "get_MVphotogrid_fn" to construct the filename of the MAPPINGS grids once only (for more portability in future updates).

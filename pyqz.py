@@ -711,7 +711,8 @@ def interp_qz ( qz,
                 coeffs =[[1,0],[0,1]],
                 Pk = 5.0, kappa=np.inf, struct='sph',sampling=1,
                 method = 'cubic',
-                show_plot = False, n_plot = False, save_plot = False 
+                show_plot = False, n_plot = False, save_plot = False,
+                verbose = True, 
                 ):
     ''' The core function of pyqz.
     
@@ -750,6 +751,7 @@ def interp_qz ( qz,
                         defines the plot window number
         :param save_plot: {string; default = False}
                         'path+name+format' to export the Figure to.
+        :param verbose: {bool; default=True}  
 
         :returns: {numpy array of NxM}   
     '''
@@ -900,6 +902,8 @@ def interp_qz ( qz,
                 stretched_data[1] = (data_comb[1][points_in_panel]-ymin)/dymax
 
                 # 2-4d) Interpolate !
+                #import pdb
+                #pdb.set_trace()
                 this_interp_data = interpolate.griddata(this_stretched_panel[:,
                                                                     [rat1_ind,
                                                                     rat2_ind]
@@ -916,10 +920,12 @@ def interp_qz ( qz,
             # 4) Plot for test purposes
             if show_plot or save_plot:
 
-                # plot the panel - use the Convex Hull approach for fun
+                # plot the panel - use the Convex Hull approach for the fun of it
+
                 panel_hull = scipy.spatial.ConvexHull(this_panel[:,
                                                                 [rat1_ind,
                                                                  rat2_ind]])
+                                                                 
                 for simplex in panel_hull.simplices:
                     ax1.plot(this_panel[:,[rat1_ind,rat2_ind]][simplex,0],
                             this_panel[:,[rat1_ind,rat2_ind]][simplex,1],
@@ -979,12 +985,13 @@ def interp_qz ( qz,
                                   marker = '^', facecolor = 'none', 
                                   edgecolor = 'k', s=60)
         
-        # plot the colorbar
-        cb_ax = plt.subplot(gs[0,1])
-        cb = Colorbar(ax = cb_ax, mappable = ref_pts, orientation='vertical')
-        # Colorbar legend
-        cb.set_label(qz, labelpad=10)
-
+        # plot the colorbar - only if the point was found int he first place
+        if not(np.all(np.isnan(interp_data))):
+            cb_ax = plt.subplot(gs[0,1])
+            cb = Colorbar(ax = cb_ax, mappable = ref_pts, orientation='vertical')
+            # Colorbar legend
+            cb.set_label(qz, labelpad=10)
+            
         # Axis names
         labelx = ''
         labely = ''
@@ -1026,6 +1033,8 @@ def interp_qz ( qz,
                     transform=ax1.transAxes)    
         ax1.grid(True)
         
+        
+        
         if show_plot:
             plt.show()
         if save_plot :
@@ -1062,7 +1071,8 @@ def get_global_qz(data, data_cols, which_grids,
                   show_plot = False,
                   save_plot = False, 
                   plot_loc = './',
-                  plot_fmt = 'png'
+                  plot_fmt = 'png',
+                  verbose = True,
                   ):
 
     ''' Derives the LogQ and [O]+12 values for a given set of line 
@@ -1139,6 +1149,7 @@ def get_global_qz(data, data_cols, which_grids,
                             Location where figures are saved.
         :param plot_fmt: {string; default = 'png'}
                             'eps', 'pdf', or 'png'.
+        :param verbose: {bool; default=True}                    
 
         :returns: [P,r], where P contains all the estimated Log(Q) and [O]+12
                      values, and r contains the columns name   
@@ -1166,6 +1177,9 @@ def get_global_qz(data, data_cols, which_grids,
     if not(KDE_method in ['gauss','multiv']):
         sys.exit('KDE_method unrecognized: %s' % KDE_method)
 
+    if not(type(which_grids)==list):
+        sys.exit('"which_grids" must be a list, and not: %s' % type(which_grids))
+        
     for grid in which_grids:
         if not(grid in diagnostics.keys()): 
             sys.exit('Diagnostic grid unvalid: %s' % grid)
@@ -1173,13 +1187,21 @@ def get_global_qz(data, data_cols, which_grids,
     if srs == 0:
         warnings.warn('srs set to 0. No KDE will be computed.')        
 
+    # Make sure the input array has a vaild 2D size
+    if len(np.shape(data)) ==1:
+        sys.exit('Data shape mismatch. '+
+                 'Should be (x,y), not "%s". '% np.shape(data) +
+                 'Use np.reshape() ?')          
+
+
     # 3) Create the final storage stucture
 
     npoints = len(data)
-    if npoints > 1:
-        print '--> Processing '+np.str(npoints)+' spectra ...'
-    else:
-        print '--> Processing 1 spectrum ...'
+    if verbose:
+        if npoints > 1:
+            print '--> Processing '+np.str(npoints)+' spectra ...'
+        else:
+            print '--> Processing 1 spectrum ...'
     
     # The final_data storage structure ... only contains floats for now ...        
     final_data = np.zeros([npoints,
@@ -1491,6 +1513,7 @@ def get_global_qz(data, data_cols, which_grids,
                 if not(noKDE):
                     # Could happen if srs is too small, or if the errors are all
                     # zero !
+                    
                     warnings.warn('Not enough valid srs points '+
                                     '(spectra #%s) to run the KDE' % j)
                     all_my_single_kernels['all'] = np.nan
@@ -1582,6 +1605,7 @@ def get_global_qz(data, data_cols, which_grids,
                             my_c2 = 'none'
                             my_lw = 2.5
                             my_ls = '-'
+                            my_zo = 7
                             kde = ax.imshow(gridZ,
                                             extent=[QZs_lim[qzs[0]][0],
                                                     QZs_lim[qzs[0]][1],
@@ -1597,7 +1621,7 @@ def get_global_qz(data, data_cols, which_grids,
                             my_c = 'skyblue'
                             my_c2 = 'none'
                             my_lw = 1.5
-                            my_zo = 7
+                            my_zo = 3
                             my_ls = '-'
    
                         # 0.61 ~ 1-sigma value of a normalized normal distribution
@@ -1630,7 +1654,7 @@ def get_global_qz(data, data_cols, which_grids,
                                             ],
                                     cmap='gist_yarg', origin='lower', zorder=0, 
                                     interpolation='nearest')
-                    print ' What the ...?'               
+              
                     # 0.61 ~ 1-sigma value of a normalized normal distribution
                     kde_cont = plt.contour(QZs_grid[qzs[0]],QZs_grid[qzs[1]],
                                             gridZ,[PDF_cont_level], 
@@ -1743,7 +1767,8 @@ def get_global_qz(data, data_cols, which_grids,
         final_data[j,final_cols.index('flag')]= np.int(flag)      
         
         # Finalize the plot ...
-        try:  
+        #try:
+        if True:  
             for ax in [ax1,ax2]:
                 ax.errorbar(basic_qz[qzs[0]][0],basic_qz[qzs[1]][0],
                             xerr=basic_qz[qzs[0]][1],yerr=basic_qz[qzs[1]][1], 
@@ -1827,18 +1852,22 @@ def get_global_qz(data, data_cols, which_grids,
                                 '.'+plot_fmt)
                 
                 plt.savefig(plot_name, bbox_inches='tight')            
-                            
-            if show_plot in [True, 'KDE']:
+             
+            if '8' in np.str(final_data[j,final_cols.index('flag')]):
+                plt.close()
+                print ' No KDE calculable (bad points/grids ?)'                               
+            elif show_plot in [True, 'KDE']:
                 plt.show()   
             else:
                 plt.close()
 
-        except:
-            pass
+        #except:
+        #    pass
 
     
     # 5) All done ... return the final data set
-    print 'All done in',dt.now()-starttime
+    if verbose:
+        print 'All done in',dt.now()-starttime
     
     return [final_data, final_cols]
 
@@ -1873,6 +1902,7 @@ def get_global_qz_ff(fn,
                      save_plot = False, 
                      plot_loc = './',
                      plot_fmt = 'png',
+                     verbose = True,
                      ):
     
     '''
@@ -1945,7 +1975,8 @@ def get_global_qz_ff(fn,
     :param plot_loc: {string; default = './'}
                         Location where figures are saved.
     :param plot_fmt: {string; default = 'png'}
-                        'eps', 'pdf', or 'png'.
+                        'eps', 'pdf', or 'png'.                    
+    :param verbose: {bool; default=True}                     
     '''
 
     # 0) Do some quick tests to avoid crashes later on ...
