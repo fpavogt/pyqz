@@ -114,7 +114,7 @@ def interp_midMVq(Pk = 5.0, kappa = np.inf, struct = 'pp', sampling = 2,
             all_fluxes[i,11] = all_fluxes[i,10] * error 
             
         # Launch the interpolation
-        nspec = 16
+        nspec = 14 #16
         results = pyqz.get_global_qz(np.reshape(all_fluxes[nspec,:],(1,12)), 
                                         ['Hb','stdHb','[OIII]','std[OIII]',
                                         '[OII]+','std[OII]+','[NII]','std[NII]',
@@ -136,9 +136,19 @@ def interp_midMVq(Pk = 5.0, kappa = np.inf, struct = 'pp', sampling = 2,
         print results[0][0,results[1].index('<LogQ>')]
         print results[0][0,results[1].index('<LogQ{KDE}>')]
         print data[nspec,metadata['columns'].index('LogQ')]
+        print ' '
+        print results[0][0,results[1].index('<Tot[O]+12>')]
+        print results[0][0,results[1].index('<Tot[O]+12{KDE}>')]
+        print data[nspec,metadata['columns'].index('Tot[O]+12')]
+        
         return (np.abs(results[0][0,results[1].index('<LogQ>')]/data[nspec,metadata['columns'].index('LogQ')]-1.)<0.01 
                 and                                                                             
-                np.abs(results[0][0,results[1].index('<LogQ{KDE}>')]/data[nspec,metadata['columns'].index('LogQ')]-1.)<0.01)                                                                                                                                                                                                                             
+                np.abs(results[0][0,results[1].index('<LogQ{KDE}>')]/data[nspec,metadata['columns'].index('LogQ')]-1.)<0.01
+                and 
+                np.abs(results[0][0,results[1].index('<Tot[O]+12>')]/data[nspec,metadata['columns'].index('Tot[O]+12')]-1.)<0.01 
+                and
+                np.abs(results[0][0,results[1].index('<Tot[O]+12{KDE}>')]/data[nspec,metadata['columns'].index('Tot[O]+12')]-1.)<0.01
+               )                                                                                                                                                                                                                            
         
         
 # --------------------- Invoke the basic test unit tools -----------------------

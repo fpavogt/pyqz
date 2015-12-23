@@ -11,6 +11,8 @@ v0.7.2 December 2015, F.P.A. Vogt
  - fixed typo in ``coeffs`` for ``'[NII]/Ha;[OIII]/[OII]+'``.
  - added ``verbose`` keyword
  - added test function for MV models with mid-Qs.
+ - started implementing multiprocessing (send different spectra to different cpus). THis requires a non-interactive backend for matplotlib !!! This is NOT working yet.
+ - created a separate pyqz_tools.py file for clearing up a bit the content of pyqz.py
  
 v0.7.1 November 2015, F.P.A. Vogt
  - created "get_MVphotogrid_fn" to construct the filename of the MAPPINGS grids once only (for more portability in future updates).

@@ -14,28 +14,37 @@
 #
 #   You should have received a copy of the GNU General Public License along 
 #   with the pyqz Python module.  If not, see <http://www.gnu.org/licenses/>.
+# ------------------------------------------------------------------------------
 
 # import the required modules
 import numpy as np
+import os
+from matplotlib import pylab as plt
+
+# Where are we located ?
+pyqz_dir = os.path.dirname(__file__)
+# Where are the reference data ?
+pyqz_grid_dir = os.path.join(pyqz_dir, 'reference_data')
 
 # Define the version of pyqz
 __version__ = '0.7.2'
 
 # For test purposes
-fullgrid_x, fullgrid_y = np.mgrid[-3:3:0.01,-3:3:0.01]
-testF = np.array([[2.88,0.11,1.0,0.05,2.015,0.045,0.036,0.002,
-                    2.72,0.12,0.497,0.017,0.500,0.016]])
-testF_names = ['[OII]+','std[OII]+','Hb','stdHb','[OIII]','std[OIII]',
-               '[OI]','std[OI]','Ha', 'stdHa','[NII]','std[NII]', 
-               '[SII]+','std[SII]+']
-test_diag = ['[NII]/[SII]+;[OIII]/[SII]+', 
-             '[NII]/[SII]+;[OIII]/Hb',
-             '[NII]/[OII]+;[OIII]/[OII]+',
-             '[NII]/[SII]+;[NII]/Ha;[OIII]/Hb',
-            ]          
+fullgrid_x, fullgrid_y = np.mgrid[-3:3:0.01,-3:3:0.01]       
 
 # Default colormap
 pyqz_cmap_0 = 'Paired'
+
+# Define a custom colorbar for the PDF plot - just because I can.
+cbdict = {
+'red'  :  ((0.0, 1, 1),(1.00, 0.3, 0.3)),
+'green':  ((0.0, 1, 1),(1.00, 0.3, 0.3)),
+'blue' :  ((0.0, 1, 1),(1.00, 0.3, 0.3))
+}
+pyqz_cmap_1 = plt.matplotlib.colors.LinearSegmentedColormap('light_gray', 
+                                                            cbdict, 1024)
+# and define a color for nan's and other bad points
+pyqz_cmap_1.set_bad(color=(0,0,0), alpha=1) 
 
 # What is the range covered by the MAPPINGS grids in the different spaces ? 
 QZs_lim = {'LogQ':np.array([6.5,8.5]),
@@ -47,37 +56,26 @@ QZs_lim = {'LogQ':np.array([6.5,8.5]),
 # (normalized to the peak)          
 PDF_cont_level = 0.61          
 
-
-# A list of available diagnostic grids, mixing ratios (for 3D grids) and 
-# limiting ranges (the latter carry no scientific meaning, they only help to 
-# create decent plots)
-diagnostics = {'[NII]/[SII]+;[OIII]/[SII]+':
-                    {'coeffs':[[1,0],[0,1]],
-                    'xliml':-0.6, 'xlimr':0.6, 'ylimb': -3.0, 'ylimt':2.0},
-               '[NII]/[SII]+;[OIII]/Hb':
-                    {'coeffs':[[1,0],[0,1]],
-                    'xliml':-0.6, 'xlimr':0.6, 'ylimb': -2.5, 'ylimt':1.0},
-               '[NII]/[SII]+;[OIII]/[OII]+':
-                    {'coeffs':[[1,0],[0,1]],
-                    'xliml':-0.6, 'xlimr':0.6, 'ylimb': -2.5, 'ylimt':1.0},
-               '[NII]/[OII]+;[OIII]/[OII]+':
-                    {'coeffs':[[1,0],[0,1]],
-                    'xliml':-1.6, 'xlimr':0.2, 'ylimb': -2.5, 'ylimt':1.0},
-               '[NII]/[OII]+;[OIII]/[SII]+':
-                    {'coeffs':[[1,0],[0,1]],
-                    'xliml':-1.6, 'xlimr':0.2, 'ylimb': -3.0, 'ylimt':2.0},
-               '[NII]/[OII]+;[OIII]/Hb':
-                    {'coeffs':[[1,0],[0,1]],
-                    'xliml':-1.6, 'xlimr':0.2, 'ylimb': -2.5, 'ylimt':1.0},
-               #'[NII]/Ha;[OIII]/Hb':
-               #     {'coeffs':[[1,0],[0,1]],
-               #     'xliml':-3.0, 'xlimr':0.0, 'ylimb': -4.0, 'ylimt':2.0},
-               #'[NII]/Ha;[OIII]/[OII]+':
-               #     {'coeffs':[[1,0],[0,1]],
-               #     'xliml':-3.0, 'xlimr':0.0, 'ylimb': -2.5, 'ylimt':1.5},
-                ### And now some 3-D line ratios diagnostics
-                '[NII]/[SII]+;[NII]/Ha;[OIII]/Hb': # From Dopita (2015) Hi-z
-                    {'coeffs':[[1.0,0.264,0.0],[0.242,-0.910,0.342]],
-                    'xliml':-0.8, 'xlimr':0.4, 'ylimb': -1.0, 'ylimt':2.0},
+# A list of available diagnostic grids and mixing ratios (for 3D grids)
+diagnostics = {'[NII]/[SII]+;[OIII]/[SII]+':{'coeffs':[[1,0],[0,1]]},
+               # ---
+               '[NII]/[SII]+;[OIII]/Hb':{'coeffs':[[1,0],[0,1]]},
+               # ---
+               '[NII]/[SII]+;[OIII]/[OII]+':{'coeffs':[[1,0],[0,1]]},
+               # ---
+               '[NII]/[OII]+;[OIII]/[OII]+':{'coeffs':[[1,0],[0,1]]},
+               # ---
+               '[NII]/[OII]+;[OIII]/[SII]+':{'coeffs':[[1,0],[0,1]]},
+               # ---
+               '[NII]/[OII]+;[OIII]/Hb':{'coeffs':[[1,0],[0,1]]},
+               # ---
+               '[NII]/[OII]+;[SII]+/Ha':{'coeffs':[[1,0],[0,1]]},
+               #'[NII]/Ha;[OIII]/Hb':{'coeffs':[[1,0],[0,1]]},
+               #'[NII]/Ha;[OIII]/[OII]+':{'coeffs':[[1,0],[0,1]]},
+               ### And now some 3-D line ratios diagnostics
+               # From Dopita (2015) Hi-z
+               '[NII]/[SII]+;[NII]/Ha;[OIII]/Hb':{'coeffs':[[1.0,0.264,0.0],
+                                                            [0.242,-0.910,0.342]
+                                                           ]},
                }
 
