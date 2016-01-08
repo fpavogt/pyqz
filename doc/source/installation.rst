@@ -63,50 +63,61 @@ A more complete set of tests, relying on the Python ``unittest`` module, are loc
 
   >>> cd /path-to-pyqz/pyqz/unittest/
   >>> run pyqz_check.py
-  
-  Starting pyqz tests:
-   
+ 
+   Starting pyqz tests:
+ 
   test01_interpgridnodes (__main__.Testpyqz) ... ok
   test02_interpoffgrid (__main__.Testpyqz) ... ok
   test03_interp_midMVq (__main__.Testpyqz) ...  
   --> Received 1 spectrum ...
   --> Dealing with them one at a time ... be patient now !
    
-  All done in 0:00:00.298580
+  All done in 0:00:00.340057
   ok
   test04_get_bad_global_qz (__main__.Testpyqz) ...  
   --> Received 1 spectrum ...
   --> Dealing with them one at a time ... be patient now !
     1: No KDE calculable (bad points/grids ?)
    
-  All done in 0:00:00.661783
+  All done in 0:00:00.660051
   ok
   test05_multiprocessing (__main__.Testpyqz) ...  
   --> Received 1 spectrum ...
   --> Launching the multiple processes ... be patient now !
       1 job(s) completed.      
    
-  All done in 0:00:01.422011
+  All done in 0:00:01.423516
   ok
   test06_speed_benchmark (__main__.Testpyqz) ...  
   --> Received 1 spectrum ...
   --> Dealing with them one at a time ... be patient now !
    
-  All done in 0:00:01.555534
+  All done in 0:00:00.409525
    
   --> Received 1 spectrum ...
   --> Dealing with them one at a time ... be patient now !
    
-  All done in 0:00:07.046693
+  All done in 0:00:01.623224
    
   --> Received 1 spectrum ...
   --> Dealing with them one at a time ... be patient now !
    
-  All done in 0:00:33.528512
+  All done in 0:00:06.755430
+   
+  --> Received 1 spectrum ...
+  --> Dealing with them one at a time ... be patient now !
+   
+  All done in 0:00:32.537323
+   
+  --> Received 24 spectra ...
+  --> Launching the multiple processes ... be patient now !
+      24 job(s) completed.      
+   
+  All done in 0:00:41.917625
   ok
   
   ----------------------------------------------------------------------
-  Ran 6 tests in 44.646s
+  Ran 6 tests in 85.806s
   
   OK
 

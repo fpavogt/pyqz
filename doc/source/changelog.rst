@@ -18,6 +18,7 @@ v0.7.2 December 2015 - January 2016, F.P.A. Vogt
  - Fixed bugs when the spectrum is so bad it lands on no grid. Added specific unittest example for this scenario as well.
  - Changed the doc color scheme
  - Updated doc, added dedicated "Parameters" page. 
+ - Forced mpl backend to be 'agg' by default ...
 
 v0.7.1 November 2015, F.P.A. Vogt
  - created "get_MVphotogrid_fn" to construct the filename of the MAPPINGS grids once only (for more portability in future updates).

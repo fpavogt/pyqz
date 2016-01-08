@@ -185,8 +185,6 @@ def get_bad_global_qz(Pk = 5.0, kappa = np.inf, struct = 'pp', sampling = 1,
             
         # Launch the interpolation
         nspec = 16 #16 on grid,14 = grid edge
-        import pdb
-        pdb.set_trace()
         results = pyqz.get_global_qz(np.reshape(all_fluxes[nspec,:],(1,12)), 
                                         ['Hb','stdHb','[OIII]','std[OIII]',
                                         '[OII]+','std[OII]+','[NII]','std[NII]',
@@ -245,7 +243,7 @@ class Testpyqz(unittest.TestCase):
                     '[NII]/[OII]+;[OIII]/[SII]+',
                     '[NII]/[OII]+;[SII]+/Ha'
                     ]
-      '''              
+                    
       out = interp_midMVq(nproc=1, save_plot=False, diags = [main_diags[0]],
                           sampling=1,KDE_qz_sampling=101j, do_single_spec = True)              
       out = interp_midMVq(nproc=1, save_plot=False, diags = main_diags,
@@ -254,9 +252,9 @@ class Testpyqz(unittest.TestCase):
                           sampling=2,KDE_qz_sampling=201j, do_single_spec = True)    
       out = interp_midMVq(nproc=1, save_plot=True, diags = main_diags,
                           sampling=2,KDE_qz_sampling=201j, do_single_spec = True)                                     
-      '''
+      
       out = interp_midMVq(nproc=8, save_plot=False, diags = main_diags,
-                          sampling=2,KDE_qz_sampling=101j, do_single_spec = False) 
+                          sampling=2,KDE_qz_sampling=201j, do_single_spec = False) 
         
             
       self.assertTrue(out)  
