@@ -14,6 +14,9 @@ In my case (on MAC OSX), my ``.bash_profile`` would look like :
    ::
 
       export PYTHONPATH=$PYTHONPATH:/Users/fvogt/Tools/Python/fpav_pylib/pyqz/
+
+
+Github users are welcome to fork the ``pyqz`` repository if they want to get access to the latest updates not yet released. *Push requests* for bug fixes and new features are welcome and will be examined in detail. 
       
 Requirements
 ------------
@@ -37,20 +40,78 @@ First, launch a Python shell and check that you can import ``pyqz``:
   
   >>> import pyqz
  
-If this fails, then the ``pyqz`` folder is not in your Python path. 
+  Multiprocessing possible with: 8 cpus max. 
+  Loaded matplotlib with backend: agg
+  Loaded pyqz 0.7.2
 
-Next, you ought to make sure that you are using the ``pyqz`` version you intended:
+ 
+If this fails, then the ``pyqz`` folder is not in your Python path. If the command succeeds, ``pyqz`` will tell how many cpus it can find, which ``matplotlib`` backend is currently being used (critical if you plan on using more than 1 cpu), and finally the code version. 
+
+Next, as a quick test, try to fetch one of the diagnostic grid:
 ::
-  >>> pyqz.__version__
-  '0.7.2'
+	
+  >>> a_grid = pyqz.get_grid('[NII]/[SII]+;[OIII]/[SII]+', sampling=1)
+  >>> print a_grid	
 
-Then, try to run the example provided with the code:
+.. _unittest:
+
+More tests with ``unittest`` 
+++++++++++++++++++++++++++++++
+
+A more complete set of tests, relying on the Python ``unittest`` module, are located inside ``pyqz/unittest/``. The interested reader willing to check things further can run them as follows:
 ::
 
-  >>> cd /path-to-pyqz/pyqz/example/	
-  >>> pyqz.get_qz_ff(20,'Input.txt', plot = True, savefig='KDE_all')	
+  >>> cd /path-to-pyqz/pyqz/unittest/
+  >>> run pyqz_check.py
+  
+  Starting pyqz tests:
+   
+  test01_interpgridnodes (__main__.Testpyqz) ... ok
+  test02_interpoffgrid (__main__.Testpyqz) ... ok
+  test03_interp_midMVq (__main__.Testpyqz) ...  
+  --> Received 1 spectrum ...
+  --> Dealing with them one at a time ... be patient now !
+   
+  All done in 0:00:00.298580
+  ok
+  test04_get_bad_global_qz (__main__.Testpyqz) ...  
+  --> Received 1 spectrum ...
+  --> Dealing with them one at a time ... be patient now !
+    1: No KDE calculable (bad points/grids ?)
+   
+  All done in 0:00:00.661783
+  ok
+  test05_multiprocessing (__main__.Testpyqz) ...  
+  --> Received 1 spectrum ...
+  --> Launching the multiple processes ... be patient now !
+      1 job(s) completed.      
+   
+  All done in 0:00:01.422011
+  ok
+  test06_speed_benchmark (__main__.Testpyqz) ...  
+  --> Received 1 spectrum ...
+  --> Dealing with them one at a time ... be patient now !
+   
+  All done in 0:00:01.555534
+   
+  --> Received 1 spectrum ...
+  --> Dealing with them one at a time ... be patient now !
+   
+  All done in 0:00:07.046693
+   
+  --> Received 1 spectrum ...
+  --> Dealing with them one at a time ... be patient now !
+   
+  All done in 0:00:33.528512
+  ok
+  
+  ----------------------------------------------------------------------
+  Ran 6 tests in 44.646s
+  
+  OK
 
-This will run the default example, generate (a lot) of figures, and save two of them (the KDE ones). 
+
+Be warned - running these tests will change your ``matplotlib`` backend to a non-interactive one for the current Python session. In fact, the mere fact of importing ``pyqz`` will switch your backend to ``agg``.
 
 .. _troubleshooting:
 
@@ -61,15 +122,19 @@ Troubleshooting
    ::
      WARNING: Statsmodels module not found. KDE_method must be set to 'gauss' or else I will crash.
 
-   then ``pyqz`` could not import the ``statsmodels`` module. This module is required **only if** you want to use the ``KDEMultivariate`` function to construct the joint   probability density function (which we suggest you do). To remove the warning, install ``statsmodels`` and try reloading ``pyqz``. See :ref:`runningpyqz` for more details.
+   then ``pyqz`` could not import the ``statsmodels`` module. This module is required **only if** you want to use the ``KDEMultivariate`` function to construct the joint   probability density function (which we suggest you do). To remove the warning, install ``statsmodels`` and try reloading ``pyqz``. See :ref:`runningpyqzbasic` for more details.
 
 2) If you encounter other errors when importing the module or running the example above, ensure that your ``numpy``, ``scipy`` and ``matplotlib`` packages are up-to-date and try again. 
 
 3) If you still encounter errors after doing all that, check the :ref:`faq`.
 
-4) If you still can't figure out what's wrong, please submit a new issue on the Github repository of the project (https://github.com/fpavogt/pyqz/issues) so we can take a look at it. Please provide as much detail as possible (error message, operating system, Python version, etc É).
+4) If the :ref:`faq` doesn't shine some light on your problem, try :ref:`unittest`.
+
+5) Check if this is a known issue: https://github.com/fpavogt/pyqz/issues
+
+6) If you still can't figure out what's wrong, please submit a new issue on the Github repository of the project (https://github.com/fpavogt/pyqz/issues) so we can take a look at it. Please provide as much detail as possible (error message, minimal example able to reproduce the error, operating system, Python version, etc É).
 
 .. warning::
-   Submitting a Github issue is the best way for you to get help rapidly, for us to keep track of the problems that need solving, and for future users to see what changes have been made over time (and look for existing solutions to their problem which may be the same as yours). Submitting a new issue on Github is rapid and easy, but if you are really (really!) against doing it, you can always email frederic.vogt@alumni.anu.edu.au for help. 
+   Submitting a Github issue is the best way for you to get help rapidly, for us to keep track of the problems that need solving, and for future users to see what changes have been made over time (and look for existing solutions to their problem which may be the same as yours). Submitting a new issue on Github is rapid and easy, but if you are really against doing it (why would you ?), you can always email frederic.vogt@alumni.anu.edu.au for help. 
 
  
