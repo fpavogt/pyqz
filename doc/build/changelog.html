@@ -27,7 +27,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="pyqz 0.7.2 documentation" href="index.html" />
-    <link rel="prev" title="The functions of pyqz" href="functions.html" /> 
+    <link rel="prev" title="FAQ" href="faq.html" /> 
   </head>
   <body>
     <div class="related">
@@ -37,7 +37,7 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="functions.html" title="The functions of pyqz"
+          <a href="faq.html" title="FAQ"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">pyqz 0.7.2 documentation</a> &raquo;</li> 
       </ul>
@@ -51,7 +51,7 @@
   <div class="section" id="changelog">
 <span id="id1"></span><h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
 <dl class="docutils">
-<dt>v0.7.2 December 2015, F.P.A. Vogt</dt>
+<dt>v0.7.2 December 2015 - January 2016, F.P.A. Vogt</dt>
 <dd><ul class="first last simple">
 <li>updated documentation with IPython notebook (static HTML in doc + notebook in <tt class="docutils literal"><span class="pre">pyqz/examples/</span></tt>).</li>
 <li>added <tt class="docutils literal"><span class="pre">run_awk_loop</span></tt> function to rapidly create the basic grids for pyqz. This is not intended as a main pyqz feature, but rather as an internal tool to make my life easier. It basically runs the MAPPINGS awk sripts in a loop to avoid many (error prone) manual modifications of the rungrid.sh file. Requires MAPPINGS to be installed properly, as well as the awk scripts - neither provided within <tt class="docutils literal"><span class="pre">pyqz</span></tt> itself.</li>
@@ -61,6 +61,13 @@
 <li>fixed typo in <tt class="docutils literal"><span class="pre">coeffs</span></tt> for <tt class="docutils literal"><span class="pre">'[NII]/Ha;[OIII]/[OII]+'</span></tt>.</li>
 <li>added <tt class="docutils literal"><span class="pre">verbose</span></tt> keyword</li>
 <li>added test function for MV models with mid-Qs.</li>
+<li>started implementing multiprocessing (send different spectra to different cpus). This requires a non-interactive backend for matplotlib !!!</li>
+<li>created a separate pyqz_tools.py file for clearing up a bit the content of pyqz.py</li>
+<li>Finished implementing multiprocessing. Sends different spectrum to different CPUs - gets useful with many data points at once (e.g. IFU field). Does NOT work in Canopy environment. Speed gain prop. to numbher of cpus used (in principle).</li>
+<li>Speed up get_global_qz ~25times for 1 spectra and 1 diagram, by restricting the reconstructed PDF area to where we have QZ estimates - anywhere else, it&#8217;ll be close from zero - we already know that, no need to send time calculating it !</li>
+<li>Fixed bugs when the spectrum is so bad it lands on no grid. Added specific unittest example for this scenario as well.</li>
+<li>Changed the doc color scheme</li>
+<li>Updated doc, added dedicated &#8220;Parameters&#8221; page.</li>
 </ul>
 </dd>
 <dt>v0.7.1 November 2015, F.P.A. Vogt</dt>
@@ -261,16 +268,18 @@ triangles (only for the 1-D array input type)</li>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installing <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyqz_demo/pyqz_demo.html">Running <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_basic/pyqz_demo_basic.html">Running <tt class="docutils literal"><span class="pre">pyqz</span></tt> (basic)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_advanced/pyqz_demo_advanced.html">Running <tt class="docutils literal"><span class="pre">pyqz</span></tt> (advanced)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="understanding.html">Understanding <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
-<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_param/pyqz_demo_param.html">The parameters of <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
 <li class="toctree-l1"><a class="reference internal" href="functions.html">The functions of <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Changelog</a></li>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="functions.html"
-                        title="previous chapter">The functions of <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></p>
+  <p class="topless"><a href="faq.html"
+                        title="previous chapter">FAQ</a></p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
@@ -295,7 +304,7 @@ triangles (only for the 1-D array input type)</li>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="functions.html" title="The functions of pyqz"
+          <a href="faq.html" title="FAQ"
              >previous</a> |</li>
         <li><a href="index.html">pyqz 0.7.2 documentation</a> &raquo;</li> 
       </ul>

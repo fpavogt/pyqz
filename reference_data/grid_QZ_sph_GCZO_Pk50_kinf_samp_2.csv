@@ -1,7 +1,7 @@
 Thu Dec 10 14:37:50 CLST 2015
 MAPPINGS V HII Region Grid: QZ sph_GCZO_Pk50_kinf
 Run: sph,two,LPk=5.0,dep=Depln_Fe_1.50.txt,kap=inf,GCZFea05t2,SF=cont,a05,isp,#11,P6,Mv5.0.16,Svm802,FE15
-Resampled with pyqz 0.7.2 (sampling=2) 2015-12-10 17:56:23.755831
+Resampled with pyqz 0.7.2 (sampling=2) 2016-01-08 10:10:06.626008
 Original LogQ: [ 6.5   6.75  7.    7.25  7.5   7.75  8.    8.25  8.5 ]
 Original Tot[O]+12: [ 8.11   8.485  8.635  8.835  8.985]
 LogQ(0),Tot[O]+12(1),gas[O]+12(2),Tot[Fe](3),gas[Fe](4),LogP/k(5),[NII]/Ha(6),[NII]+/Ha(7),[SII]+/Ha(8),[NII]/[OII]+(9),[NII]+/[OII]+(10),[NII]/[SII]+(11),[NII]+/[SII]+(12),[OII]+/Hb(13),[OIII]/Hb(14),[OIII]+/Hb(15),[OIII]/[OII]+(16),[OIII]+/[OII]+(17),[OIII]/[SII]+(18),[OIII]+/[SII]+(19),4363/[OIII](20),4363/[OIII]+(21),[OI]/[OII]+(22),[OII]+/[SII]+(23),R23(24),S23(25),6716/6731(26),3729/3726(27)

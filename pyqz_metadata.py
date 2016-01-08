@@ -44,17 +44,25 @@ cbdict = {
 pyqz_cmap_1 = plt.matplotlib.colors.LinearSegmentedColormap('light_gray', 
                                                             cbdict, 1024)
 # and define a color for nan's and other bad points
-pyqz_cmap_1.set_bad(color=(0,0,0), alpha=1) 
+pyqz_cmap_1.set_bad(color=(1,1,1), alpha=1) 
 
 # What is the range covered by the MAPPINGS grids in the different spaces ? 
 QZs_lim = {'LogQ':np.array([6.5,8.5]),
-            'Tot[O]+12':np.array([7.459, 9.237]),
-            'gas[O]+12':np.array([7.349, 9.127]),
+            'Tot[O]+12':np.array([8.11, 8.985]),
+            'gas[O]+12':np.array([8.00, 8.875]),
           }
           
 # Level of the contours to derive the best qz value from the PDF 
 # (normalized to the peak)          
-PDF_cont_level = 0.61          
+PDF_cont_level = 0.61  
+
+# Reconstructing the Full PDF over the entier QZ plane is very VERY slow. 
+# In practice, we already know that outside the QZ estimates (localized),the 
+# PDF will be very close to 0 - not worth spending time calculating those 
+# estimates then ! 
+# But if you really want the full PDF, set the following to True. 
+# WARNING: these will result in an exectution time 25 times slower ! 
+do_full_KDE_reconstruction = False        
 
 # A list of available diagnostic grids and mixing ratios (for 3D grids)
 diagnostics = {'[NII]/[SII]+;[OIII]/[SII]+':{'coeffs':[[1,0],[0,1]]},
@@ -67,11 +75,20 @@ diagnostics = {'[NII]/[SII]+;[OIII]/[SII]+':{'coeffs':[[1,0],[0,1]]},
                # ---
                '[NII]/[OII]+;[OIII]/[SII]+':{'coeffs':[[1,0],[0,1]]},
                # ---
-               '[NII]/[OII]+;[OIII]/Hb':{'coeffs':[[1,0],[0,1]]},
+               #'[NII]/[OII]+;[OIII]/Hb':{'coeffs':[[1,0],[0,1]]},
                # ---
                '[NII]/[OII]+;[SII]+/Ha':{'coeffs':[[1,0],[0,1]]},
-               #'[NII]/Ha;[OIII]/Hb':{'coeffs':[[1,0],[0,1]]},
-               #'[NII]/Ha;[OIII]/[OII]+':{'coeffs':[[1,0],[0,1]]},
+               # ---
+               '[OIII]4363/[OIII];[OIII]/[SII]+':{'coeffs':[[1,0],[0,1]]},
+               # ---
+               '[OIII]4363/[OIII];[OIII]/[OII]+':{'coeffs':[[1,0],[0,1]]},
+               # ---
+               '[OIII]4363/[OIII];[SII]+/Ha':{'coeffs':[[1,0],[0,1]]},
+               # ---
+               #'[NII]/[SII]+;[SII]+/Ha':{'coeffs':[[1,0],[0,1]]},
+               # ---
+               #'[NII]/Ha;[NII]/[SII]+':{'coeffs':[[1,0],[0,1]]},
+               # ---
                ### And now some 3-D line ratios diagnostics
                # From Dopita (2015) Hi-z
                '[NII]/[SII]+;[NII]/Ha;[OIII]/Hb':{'coeffs':[[1.0,0.264,0.0],

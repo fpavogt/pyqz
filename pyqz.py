@@ -6,11 +6,9 @@
 # See the documentation for installation, changelog and usage instructions.
 #
 # TO DO:
-# - account for the different areas of different diagnostics in KDE
-# - implement multi-processing inside get_global_qz
-# - perform a double-blind test, trying to recover MAPPINGS simulations between 
-# the nodes
-# - fix Ipython Notebook example
+# - account for the different areas of different diagnostics in KDE (hard!)
+# - make the allowed diagnostic work for all line setups (e.g. [SII] and [SII]+)
+# - speed up interp_qz by doing the whole grid at once. Ok with method='linear' ?
 #
 # If you find this code useful, please cite the corresponding paper
 #
@@ -49,7 +47,7 @@ import multiprocessing
 
 ncpu_max = multiprocessing.cpu_count()
 if ncpu_max > 1:
-    print ' Multiprocessing possible: %s cpus available.' % ncpu_max
+    print ' Multiprocessing possible with: %s cpus max. ' % ncpu_max
 
 # For the Kernel Density Estimator (don't force it if it's not there, but issue
 # a Warning)
@@ -61,8 +59,14 @@ except:
                     
 # For plotting
 import matplotlib
-print ' Loaded matplotlib with backend: %s' % matplotlib.get_backend()
 from matplotlib import pyplot as plt
+
+# For now, force a non-interactive backend. Until a better solution is found.
+# (Problem: can't open many matplotlib windows with multiple processes at 
+#  the same time.)
+plt.switch_backend('Agg')
+print ' Loaded matplotlib with backend: %s' % matplotlib.get_backend()
+
 from matplotlib.path import Path
 import matplotlib.patches as patches
 import matplotlib.gridspec as gridspec
@@ -71,6 +75,7 @@ from matplotlib.colorbar import Colorbar
 # For generic things
 import os
 from datetime import datetime as dt
+import time
 
 # Get some important metadata, the code version and nifty tools ...
 from pyqz_metadata import *
@@ -403,7 +408,7 @@ def interp_qz ( qz,
                 ratios,
                 coeffs =[[1,0],[0,1]],
                 Pk = 5.0, kappa=np.inf, struct='sph',sampling=1,
-                method = 'cubic',
+                method = 'linear', 
                 show_plot = False, n_plot = False, save_plot = False,
                 verbose = True, 
                 ):
@@ -436,9 +441,11 @@ def interp_qz ( qz,
                         Value must match an existing reference grid file !
         :param sampling: {int; default = 1}
                             Use a resampled grid ?
-        :param method: {string; default = 'cubic'}
+        :param method: {string; default = 'linear'}
                         'linear' or 'cubic' interpolation
                         method of scipy.interpolate.griddata.
+                        WARNING: using'cubic' can lead to estimates slightly 
+                        "outside" the allowed range!
         :param show_plot: {bool; default = False}
         :param n_plot: {int; default = False}
                         defines the plot window number
@@ -575,6 +582,11 @@ def interp_qz ( qz,
             if np.any(points_in_panel):             
 
                 # 2-4b) Stretch slice between 0 and 1 for better results
+                # 01.2016: Is this causing to have estimates outside the panel bounds ?
+                # YES, if the method is 'cubic' ... -> the strongest reason
+                # to date to use only "linear" ?
+                # Should not matter much, now that the interpolation is done on a 
+                # panel-by-panel basis.
                 this_stretched_panel = np.zeros_like(this_panel)
                 xmin = np.min(this_panel[:,rat1_ind])
                 dxmax = np.max(this_panel[:,rat1_ind]-xmin)
@@ -595,8 +607,6 @@ def interp_qz ( qz,
                 stretched_data[1] = (data_comb[1][points_in_panel]-ymin)/dymax
 
                 # 2-4d) Interpolate !
-                #import pdb
-                #pdb.set_trace()
                 this_interp_data = interpolate.griddata(this_stretched_panel[:,
                                                                     [rat1_ind,
                                                                     rat2_ind]
@@ -765,6 +775,81 @@ def get_global_qz_singlespec((j,final_cols,data, data_cols, which_grids,
         Used to spawn as many process as input spectrum sent by the user
         to get_global_qz(). See http://stackoverflow.com/a/3843313 for more
         details.
+        
+        Note that the data is fed as one big list.
+        
+        :param j: {int}
+                   The process number.
+        :param final_cols: {list}
+                   The labelling of the columns in the final_data array.           
+        :param data: {numpy array of size 1x2*M}  
+                        M line fluxes and errors. An error =-1 implies
+                        the associated line flux is an upper limit.
+        :param data_cols: {list of Mx2 strings}
+                        Data content, e.g. ['[NII]+','stdHa',...]
+                        Syntax MUST match the MAPPINGS + pyqz conventions !
+        :param which_grids: {list of strings}
+                            list of the model grids to use for the estimations,
+                            e.g. ['[NII]+/Ha;[OII]/Hb',...]
+        :param ids: {string; default = False}
+                    a string to identify 
+                    each data point (e.g. spaxel number, source ID, etc ...)
+        :param qzs: {list; default = ['LogQ','Tot[O]+12']}
+                    list of Q/Z values to compute
+        :param Pk: {float;default = 5.0} 
+                    MAPPINGS model pressure. 
+                    Value must match an existing reference grid file !
+        :param kappa: {float; default = np.inf} 
+                        The kappa value.
+                        Value must match an existing reference grid file !
+        :param struct: {string; default = 'sph'}
+                        spherical ('sph') or plane-parallel ('pp') HII regions.
+                        Value must match an existing reference grid file !
+        :param sampling: {int; default = 1}
+                        Use a resampled grid ?
+        :param error_pdf: {string; default = 'normal'}
+                        The shape of the error function for the line fluxes. 
+                        Currently, only 'normal' is supported.
+        :param srs: {int; default = 400}
+                    The number of random line fluxes generated 
+                    to discretize (and reconstruct) the joint probability 
+                    function. 
+        :param flag_level: {float; default = 2}
+                           A 'flag' is raised (in the output file) 
+                           when the direct q/z estimate and the KDE q/z
+                           estimate (q_rs and z_rs) are offset by more than 
+                           flag_level * standard_deviation.
+                           Might indicate trouble.
+                           A flag is always raised when a point is outside all of 
+                           the grids (8), when the KDE PDF is multipeaked (9) or 
+                           when srs = 0 (-1, no KDE computed)
+        :param KDE_method: {string; default = 'gauss'}
+                            Whether to use scipy.stats.gaussian_kde ('gauss') or 
+                            sm.nonparametric.KDEMultivariate ('multiv') to 
+                            perform the 2-D Kernel Density Estimation.
+        :param KDE_qz_sampling: {complex; default= 101j}
+                            Sampling of the QZ plane for the KDE reconstruction. 
+        :param KDE_do_singles: {bool; default=True}
+                             Weather to compute KDE for single diagnostics also.
+        :param KDE_save_PDFs: {bool/string; default = False}
+                           If not False, the location to save all the PDFs 
+                           computed by the code.
+        :param show_plot: {string/bool; default = False}
+                            Show all plots (True), none (False), only the grids 
+                            ('grids') or the KDE maps ('KDE').
+        :param save_plot: {string/bool; default = False}
+                            Save all plots (True), none (False), only the grids 
+                            ('grids'), only the KDE maps ('KDE_all') or just the 
+                            KDE maps raising a flag ('KDE_flag').
+        :param plot_loc: {string; default = './'}
+                            Location where figures are saved.
+        :param plot_fmt: {string; default = 'png'}
+                            'eps', 'pdf', or 'png'.
+        :param verbose: {bool; default=True}   
+
+        :returns: [j,P], where P contains all the estimated Log(Q) and [O]+12
+                     values  
+        
     '''
     
     final_data = np.zeros([# the individual estimates
@@ -783,9 +868,10 @@ def get_global_qz_singlespec((j,final_cols,data, data_cols, which_grids,
     
     flag = ''
         
-    # Are all the errors 0 ? Then this means no KDE ! 
+    # Is srs = 0 ? Then no KDE !
     if srs == 0:
         noKDE = True
+    # Are all the errors 0 ? Then this means no KDE !    
     elif np.all( data[[i for i in range(len(data_cols)) if 'std' in data_cols[i]]]==0):
         noKDE = True
     else:
@@ -877,14 +963,14 @@ def get_global_qz_singlespec((j,final_cols,data, data_cols, which_grids,
                             '.'+plot_fmt)
             else:
                 plot_name=False
-
-            # launch the qz interpolation
+            #st = dt.now()
+            # launch the qz interpolation (10% total time)
             qz_values = interp_qz(qz,Rval,ratios, 
                                     coeffs = coeffs, 
                                     Pk=Pk,kappa=kappa,struct=struct,sampling=sampling,
                                     show_plot = (show_plot in [True,'grids']),
                                     save_plot=plot_name)
-
+            #print dt.now()-st
             # Store the 'real' line estimate                
             final_data[i] = qz_values[0]
             # Keep the other random estimates as well
@@ -1026,6 +1112,34 @@ def get_global_qz_singlespec((j,final_cols,data, data_cols, which_grids,
                             QZs_lim[qzs[1]][0]:QZs_lim[qzs[1]][1]:KDE_qz_sampling]
     grid_positions = np.vstack([gridX.ravel(), gridY.ravel()])
 
+    # For speed purposes, we will only reconstruct the KDE over the area where
+    # we have some QZ estimates (no need to calculate the PDF over the entire QZ space,
+    # it's a waste of time - we know it's almost 0)
+    # So, define a subgrid just around all the QZ estimates
+    
+    # Bug correction (01.2016, F.P.A. Vogt). What if the points is outside 'all'
+    # the diagnostics ? Must handle this case as well.
+    if not(np.all(np.isnan(all_estimates[qzs[0]]))):
+        gridxmin = np.where(gridX[:,0]<all_estimates[qzs[0]].min())[0].max()
+        gridxmax = np.where(gridX[:,0]>all_estimates[qzs[0]].max())[0].min()
+        gridymin = np.where(gridY[0,:]<all_estimates[qzs[1]].min())[0].max()
+        gridymax = np.where(gridY[0,:]>all_estimates[qzs[1]].max())[0].min()
+    
+    else: # Hum, seem that I have no estimate at all ...
+        noKDE = True
+        gridxmin = gridX.max()
+        gridxmax = gridX.min()
+        gridymin = gridY.max()
+        gridymax = gridY.min()
+        
+        
+    subgridX = gridX[gridxmin:gridxmax,
+                    gridymin:gridymax]
+    subgridY = gridY[gridxmin:gridxmax,
+                    gridymin:gridymax] 
+
+    subgrid_positions = np.vstack([subgridX.ravel(), subgridY.ravel()])
+
     # This structure is used to store all the reconstructed (sampled) KDE
     all_my_gridZ = {}
         
@@ -1040,8 +1154,7 @@ def get_global_qz_singlespec((j,final_cols,data, data_cols, which_grids,
         try:
             kernel = stats.gaussian_kde(values, bw_method='scott')
             all_my_single_kernels['all'] = kernel
-                
-
+            
         except:
             if not(noKDE):
                 # Could happen if srs is too small, or if the errors are all
@@ -1084,24 +1197,40 @@ def get_global_qz_singlespec((j,final_cols,data, data_cols, which_grids,
             
     # Very well. Now with all the singles and the one global kernel, 
     # let's reconstruct the PDF on the discretized QZ space 
-        
+    
+    #st = dt.now()        
     # ----- This is the slowest bit. Could I speed it up ? How ?  ----------                     
     for kern in all_my_single_kernels.keys():
+        gridZ = np.zeros_like(gridX)*np.nan
         if type(all_my_single_kernels[kern]) == type(np.nan):
-            gridZ = np.zeros_like(gridX)*np.nan
+            pass
         elif KDE_method == 'gauss':
-            gridZ = np.reshape(all_my_single_kernels[kern](grid_positions), 
-                                gridX.shape)
+            if do_full_KDE_reconstruction:
+                gridZ = np.reshape(all_my_single_kernels[kern](grid_positions), 
+                                    gridX.shape)
+            else:
+                gridZ[gridxmin:gridxmax,gridymin:gridymax] = \
+                np.reshape(all_my_single_kernels[kern](subgrid_positions),
+                            subgridX.shape)
+        
+        
         elif KDE_method == 'multiv':
-            gridZ = np.reshape(all_my_single_kernels[kern].pdf(grid_positions), 
-                                gridX.shape)                      
+            if do_full_KDE_reconstruction:
+                gridZ = np.reshape(all_my_single_kernels[kern].pdf(grid_positions), 
+                                    gridX.shape)  
+            else:                    
+                gridZ[gridxmin:gridxmax,gridymin:gridymax] = \
+                np.reshape(all_my_single_kernels[kern].pdf(subgrid_positions),
+                            subgridX.shape)                                                                                                                                                 
+                                                                                                                                                                                                                                                                                                                                                               
         else:
            sys.exit('Something went terribly wrong ...(L1402)')                     
             
         # And store the grid for later
         all_my_gridZ[kern] = gridZ
     # ----------------------------------------------------------------------        
-           
+    #print dt.now()-st
+          
     if KDE_save_PDFs:
         # I want to save the different PDF arrays ... how ?
         # pickle would be easy ... I guess I should allow some
@@ -1125,7 +1254,7 @@ def get_global_qz_singlespec((j,final_cols,data, data_cols, which_grids,
         gridZ = np.rot90(gridZ)[::-1,:]
         # Find the location of the peak
         if np.any(~np.isnan(gridZ)):
-            peak_loc = np.unravel_index(gridZ.argmax(), gridZ.shape)
+            peak_loc = np.unravel_index(np.nanargmax(gridZ), gridZ.shape)
             # Normalize the array to the peak value
             peak_val = gridZ[peak_loc]
             gridZ/= peak_val
@@ -1235,11 +1364,11 @@ def get_global_qz_singlespec((j,final_cols,data, data_cols, which_grids,
             vert = [np.nan,np.nan]
             mean_vert = [np.nan,np.nan]
             err_vert = [np.nan,np.nan]                
-
+            
             
         if show_plot or save_plot:
             # Plot it
-            if np.any(mean_vert == mean_vert):
+            if not(np.all(np.isnan(mean_vert))):
                 for ax in [ax1,ax2]:
                     ax.errorbar(mean_vert[0],mean_vert[1],
                                 xerr=err_vert[0],yerr=err_vert[1],
@@ -1422,7 +1551,7 @@ def get_global_qz_singlespec((j,final_cols,data, data_cols, which_grids,
         if '8' in np.str(final_data[final_cols.index('flag')]):
             plt.close()
             if verbose:
-                print ' No KDE calculable (bad points/grids ?)'                               
+                print '  %s: No KDE calculable (bad points/grids ?)' %ids                               
         elif show_plot in [True, 'KDE']:
             plt.show()   
         else:
@@ -1434,14 +1563,13 @@ def get_global_qz_singlespec((j,final_cols,data, data_cols, which_grids,
 # ----------------- not used anymore ... but kept for possible future use ------    
 # Some small function to get the multiprocessing working fine.
 # See http://stackoverflow.com/a/3843313
-#'''
-#def get_global_qz_singlespec_init(q):
-#    
-#    ''' Some function required to get the multiprocessing working fine.
-#        See http://stackoverflow.com/a/3843313 for details.
-#    '''
-#    
-#    get_global_qz_singlespec.q = q
+def get_global_qz_singlespec_init(q):
+    
+    ''' Some function required to get the multiprocessing working fine.
+        See http://stackoverflow.com/a/3843313 for details.
+    '''
+    
+    get_global_qz_singlespec.q = q
 # ------------------------------------------------------------------------------
 
 
@@ -1485,7 +1613,7 @@ def get_global_qz(data, data_cols, which_grids,
         probability density function, reconstructed via a Kernel Density
         Estimation.
         
-        :param data: {numpy array of size NxMx2}  
+        :param data: {numpy array of size Nx2*M}  
                         N sets of M line fluxes and errors. An error =-1 implies
                         the associated line flux is an upper limit.
         :param data_cols: {list of Mx2 strings}
@@ -1557,6 +1685,7 @@ def get_global_qz(data, data_cols, which_grids,
         :returns: [P,r], where P contains all the estimated Log(Q) and [O]+12
                      values, and r contains the columns name   
     '''
+    print ' '
     # Let's keep track of time ...
     starttime = dt.now()
     
@@ -1580,8 +1709,8 @@ def get_global_qz(data, data_cols, which_grids,
     if not(KDE_method in ['gauss','multiv']):
         sys.exit('KDE_method unrecognized: %s' % KDE_method)
 
-    if not(type(which_grids)==list):
-        sys.exit('"which_grids" must be a list, and not: %s' % type(which_grids))
+    if not(type(which_grids) == list):
+        sys.exit('"which_grids" must be a list/tuple, and not: %s' % type(which_grids))
         
     for grid in which_grids:
         if not(grid in diagnostics.keys()): 
@@ -1602,23 +1731,37 @@ def get_global_qz(data, data_cols, which_grids,
                  'Should be (x,y), not "%s". '% np.shape(data) +
                  'Use np.reshape() ?')  
                  
-    # This is nasty - if nproc>, make sure we have a non-interactive matplotlib 
+    # This is nasty - if nproc>1, make sure we have a non-interactive matplotlib 
     # backend.
-    if nproc != 1 and not(matplotlib.get_backend() in ['Agg','agg']):                     
-        warnings.warn('nproc >1 requires a non-interactive backend for '+
-                      'matplotlib. Setting it to "agg" now.')
-        matplotlib.use('agg', force=True)
+    if nproc != 1 and not(matplotlib.get_backend() in ['Agg','agg']):
+                            
+        warnings.warn('nproc >1 requires a non-interactive backend for matplotlib. Setting it to "agg" now.') 
+                                    
+        plt.switch_backend('agg')
         if verbose:
-            print 'Current matplotlib backend: %s ' % matplotlib.get_backend()
+            print 'New matplotlib backend: %s ' % matplotlib.get_backend()
+            time.sleep(2) # to give time to the info to get through ... !
+        
+        
+    # And if nproc > 1, turn the plotting off so we save time - since no plot will
+    # be displayed anyway. Note: this is only for the display - saving figures still
+    # works with multiprocessing !
+    if nproc != 1 and show_plot:
+        warnings.warn('show_plot= %s, but nproc >1 implies show_plot= False.' % show_plot)
 
+        show_plot = False
+    # Finally, in nproc = None, set it to the max number of cpus. Helps against
+    # weird warning ?
+    if nproc == None:
+        nproc = ncpu_max
+    
     # 3) Create the final storage stucture
-
     npoints = len(data)
     if verbose:
         if npoints > 1:
-            print '--> Processing '+np.str(npoints)+' spectra ...'
+            print '--> Received '+np.str(npoints)+' spectra ...'
         else:
-            print '--> Processing 1 spectrum ...'
+            print '--> Received 1 spectrum ...'
     
     # The final_data storage structure ... only contains floats for now ...        
     final_data = np.zeros([npoints,
@@ -1666,6 +1809,9 @@ def get_global_qz(data, data_cols, which_grids,
     
     jobs = []
     
+    if not(ids):
+        ids = np.arange(npoints)+1
+    
     for j in range(npoints):
         # This need all to be pickl-able ... (?)                   
         jobs.append( (j,final_cols, data[j,:], data_cols, which_grids,
@@ -1688,33 +1834,42 @@ def get_global_qz(data, data_cols, which_grids,
     if len(jobs)>0:
         
         if nproc == 1:
+            if verbose:
+                print '--> Dealing with them one at a time ... be patient now !' 
+                
             results = map(get_global_qz_singlespec,jobs)    
             
         else:
-            # Build a pool and spwan processes
+            
             if verbose:
-                print '--> Launching the multiple processes ... be patient now!' 
-            mypool = multiprocessing.Pool(nproc)
-            results = mypool.map(get_global_qz_singlespec, jobs) 
-              
-            # ------- alternative version - does it have any benefits ? --------
+                print '--> Launching the multiple processes ... be patient now !' 
+            
+            # Build a queue, a pool and spwan processes    
             # (see below and http://stackoverflow.com/a/3843313)
-            #queue = multiprocessing.Queue()
-            #mypool = multiprocessing.Pool(cpu, get_global_qz_singlespec_init, [queue])
-            #results = mypool.imap(get_global_qz_singlespec,jobs)
-            
+            queue = multiprocessing.Queue()
+            mypool = multiprocessing.Pool(nproc, get_global_qz_singlespec_init, [queue])
+            rs = mypool.map_async(get_global_qz_singlespec,jobs)
+
+            # We don't add anything else anymore
             mypool.close()
-            print ' '
-            # Totally untested, see http://stackoverflow.com/questions/5666576/show-the-progress-of-a-python-multiprocessing-pool-map-call
-            #chunksize = results.chunksize
-            #while (True):
-            #    if (results.ready()): break
-            #    remaining = results._number_left
-            #    sys.stdout.write("%i%% jobs left \r" % (remaining*chunksize) )
-            #    sys.stdout.flush()
-            #    time.sleep(0.5)
+        
+            # Let's track the overall progress, see 
+            # http://stackoverflow.com/questions/5666576/show-the-progress-of-a-python-multiprocessing-pool-map-call
+            chunksize = rs._chunksize
+            while (True):
+                if (rs.ready()): break
+                remaining = rs._number_left
+                sys.stdout.write("    ... %i job(s) left ...\r" % (remaining*chunksize) )
+                sys.stdout.flush()
+                time.sleep(0.5)
             
+            # And for safety, make a "join" call ...
             mypool.join()
+            
+            results = rs._value
+            
+            sys.stdout.write("    %i job(s) completed.      \n" % len(results))
+            sys.stdout.flush()
             
     # All done. Now let's collect the results ...
     for j in range(len(jobs)):      
@@ -1727,7 +1882,7 @@ def get_global_qz(data, data_cols, which_grids,
             
             # Make sure the good spectrum is returned in the good order
             if results[j][0] != j :
-                sys.exit('Something went very badly wrong ... (L2012)')
+                sys.exit('Something went very badly wrong ... (L1740)')
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
     # and return the final data set.
@@ -1769,6 +1924,7 @@ def get_global_qz_ff(fn,
                      plot_loc = './',
                      plot_fmt = 'png',
                      verbose = True,
+                     nproc = 1,
                      ):
     
     '''
@@ -1842,7 +1998,11 @@ def get_global_qz_ff(fn,
                         Location where figures are saved.
     :param plot_fmt: {string; default = 'png'}
                         'eps', 'pdf', or 'png'.                    
-    :param verbose: {bool; default=True}                     
+    :param verbose: {bool; default=True} 
+    :param nproc: {int; default = 1}
+                            Defines how many process to use. Set to None for using 
+                            as many as possible. Can't be more than the number 
+                            available cpus.                    
     '''
 
     # 0) Do some quick tests to avoid crashes later on ...
@@ -1898,6 +2058,7 @@ def get_global_qz_ff(fn,
                             save_plot = save_plot,
                             plot_loc = plot_loc,
                             plot_fmt = plot_fmt,
+                            nproc = nproc,
                             )    
 
     

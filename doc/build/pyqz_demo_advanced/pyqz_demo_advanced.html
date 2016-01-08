@@ -1,0 +1,185 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Running pyqz (advanced) &mdash; pyqz 0.7.2 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.7.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="pyqz 0.7.2 documentation" href="../index.html" />
+    <link rel="next" title="Understanding pyqz" href="../understanding.html" />
+    <link rel="prev" title="Running pyqz (basic)" href="../pyqz_demo_basic/pyqz_demo_basic.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../understanding.html" title="Understanding pyqz"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../pyqz_demo_basic/pyqz_demo_basic.html" title="Running pyqz (basic)"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">pyqz 0.7.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="running-pyqz-advanced">
+<span id="runningpyqzadvanced"></span><h1>Running <tt class="docutils literal"><span class="pre">pyqz</span></tt> (advanced)<a class="headerlink" href="#running-pyqz-advanced" title="Permalink to this headline">¶</a></h1>
+<p>This page is also available as an IPython notebook
+(<tt class="docutils literal"><span class="pre">pyqz_demo_advanced.ipynb</span></tt>) included with the code and located in
+<tt class="docutils literal"><span class="pre">pyqz/examples/</span></tt>.</p>
+<p>First things first, let&#8217;s start by importing pyqz.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyqz</span>
+
+<span class="go">Multiprocessing possible with: 8 cpus max.</span>
+<span class="go">Loaded matplotlib with backend: agg</span>
+<span class="go">Loaded pyqz 0.7.2</span>
+</pre></div>
+</div>
+<div class="section" id="advanced-use-1-using-custom-mappings-grids">
+<h2>Advanced use 1: using custom MAPPINGS grids<a class="headerlink" href="#advanced-use-1-using-custom-mappings-grids" title="Permalink to this headline">¶</a></h2>
+<p>While <tt class="docutils literal"><span class="pre">pyqz</span></tt> ships with a default set of HII region simulations from
+MAPPINGS, some (all!) users might be interested in using <tt class="docutils literal"><span class="pre">pyqz</span></tt> with their
+own specific sets of MAPPINGS simulations. <tt class="docutils literal"><span class="pre">pyqz</span></tt> was designed to be
+compatible with the grids generated from the awk script provided
+alongside MAPPINGS.</p>
+<p>If one uses the awk script to create new MAPPINGS grids, the resulting
+<tt class="docutils literal"><span class="pre">.csv</span></tt> file must be placed inside <tt class="docutils literal"><span class="pre">pyqz/reference_data/</span></tt>. The filename must
+match what the function <tt class="docutils literal"><span class="pre">pyqz.get_MVphotogrid_fn()</span></tt> expects for your
+given set of parameters, e.g. should you have run a MAPPINGS model for
+<span class="math">\(\log\)</span>(P/k)=6.7, plane-parralel HII regions and
+<span class="math">\(\kappa=10\)</span>, the resulting grid name for the <tt class="docutils literal"><span class="pre">.csv</span></tt> file must be:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">pyqz</span><span class="o">.</span><span class="n">get_MVphotogrid_fn</span><span class="p">(</span><span class="n">Pk</span><span class="o">=</span><span class="mf">6.7</span><span class="p">,</span><span class="n">calibs</span><span class="o">=</span><span class="s">&#39;GCZO&#39;</span><span class="p">,</span> <span class="n">kappa</span> <span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">struct</span><span class="o">=</span><span class="s">&#39;pp&#39;</span><span class="p">)</span>
+
+<span class="go">&#39;/Users/fvogt/Tools/Python/fpav_pylib/pyqz/pyqz_dev/reference_data/grid_QZ_pp_GCZO_Pk67_k10.csv&#39;</span>
+</pre></div>
+</div>
+<p>If one does not use the awk script to generate the custom MAPPINGS grid,
+then <em>just</em> make sure your model grid matches the format of existing model
+grids located in <tt class="docutils literal"><span class="pre">pyqz/reference_data/</span></tt> ...</p>
+</div>
+<div class="section" id="advanced-usage-2-resampling-the-original-mappings-grids">
+<h2>Advanced usage 2: resampling the original MAPPINGS grids<a class="headerlink" href="#advanced-usage-2-resampling-the-original-mappings-grids" title="Permalink to this headline">¶</a></h2>
+<p>By default, 2 times resampled MAPPINGS grid are shipped with <tt class="docutils literal"><span class="pre">pyqz</span></tt>. These
+are generated using the function <tt class="docutils literal"><span class="pre">pyqz.resample_MVphotogrid()</span></tt>, which is
+straightforward to use:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">grid_fn</span> <span class="o">=</span> <span class="n">pyqz</span><span class="o">.</span><span class="n">get_MVphotogrid_fn</span><span class="p">(</span><span class="n">Pk</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span><span class="n">struct</span><span class="o">=</span><span class="s">&#39;sph&#39;</span><span class="p">,</span> <span class="n">kappa</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pyqz</span><span class="o">.</span><span class="n">resample_MVphotogrid</span><span class="p">(</span><span class="n">grid_fn</span><span class="p">,</span> <span class="n">sampling</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="go">Success: grid_QZ_sph_GCZO_Pk50_kinf.csv resampled by a factor 2x2 and saved as grid_QZ_sph_GCZO_Pk50_kinf_samp_2.csv</span>
+</pre></div>
+</div>
+<p>More densely resampled grids can then easily be created by varying the
+<tt class="docutils literal"><span class="pre">sampling</span></tt> keyword.</p>
+</div>
+<div class="section" id="advanced-usage-3-pseudo-3-d-line-ratio-diagrams">
+<h2>Advanced usage 3: pseudo 3-D line ratio diagrams<a class="headerlink" href="#advanced-usage-3-pseudo-3-d-line-ratio-diagrams" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">pyqz</span></tt> does support 2-D line ratio diagrams constructed from 3 sets of
+line ratios (i.e. 3-D line ratio diagrams projected to a given 2-D
+plane):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">bad_segments</span> <span class="o">=</span> <span class="n">pyqz</span><span class="o">.</span><span class="n">check_grid</span><span class="p">(</span><span class="s">&#39;[NII]/[SII]+;[NII]/Ha;[OIII]/Hb&#39;</span><span class="p">,</span>
+<span class="go">                 coeffs = [[1.0,0.264,0.0],[0.242,-0.910,0.342]],</span>
+<span class="go">                 show_plot=False,</span>
+<span class="go">                 save_plot=&#39;./example_plots/check_grid_3D.png&#39;,</span>
+<span class="go">                 struct=&#39;sph&#39;,</span>
+<span class="go">                 sampling=1)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s">&#39;./example_plots/check_grid_3D.png&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../_images/output_13_0.png" class="align-center" src="../_images/output_13_0.png" />
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../index.html">Table Of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installing <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyqz_demo_basic/pyqz_demo_basic.html">Running <tt class="docutils literal"><span class="pre">pyqz</span></tt> (basic)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Running <tt class="docutils literal"><span class="pre">pyqz</span></tt> (advanced)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../understanding.html">Understanding <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyqz_demo_param/pyqz_demo_param.html">The parameters of <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../functions.html">The functions of <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../pyqz_demo_basic/pyqz_demo_basic.html"
+                        title="previous chapter">Running <tt class="docutils literal docutils literal"><span class="pre">pyqz</span></tt> (basic)</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../understanding.html"
+                        title="next chapter">Understanding <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../understanding.html" title="Understanding pyqz"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../pyqz_demo_basic/pyqz_demo_basic.html" title="Running pyqz (basic)"
+             >previous</a> |</li>
+        <li><a href="../index.html">pyqz 0.7.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Frédéric Vogt.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>

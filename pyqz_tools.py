@@ -17,12 +17,14 @@
 # ------------------------------------------------------------------------------
 
 import numpy as np
+import scipy
 import sys
 import os
 import subprocess # To launch shell scripts from Python the proper way ...
+from datetime import datetime as dt
 
 from pyqz_metadata import *
-
+from pyqz_metadata import __version__
 
 # ------------------- And now for the tool functions ---------------------------
 

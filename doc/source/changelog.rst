@@ -2,7 +2,7 @@
 
 Changelog
 ==========
-v0.7.2 December 2015, F.P.A. Vogt
+v0.7.2 December 2015 - January 2016, F.P.A. Vogt
  - updated documentation with IPython notebook (static HTML in doc + notebook in ``pyqz/examples/``).
  - added ``run_awk_loop`` function to rapidly create the basic grids for pyqz. This is not intended as a main pyqz feature, but rather as an internal tool to make my life easier. It basically runs the MAPPINGS awk sripts in a loop to avoid many (error prone) manual modifications of the rungrid.sh file. Requires MAPPINGS to be installed properly, as well as the awk scripts - neither provided within ``pyqz`` itself.
  - used ``os.path.join()`` for proper handling across different OS.
@@ -11,9 +11,14 @@ v0.7.2 December 2015, F.P.A. Vogt
  - fixed typo in ``coeffs`` for ``'[NII]/Ha;[OIII]/[OII]+'``.
  - added ``verbose`` keyword
  - added test function for MV models with mid-Qs.
- - started implementing multiprocessing (send different spectra to different cpus). THis requires a non-interactive backend for matplotlib !!! This is NOT working yet.
+ - started implementing multiprocessing (send different spectra to different cpus). This requires a non-interactive backend for matplotlib !!!
  - created a separate pyqz_tools.py file for clearing up a bit the content of pyqz.py
- 
+ - Finished implementing multiprocessing. Sends different spectrum to different CPUs - gets useful with many data points at once (e.g. IFU field). Does NOT work in Canopy environment. Speed gain prop. to numbher of cpus used (in principle).
+ - Speed up get_global_qz ~25times for 1 spectra and 1 diagram, by restricting the reconstructed PDF area to where we have QZ estimates - anywhere else, it'll be close from zero - we already know that, no need to send time calculating it !
+ - Fixed bugs when the spectrum is so bad it lands on no grid. Added specific unittest example for this scenario as well.
+ - Changed the doc color scheme
+ - Updated doc, added dedicated "Parameters" page. 
+
 v0.7.1 November 2015, F.P.A. Vogt
  - created "get_MVphotogrid_fn" to construct the filename of the MAPPINGS grids once only (for more portability in future updates).
  - added safety check for the diagnostic grids given by the user in "get_global_qz"

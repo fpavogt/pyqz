@@ -50,7 +50,7 @@ Additional references you may wish to cite as well include the article first int
 
     **Dopita, Sutherland, Nicholls, Kewley & Vogt**, *New Strong Line Abundance Diagnostics for HII Regions: Effects of Updated Atomic Data and kappa-Distributed Electron Energies*, ApJS, 208, 10 (2013). `ADS entry <http://adsabs.harvard.edu/abs/2013ApJS..208...10D>`_ 
 
-and the initial description of the updated error propagation mechanism (first implemented in ``pyqz 0.6.0``), described Appendix B of
+and the initial description of the updated error propagation mechanism (first implemented in ``pyqz 0.6.0``), described in Appendix B of
 
     **Vogt, Dopita, Borthakur, Verdes-Montenegro, Heckman, Yun & Chambers**, *Galaxy interactions in compact groups - II. Abundance and kinematic anomalies in HCG 91c*, MNRAS, 450, 2593 (2015). `ADS entry <http://adsabs.harvard.edu/abs/2015MNRAS.450.2593V>`_
 
@@ -62,10 +62,12 @@ Contents
    
    Home <self>
    installation
-   pyqz_demo/pyqz_demo
+   pyqz_demo_basic/pyqz_demo_basic
+   pyqz_demo_advanced/pyqz_demo_advanced
    understanding
-   faq
+   pyqz_demo_param/pyqz_demo_param
    functions
+   faq
    changelog
 
 
