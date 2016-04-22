@@ -1,187 +1,389 @@
 
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Understanding pyqz &mdash; pyqz 0.7.3 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="pyqz 0.7.3 documentation" href="index.html"/>
+        <link rel="next" title="The parameters of pyqz" href="pyqz_demo_param/pyqz_demo_param.html"/>
+        <link rel="prev" title="Running pyqz (advanced)" href="pyqz_demo_advanced/pyqz_demo_advanced.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pyqz
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.7
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installing pyqz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_basic/pyqz_demo_basic.html">Running pyqz (basic)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_advanced/pyqz_demo_advanced.html">Running pyqz (advanced)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Understanding pyqz</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#a-note-on-the-pyqz-syntax">A note on the pyqz syntax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-spirit-of-pyqz">The spirit of pyqz</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#direct-estimates">Direct estimates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kde-estimates">KDE estimates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#what-estimates-of-logq-and-tot-o-12-should-one-use">What estimates of <code class="docutils literal"><span class="pre">LogQ</span></code> and <code class="docutils literal"><span class="pre">Tot[O]+12</span></code> should one use ?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_param/pyqz_demo_param.html">The parameters of pyqz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">The functions of pyqz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acknowledge.html">Acknowledging pyqz</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">pyqz</a>
+      </nav>
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Understanding pyqz &mdash; pyqz 0.7.2 documentation</title>
-    
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
-        VERSION:     '0.7.2',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="pyqz 0.7.2 documentation" href="index.html" />
-    <link rel="next" title="The parameters of pyqz" href="pyqz_demo_param/pyqz_demo_param.html" />
-    <link rel="prev" title="Running pyqz (advanced)" href="pyqz_demo_advanced/pyqz_demo_advanced.html" /> 
-  </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="pyqz_demo_param/pyqz_demo_param.html" title="The parameters of pyqz"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="pyqz_demo_advanced/pyqz_demo_advanced.html" title="Running pyqz (advanced)"
-             accesskey="P">previous</a> |</li>
-        <li><a href="index.html">pyqz 0.7.2 documentation</a> &raquo;</li> 
-      </ul>
-    </div>  
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Understanding pyqz</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/understanding.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="understanding-pyqz">
-<span id="understandingpyqz"></span><h1>Understanding <tt class="docutils literal"><span class="pre">pyqz</span></tt><a class="headerlink" href="#understanding-pyqz" title="Permalink to this headline">¶</a></h1>
-<p>For a set of nebular emission line fluxes and errors, <tt class="docutils literal"><span class="pre">pyqz</span></tt> measures the associated value of the oxygen abundance 12+log(O/H) and ionization parameters log(Q), given a set of MAPPINGS simulations of HII regions. The code uses <strong>flat(-ish)</strong> emission line diagnostic grids to disentangle and interpolate the values of log(Q) and 12+log(O/H).</p>
-<p>As <tt class="docutils literal"><span class="pre">pyqz</span></tt> wraps around MAPPINGS simulations, it can provide estimates of the total abundance (<tt class="docutils literal"><span class="pre">Tot[O]+12</span></tt>) or the gas-phase abundance of the HII region (<tt class="docutils literal"><span class="pre">gas[O]+12</span></tt>). In the reminder of this document, whenever the former is used, it is understood that it is replaceable by the latter.</p>
-<p>If you have read this doc from the start, you probably have <tt class="docutils literal"><span class="pre">pyqz</span></tt> installed on your machine by now, and managed to run the basic examples described in <a class="reference internal" href="pyqz_demo_basic/pyqz_demo_basic.html#runningpyqzbasic"><em>Running pyqz (basic)</em></a>. But before you move on to process your own data, there are a few critical elements that you cannot ignore any longer.</p>
+<span id="understandingpyqz"></span><h1>Understanding pyqz<a class="headerlink" href="#understanding-pyqz" title="Permalink to this headline">¶</a></h1>
+<p>For a set of nebular emission line fluxes and errors, pyqz measures the associated value
+of the oxygen abundance 12+log(O/H) and ionization parameters log(Q), given a set of
+MAPPINGS simulations of HII regions. The code uses <strong>flat(-ish)</strong> emission line diagnostic
+grids to disentangle and interpolate the values of log(Q) and 12+log(O/H).</p>
+<p>As pyqz wraps around MAPPINGS simulations, it can provide estimates of the total abundance
+(<code class="docutils literal"><span class="pre">Tot[O]+12</span></code>) or the gas-phase abundance of the HII region (<code class="docutils literal"><span class="pre">gas[O]+12</span></code>). In the
+reminder of this document, whenever the former is used, it is understood that it is
+replaceable by the latter.</p>
+<p>If you have read this doc from the start, you probably have pyqz installed on your
+machine by now, and managed to run the basic examples described in <a class="reference internal" href="pyqz_demo_basic/pyqz_demo_basic.html#runningpyqzbasic"><span>Running pyqz (basic)</span></a>.
+But before you move on to process your own data, there are a few critical elements that
+you cannot ignore any longer.</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">We&#8217;re serious here - read this page or be doomed !</p>
 </div>
 <div class="section" id="a-note-on-the-pyqz-syntax">
-<h2>A note on the <tt class="docutils literal"><span class="pre">pyqz</span></tt> syntax<a class="headerlink" href="#a-note-on-the-pyqz-syntax" title="Permalink to this headline">¶</a></h2>
-<p>The <tt class="docutils literal"><span class="pre">pyqz</span></tt> module is intimately linked to the MAPPINGS code. While both are stand alone and distinct programs, <tt class="docutils literal"><span class="pre">pyqz</span></tt> was designed to employ the same notation conventions than that of the MAPPINGS code for clarity, both from a user and programming perspective.</p>
-<p>These conventions, designed to maximise clarity while minimizing the overall character counts, are as follows:</p>
+<h2>A note on the pyqz syntax<a class="headerlink" href="#a-note-on-the-pyqz-syntax" title="Permalink to this headline">¶</a></h2>
+<p>The pyqz module is intimately linked to the MAPPINGS code. While both are stand alone
+and distinct programs, pyqz was designed to employ the same notation conventions than that
+of the MAPPINGS code for clarity, both from a user and programming perspective.</p>
+<p>These conventions, designed to maximise clarity while minimizing the overall character
+counts, are as follows:</p>
 <ul class="simple">
-<li>the ionization parameter is <tt class="docutils literal"><span class="pre">LogQ</span></tt></li>
-<li>the oxygen abundance is <tt class="docutils literal"><span class="pre">Tot[O]+12</span></tt> (total) or <tt class="docutils literal"><span class="pre">gas[O]+12</span></tt> (for the gas-phase)</li>
-<li>the Balmer lines from Hydrogen are <tt class="docutils literal"><span class="pre">Ha</span></tt>, <tt class="docutils literal"><span class="pre">Hb</span></tt>, etc ...</li>
-<li>the main forbidden lines are marked as <tt class="docutils literal"><span class="pre">[OIII]</span></tt>, <tt class="docutils literal"><span class="pre">[NII]</span></tt>, <tt class="docutils literal"><span class="pre">[SII]</span></tt>, <tt class="docutils literal"><span class="pre">[OI]</span></tt>, etc ...</li>
-<li>other strong lines are tagged with their wavelength, i.e. <tt class="docutils literal"><span class="pre">4363</span></tt>, <tt class="docutils literal"><span class="pre">3726</span></tt>, <tt class="docutils literal"><span class="pre">3729</span></tt>, etc ...</li>
-<li>for the usual strong line doublets, when the doublet line fluxes are considered together (i.e. [OIII]5007 + 4959), a <tt class="docutils literal"><span class="pre">+</span></tt> is appended to the said emission line, e.g. <tt class="docutils literal"><span class="pre">[OIII]+</span></tt>. By convention, the single line is always the strongest within the doublet. In short, <tt class="docutils literal"><span class="pre">[OIII]</span></tt> corresponds to [OIII]5007, <tt class="docutils literal"><span class="pre">[OIII]+</span></tt> corresponds to [OIII]5007+4959, <tt class="docutils literal"><span class="pre">[NII]</span></tt> corresponds to [NII]6584, <tt class="docutils literal"><span class="pre">[NII]+</span></tt> corresponds to [NII]6584+6548, etc.</li>
+<li>the ionization parameter is <code class="docutils literal"><span class="pre">LogQ</span></code></li>
+<li>the oxygen abundance is <code class="docutils literal"><span class="pre">Tot[O]+12</span></code> (total) or <code class="docutils literal"><span class="pre">gas[O]+12</span></code> (for the gas-phase)</li>
+<li>the Balmer lines from Hydrogen are <code class="docutils literal"><span class="pre">Ha</span></code>, <code class="docutils literal"><span class="pre">Hb</span></code>, etc ...</li>
+<li>the main forbidden lines are marked as <code class="docutils literal"><span class="pre">[OIII]</span></code>, <code class="docutils literal"><span class="pre">[NII]</span></code>, <code class="docutils literal"><span class="pre">[SII]</span></code>, <code class="docutils literal"><span class="pre">[OI]</span></code>, etc ...</li>
+<li>other strong lines are tagged with their wavelength, i.e. <code class="docutils literal"><span class="pre">4363</span></code>, <code class="docutils literal"><span class="pre">3726</span></code>, <code class="docutils literal"><span class="pre">3729</span></code>, etc ...</li>
+<li>for the usual strong line doublets, when the doublet line fluxes are considered together (
+i.e. [OIII]5007 + 4959), a <code class="docutils literal"><span class="pre">+</span></code> is appended to the said emission line, e.g. <code class="docutils literal"><span class="pre">[OIII]+</span></code>.
+By convention, the single line is always the strongest within the doublet. In short,
+<code class="docutils literal"><span class="pre">[OIII]</span></code> corresponds to [OIII]5007, <code class="docutils literal"><span class="pre">[OIII]+</span></code> corresponds to [OIII]5007+4959,
+<code class="docutils literal"><span class="pre">[NII]</span></code> corresponds to [NII]6584, <code class="docutils literal"><span class="pre">[NII]+</span></code> corresponds to [NII]6584+6548, etc ...</li>
 </ul>
-<p>This syntax must be followed carefully when using <tt class="docutils literal"><span class="pre">pyqz</span></tt>, or errors will arise.</p>
+<p>This syntax must be followed carefully when using pyqz, or errors will arise.</p>
 </div>
 <div class="section" id="the-spirit-of-pyqz">
-<h2>The spirit of <tt class="docutils literal"><span class="pre">pyqz</span></tt><a class="headerlink" href="#the-spirit-of-pyqz" title="Permalink to this headline">¶</a></h2>
-<p>The <tt class="docutils literal"><span class="pre">pyqz</span></tt> module is composed of a core function: <tt class="docutils literal"><span class="pre">pyqz.interp_qz</span></tt>.
-This function is responsible for interpolating the MAPPINGS IV grid of simulations of HII regions (using <tt class="docutils literal"><span class="pre">scipy.interpolate.griddata</span></tt>) and returns the corresponding value of z or q for a given pair of line ratios. This function is basic, in that it does not propagate errors on its own. You feed it a pair of line ratio, it returns <tt class="docutils literal"><span class="pre">LogQ</span></tt>, <tt class="docutils literal"><span class="pre">Tot[O]+12</span></tt> or <tt class="docutils literal"><span class="pre">gas[O]+12</span></tt>, and that&#8217;s it.</p>
-<p>The function <tt class="docutils literal"><span class="pre">pyqz.get_global_qz</span></tt> is a wrapper around <tt class="docutils literal"><span class="pre">pyqz.interp_qz</span></tt>. It is designed as a top interaction layer for the <tt class="docutils literal"><span class="pre">pyqz</span></tt> module, and can propagate errors or upper-limits on the line flux measurements. You feed it your measured line fluxes and associated errors, and it returns all the <tt class="docutils literal"><span class="pre">LogQ</span></tt> and <tt class="docutils literal"><span class="pre">Tot[O]+12</span></tt> or <tt class="docutils literal"><span class="pre">gas[O]+12</span></tt> estimates and associated errors.</p>
+<h2>The spirit of pyqz<a class="headerlink" href="#the-spirit-of-pyqz" title="Permalink to this headline">¶</a></h2>
+<p>The pyqz module is composed of a core function: <code class="docutils literal"><span class="pre">pyqz.interp_qz</span></code>.
+This function is responsible for interpolating the MAPPINGS V grid of simulations of HII
+regions (using <code class="docutils literal"><span class="pre">scipy.interpolate.griddata</span></code>) and returns the corresponding value of z or
+q for a given pair of line ratios. This function is basic, in that it does not propagate
+errors on its own. You feed it a pair of line ratio, it returns <code class="docutils literal"><span class="pre">LogQ</span></code>, <code class="docutils literal"><span class="pre">Tot[O]+12</span></code>
+or <code class="docutils literal"><span class="pre">gas[O]+12</span></code>, and that&#8217;s it.</p>
+<p>The function <code class="docutils literal"><span class="pre">pyqz.get_global_qz</span></code> is a wrapper around <code class="docutils literal"><span class="pre">pyqz.interp_qz</span></code>. It is designed
+as a top interaction layer for the <code class="docutils literal"><span class="pre">pyqz</span></code> module, and can propagate errors or
+upper-limits on the line flux measurements. You feed it your measured line fluxes and
+associated errors, and it returns all the <code class="docutils literal"><span class="pre">LogQ</span></code> and <code class="docutils literal"><span class="pre">Tot[O]+12</span></code> or <code class="docutils literal"><span class="pre">gas[O]+12</span></code>
+estimates and associated errors.</p>
 <p>Yep, that&#8217;s right: estimateS. What are these ?</p>
 <div class="section" id="direct-estimates">
 <h3>Direct estimates<a class="headerlink" href="#direct-estimates" title="Permalink to this headline">¶</a></h3>
-<p><tt class="docutils literal"><span class="pre">pyqz</span></tt> uses a well defined set of line ratio diagnostic grids (the list of which can be seen using <tt class="docutils literal"><span class="pre">pyqz.diagnostics.keys()</span></tt>) to interpolate <tt class="docutils literal"><span class="pre">LogQ</span></tt> and <tt class="docutils literal"><span class="pre">Tot[O]+12</span></tt>. Given a set of line fluxes, <tt class="docutils literal"><span class="pre">pyqz</span></tt> can therefore compute 1 estimate of <tt class="docutils literal"><span class="pre">LogQ</span></tt> and <tt class="docutils literal"><span class="pre">Tot[O]+12</span></tt> per diagnostic diagram chosen by the user, e.g. <tt class="docutils literal"><span class="pre">[NII]/[SII]+;[OIII]/[SII]+</span></tt>. These <strong>single direct estimates</strong> (labelled with <tt class="docutils literal"><span class="pre">|LogQ</span></tt> and <tt class="docutils literal"><span class="pre">|Tot[O]+12</span></tt> for each diagnostic diagram, e.g. <tt class="docutils literal"><span class="pre">[NII]/[SII]+;[OIII]/[SII]+|LogQ</span></tt>) are the most straightforward ones computed by <tt class="docutils literal"><span class="pre">pyqz</span></tt>.</p>
-<p>Of course, because all line ratio diagnostic grids are constructed from the same set of MAPPINGS simulations, all these individual direct estimates ought to be consistent, so that computing their mean value is a sensible thing to do. These <strong>global direct estimates</strong> are labelled <tt class="docutils literal"><span class="pre">&lt;LogQ&gt;</span></tt>, <tt class="docutils literal"><span class="pre">&lt;Tot[O]+12&gt;</span></tt>, etc. and the associated standard deviations are labelled <tt class="docutils literal"><span class="pre">std(LogQ)</span></tt>, <tt class="docutils literal"><span class="pre">std(Tot[O]+12)</span></tt>, etc.</p>
+<p>pyqz uses a well defined set of line ratio diagnostic grids (the list of which can be
+seen using <code class="docutils literal"><span class="pre">pyqz.diagnostics.keys()</span></code>) to interpolate <code class="docutils literal"><span class="pre">LogQ</span></code> and <code class="docutils literal"><span class="pre">Tot[O]+12</span></code>. Given
+a set of line fluxes, pyqz can therefore compute 1 estimate of <code class="docutils literal"><span class="pre">LogQ</span></code> and <code class="docutils literal"><span class="pre">Tot[O]+12</span></code>
+per diagnostic diagram chosen by the user, e.g. <code class="docutils literal"><span class="pre">[NII]/[SII]+;[OIII]/[SII]+</span></code>. These
+<strong>single direct estimates</strong> (labelled with <code class="docutils literal"><span class="pre">|LogQ</span></code> and <code class="docutils literal"><span class="pre">|Tot[O]+12</span></code> for each
+diagnostic diagram, e.g. <code class="docutils literal"><span class="pre">[NII]/[SII]+;[OIII]/[SII]+|LogQ</span></code>) are the most straightforward
+ones computed by pyqz.</p>
+<p>Of course, because all line ratio diagnostic grids are constructed from the same set of
+MAPPINGS simulations, all these individual direct estimates ought to be consistent, so
+that computing their mean value is a sensible thing to do. These
+<strong>global direct estimates</strong> are labelled <code class="docutils literal"><span class="pre">&lt;LogQ&gt;</span></code>, <code class="docutils literal"><span class="pre">&lt;Tot[O]+12&gt;</span></code>, etc. and the
+associated standard deviations are labelled <code class="docutils literal"><span class="pre">std(LogQ)</span></code>, <code class="docutils literal"><span class="pre">std(Tot[O]+12)</span></code>, etc.</p>
 </div>
 <div class="section" id="kde-estimates">
 <h3>KDE estimates<a class="headerlink" href="#kde-estimates" title="Permalink to this headline">¶</a></h3>
-<p>As we do not live in a perfect world, some errors are usually associated with the measurement of line fluxes (sigh!). The direct estimates do not take any errors into account - the <strong>KDE estimates</strong> (KDE = Kernel Density Estimation) do.</p>
-<p>The idea is as follows. First, a set of <tt class="docutils literal"><span class="pre">srs</span></tt> (where <tt class="docutils literal"><span class="pre">srs=400</span></tt> is the default) random flux values (for each emission line) sampling the probability density function of each measurement is generated. Each of these <tt class="docutils literal"><span class="pre">srs</span></tt> pseudo-sets of line fluxes are fed through <tt class="docutils literal"><span class="pre">pyqz.interp_qz()</span></tt>, which returns <tt class="docutils literal"><span class="pre">srs</span></tt> random estimates of <tt class="docutils literal"><span class="pre">LogQ</span></tt> and <tt class="docutils literal"><span class="pre">Tot[O]+12</span></tt>. <tt class="docutils literal"><span class="pre">pyqz</span></tt> then uses a Kernel Density Estimation tool to reconstruct a) the probability density function (PDF) in the <tt class="docutils literal"><span class="pre">LogQ</span></tt> and <tt class="docutils literal"><span class="pre">Tot[O]+12</span></tt> plane for every single diagnostic grid selected by the user, and b) the full probability density function in the <tt class="docutils literal"><span class="pre">LogQ</span></tt> and <tt class="docutils literal"><span class="pre">Tot[O]+12</span></tt> plane resulting from the combination of all <tt class="docutils literal"><span class="pre">srs</span></tt> estimates for all chosen diagnostic grids. Python users have the ability to pickle these (individual and global) reconstructed PDFs for external use (via the <tt class="docutils literal"><span class="pre">KDE_save_PDFs</span></tt> keyword).</p>
-<p>From the reconstructed probability density functions, <tt class="docutils literal"><span class="pre">pyqz</span></tt> computes the 0.61% (i.e. the <span class="math">\(1-{\sigma}\)</span> contour for a log normal distribution) level contour in the <tt class="docutils literal"><span class="pre">LogQ</span></tt> vs <tt class="docutils literal"><span class="pre">Tot[O]+12</span></tt> plane, with respect to the peak. <tt class="docutils literal"><span class="pre">pyqz</span></tt> subsequently returns as an (individual or global) KDE estimate the mean of the 0.61% contour and its associated half spatial extent along the <tt class="docutils literal"><span class="pre">LogQ</span></tt> and <tt class="docutils literal"><span class="pre">Tot[O]+12</span></tt> directions.</p>
-<p>These <strong>single KDE estimates</strong> are referred to (accordingly) using <tt class="docutils literal"><span class="pre">|LogQ{KDE}</span></tt> and <tt class="docutils literal"><span class="pre">|Tot[O]+12{KDE}</span></tt> for the individual diagnostic grids (e.g. <tt class="docutils literal"><span class="pre">[NII]/[SII]+;[OIII]/[SII]+|LogQ{KDE}</span></tt> with an error <tt class="docutils literal"><span class="pre">err([NII]/[SII]+;[OIII]/[SII]+|LogQ{KDE})</span></tt>). The <strong>global KDE estimates</strong> are labelled as <tt class="docutils literal"><span class="pre">&lt;LogQ{KDE}&gt;</span></tt> and <tt class="docutils literal"><span class="pre">&lt;Tot[O]+12&gt;</span></tt>, with associated errors <tt class="docutils literal"><span class="pre">err(LogQ{KDE})</span></tt> and <tt class="docutils literal"><span class="pre">err(Tot[O]+12{KDE})</span></tt>.</p>
+<p>As we do not live in a perfect world, some errors are usually associated with the
+measurement of line fluxes (sigh!). The direct estimates do not take any errors into
+account - the <strong>KDE estimates</strong> (KDE = Kernel Density Estimation) do.</p>
+<p>The idea is as follows. First, a set of <code class="docutils literal"><span class="pre">srs</span></code> (where <code class="docutils literal"><span class="pre">srs=400</span></code> is the default)
+random flux values (for each emission line) sampling the probability density function of
+each measurement is generated. Each of these <code class="docutils literal"><span class="pre">srs</span></code> pseudo-sets of line fluxes are fed
+through <code class="docutils literal"><span class="pre">pyqz.interp_qz()</span></code>, which returns <code class="docutils literal"><span class="pre">srs</span></code> random estimates of <code class="docutils literal"><span class="pre">LogQ</span></code> and
+<code class="docutils literal"><span class="pre">Tot[O]+12</span></code>. <code class="docutils literal"><span class="pre">pyqz</span></code> then uses a Kernel Density Estimation tool to reconstruct</p>
+<ol class="loweralpha simple">
+<li>the probability density function (PDF) in the <code class="docutils literal"><span class="pre">LogQ</span></code> and <code class="docutils literal"><span class="pre">Tot[O]+12</span></code> plane for
+every single diagnostic grid selected by the user, and</li>
+<li>the full probability density function in the <code class="docutils literal"><span class="pre">LogQ</span></code> and <code class="docutils literal"><span class="pre">Tot[O]+12</span></code> plane resulting</li>
+</ol>
+<blockquote>
+<div>from the combination of all <code class="docutils literal"><span class="pre">srs</span></code> estimates for all chosen diagnostic grids.</div></blockquote>
+<p>Python users have the ability to pickle these (individual and global) reconstructed PDFs
+for external use (via the <code class="docutils literal"><span class="pre">KDE_save_PDFs</span></code> keyword).</p>
+<p>From the reconstructed probability density functions, pyqz computes the 0.61%
+(i.e. the <span class="math">\(1-{\sigma}\)</span> contour for a log normal distribution) level contour in
+the <code class="docutils literal"><span class="pre">LogQ</span></code> vs <code class="docutils literal"><span class="pre">Tot[O]+12</span></code> plane, with respect to the peak. pyqz subsequently
+returns as an (individual or global) KDE estimate the mean of the 0.61% contour and its
+associated half spatial extent along the <code class="docutils literal"><span class="pre">LogQ</span></code> and <code class="docutils literal"><span class="pre">Tot[O]+12</span></code> directions.</p>
+<p>These <strong>single KDE estimates</strong> are referred to (accordingly) using <code class="docutils literal"><span class="pre">|LogQ{KDE}</span></code> and
+<code class="docutils literal"><span class="pre">|Tot[O]+12{KDE}</span></code> for the individual diagnostic grids (e.g.
+<code class="docutils literal"><span class="pre">[NII]/[SII]+;[OIII]/[SII]+|LogQ{KDE}</span></code> with an error
+<code class="docutils literal"><span class="pre">err([NII]/[SII]+;[OIII]/[SII]+|LogQ{KDE})</span></code>). The <strong>global KDE estimates</strong> are labelled
+as <code class="docutils literal"><span class="pre">&lt;LogQ{KDE}&gt;</span></code> and <code class="docutils literal"><span class="pre">&lt;Tot[O]+12&gt;</span></code>, with associated errors <code class="docutils literal"><span class="pre">err(LogQ{KDE})</span></code> and
+<code class="docutils literal"><span class="pre">err(Tot[O]+12{KDE})</span></code>.</p>
 <p>At this point, things are most likely more confused than ever, and one may be wondering ...</p>
 </div>
 </div>
 <div class="section" id="what-estimates-of-logq-and-tot-o-12-should-one-use">
-<span id="estimates"></span><h2>What estimates of <tt class="docutils literal"><span class="pre">LogQ</span></tt> and <tt class="docutils literal"><span class="pre">Tot[O]+12</span></tt> should one use ?<a class="headerlink" href="#what-estimates-of-logq-and-tot-o-12-should-one-use" title="Permalink to this headline">¶</a></h2>
-<p>Unfortunately, there is no definite answer to this question. If all goes well (i.e. your measurements are reliable and have reasonable errors), the global KDE estimates (<tt class="docutils literal"><span class="pre">&lt;LogQ{KDE}&gt;</span></tt> and <tt class="docutils literal"><span class="pre">&lt;Tot[O]+12&gt;</span></tt>) are the values one should use: these combine all requested diagnostic grids estimates and observational errors down to one number.</p>
-<p>But many things can go wrong: one (or more) of your line fluxes might be unknowingly off, or perhaps the choice of MAPPINGS simulations is not quite appropriate for the HII regions one may be working with (in terms of pressure, abundances, structure, depletion, etc.), or perhaps real HII regions may simply not behave quite like MAPPINGS is predicting (sigh!). <strong>In all those cases, one must use extreme caution with the global KDE estimates.</strong> A lot of information lies in the individual estimates of <tt class="docutils literal"><span class="pre">LogQ</span></tt> and <tt class="docutils literal"><span class="pre">Tot[O]+12</span></tt>, and especially in bad cases.</p>
+<span id="estimates"></span><h2>What estimates of <code class="docutils literal"><span class="pre">LogQ</span></code> and <code class="docutils literal"><span class="pre">Tot[O]+12</span></code> should one use ?<a class="headerlink" href="#what-estimates-of-logq-and-tot-o-12-should-one-use" title="Permalink to this headline">¶</a></h2>
+<p>Unfortunately, there is no definite answer to this question. If all goes well (i.e. your
+measurements are reliable and have reasonable errors), the global KDE estimates
+(<code class="docutils literal"><span class="pre">&lt;LogQ{KDE}&gt;</span></code> and <code class="docutils literal"><span class="pre">&lt;Tot[O]+12&gt;</span></code>) are the values one should use: these combine all
+requested diagnostic grids estimates and observational errors down to one number.</p>
+<p>But many things can go wrong: one (or more) of your line fluxes might be unknowingly off,
+or perhaps the choice of MAPPINGS simulations is not quite appropriate for the HII regions
+one may be working with (in terms of pressure, abundances, structure, depletion, etc.), or
+perhaps real HII regions may simply not behave quite like MAPPINGS is predicting (sigh!).</p>
+<p><strong>In all those cases, one must use extreme caution with the global KDE estimates.</strong> A lot
+of information lies in the individual estimates of <code class="docutils literal"><span class="pre">LogQ</span></code> and <code class="docutils literal"><span class="pre">Tot[O]+12</span></code>, and
+especially in bad cases.</p>
 <p>So, how does one identify the <em>good</em> cases from the <em>bad</em> cases ?</p>
-<dl class="docutils">
-<dt>Comparing the averaged direct estimates (e.g. <tt class="docutils literal"><span class="pre">&lt;LogQ&gt;</span></tt>) with the global KDE estimates (e.g. <tt class="docutils literal"><span class="pre">&lt;LogQ{KDE}&gt;</span></tt>) is a good way to spot problem. For each set of line ratios fed to <tt class="docutils literal"><span class="pre">pyqz.get_global_qz()</span></tt>, the code checks how similar those estimates are, and issues a flag if they are not. The possible flag values are as follows:</dt>
-<dd><ul class="first last simple">
-<li>9: the PDF is multipeaked. This indicates a likely mismatch between some of the diagnostic grids in their estimates of <tt class="docutils literal"><span class="pre">LogQ</span></tt> and <tt class="docutils literal"><span class="pre">Tot[O]+12</span></tt>.</li>
-<li>8: the observed set of line fluxes is located outside the valid region of one or more of the chosen diagnostic grids.</li>
-<li>-1: no KDE was computed (either <tt class="docutils literal"><span class="pre">srs</span></tt> was set to 0, or a line flux errors was set to 0).</li>
-<li>1 to 4: these flags are raised when the averaged direct estimates are offset by more than <tt class="docutils literal"><span class="pre">flag_level</span></tt> times their standard deviations, e.g.:<ul>
-<li>1 <span class="math">\({\leftrightarrow}\)</span> <span class="math">\({|}\)</span> <tt class="docutils literal"><span class="pre">&lt;LogQ&gt;</span></tt> - <tt class="docutils literal"><span class="pre">&lt;LogQ{KDE}&gt;</span></tt> <span class="math">\({|}\)</span> <span class="math">\({&lt;}\)</span> <tt class="docutils literal"><span class="pre">std(LogQ)</span></tt> <span class="math">\({\cdot}\)</span> <tt class="docutils literal"><span class="pre">flag_level</span></tt></li>
-<li>2 <span class="math">\({\leftrightarrow}\)</span> <span class="math">\({|}\)</span> <tt class="docutils literal"><span class="pre">&lt;LogQ&gt;</span></tt> - <tt class="docutils literal"><span class="pre">&lt;LogQ{KDE}&gt;</span></tt> <span class="math">\({|}\)</span>  <span class="math">\({&lt;}\)</span> <tt class="docutils literal"><span class="pre">err(LogQ{KDE})</span></tt> <span class="math">\({\cdot}\)</span> <tt class="docutils literal"><span class="pre">flag_level</span></tt></li>
-<li>3 <span class="math">\({\leftrightarrow}\)</span> <span class="math">\({|}\)</span> <tt class="docutils literal"><span class="pre">&lt;Tot[O]+12&gt;</span></tt> - <tt class="docutils literal"><span class="pre">&lt;Tot[O]+12{KDE}&gt;</span></tt> <span class="math">\({|}\)</span> <span class="math">\({&lt;}\)</span> <tt class="docutils literal"><span class="pre">std(Tot[O]+12)</span></tt> <span class="math">\({\cdot}\)</span> <tt class="docutils literal"><span class="pre">flag_level</span></tt></li>
-<li>4 <span class="math">\({\leftrightarrow}\)</span> <span class="math">\({|}\)</span> <tt class="docutils literal"><span class="pre">&lt;Tot[O]+12&gt;</span></tt> - <tt class="docutils literal"><span class="pre">&lt;Tot[O]+12{KDE}&gt;</span></tt> <span class="math">\({|}\)</span> <span class="math">\({&lt;}\)</span> <tt class="docutils literal"><span class="pre">err(Tot[O]+12{KDE})</span></tt> <span class="math">\({\cdot}\)</span> <tt class="docutils literal"><span class="pre">flag_level</span></tt></li>
+<p>Comparing the averaged direct estimates (e.g. <code class="docutils literal"><span class="pre">&lt;LogQ&gt;</span></code>) with the global KDE estimates
+(e.g. <code class="docutils literal"><span class="pre">&lt;LogQ{KDE}&gt;</span></code>) is a good way to spot problem. For each set of line ratios fed to
+<code class="docutils literal"><span class="pre">pyqz.get_global_qz()</span></code>, the code checks how similar those estimates are, and issues a
+flag if they are not. The possible flag values are as follows:</p>
+<blockquote>
+<div><ul>
+<li><dl class="first docutils">
+<dt>9: the PDF is multipeaked. This indicates a likely mismatch between some of the</dt>
+<dd><p class="first last">diagnostic grids in their estimates of <code class="docutils literal"><span class="pre">LogQ</span></code> and <code class="docutils literal"><span class="pre">Tot[O]+12</span></code>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>8: the observed set of line fluxes is located outside the valid region of one or</dt>
+<dd><p class="first last">more of the chosen diagnostic grids.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>-1: no KDE was computed (either <code class="docutils literal"><span class="pre">srs</span></code> was set to 0, or a line flux errors was</dt>
+<dd><p class="first last">set to 0).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>1 to 4: these flags are raised when the averaged direct estimates are offset by</dt>
+<dd><p class="first last">more than <code class="docutils literal"><span class="pre">flag_level</span></code> times their standard deviations, e.g.:</p>
+</dd>
+</dl>
+<ul class="simple">
+<li>1 <span class="math">\({\leftrightarrow}\)</span> <span class="math">\({|}\)</span> <code class="docutils literal"><span class="pre">&lt;LogQ&gt;</span></code> - <code class="docutils literal"><span class="pre">&lt;LogQ{KDE}&gt;</span></code> <span class="math">\({|}\)</span> <span class="math">\({&lt;}\)</span> <code class="docutils literal"><span class="pre">std(LogQ)</span></code> <span class="math">\({\cdot}\)</span> <code class="docutils literal"><span class="pre">flag_level</span></code></li>
+<li>2 <span class="math">\({\leftrightarrow}\)</span> <span class="math">\({|}\)</span> <code class="docutils literal"><span class="pre">&lt;LogQ&gt;</span></code> - <code class="docutils literal"><span class="pre">&lt;LogQ{KDE}&gt;</span></code> <span class="math">\({|}\)</span>  <span class="math">\({&lt;}\)</span> <code class="docutils literal"><span class="pre">err(LogQ{KDE})</span></code> <span class="math">\({\cdot}\)</span> <code class="docutils literal"><span class="pre">flag_level</span></code></li>
+<li>3 <span class="math">\({\leftrightarrow}\)</span> <span class="math">\({|}\)</span> <code class="docutils literal"><span class="pre">&lt;Tot[O]+12&gt;</span></code> - <code class="docutils literal"><span class="pre">&lt;Tot[O]+12{KDE}&gt;</span></code> <span class="math">\({|}\)</span> <span class="math">\({&lt;}\)</span> <code class="docutils literal"><span class="pre">std(Tot[O]+12)</span></code> <span class="math">\({\cdot}\)</span> <code class="docutils literal"><span class="pre">flag_level</span></code></li>
+<li>4 <span class="math">\({\leftrightarrow}\)</span> <span class="math">\({|}\)</span> <code class="docutils literal"><span class="pre">&lt;Tot[O]+12&gt;</span></code> - <code class="docutils literal"><span class="pre">&lt;Tot[O]+12{KDE}&gt;</span></code> <span class="math">\({|}\)</span> <span class="math">\({&lt;}\)</span> <code class="docutils literal"><span class="pre">err(Tot[O]+12{KDE})</span></code> <span class="math">\({\cdot}\)</span> <code class="docutils literal"><span class="pre">flag_level</span></code></li>
 </ul>
 </li>
 </ul>
-</dd>
-</dl>
-<p>Looking at the flags can be helpful in identifying potentially problematic sets of line fluxes and (maybe?) the cause. Is one diagnostic grid estimates consistently off ? Then maybe some errors in one of the associated line ratio measurements is not properly accounted for.</p>
-<p>In the end, it remains to the user to decide which estimate(s) to use. The final choice will significantly depend on the intended usage, the importance given to the <tt class="docutils literal"><span class="pre">LogQ</span></tt> and <tt class="docutils literal"><span class="pre">Tot[O]+12</span></tt> estimates in a subsequent analysis, and the ability to construct a precise model of the said HII region in the first place.</p>
-<p><strong>It cannot be stressed enough that choosing appropriate HII regions parameters (in terms of pressure, spatial structure, abundances, etc.) for the MAPPINGS simulations can and will influence the final estimates of ``LogQ`` and ``Tot[O]+12``, both single and global ones</strong>. If you are using <tt class="docutils literal"><span class="pre">pyqz</span></tt>, chances are that you do not possess enough information to define these elements with certainty, and simply use the default diagnostic grids provided. This is fine. But in case of estimates mismatch, one must then keep this fact in mind.</p>
+</div></blockquote>
+<p>Looking at the flags can be helpful in identifying potentially problematic sets of line
+fluxes and (maybe?) the cause. Is one diagnostic grid estimates consistently off ?
+Then maybe some errors in one of the associated line ratio measurements is not properly
+accounted for.</p>
+<p>In the end, it remains to the user to decide which estimate(s) to use. The final choice
+will significantly depend on the intended usage, the importance given to the <code class="docutils literal"><span class="pre">LogQ</span></code> and
+<code class="docutils literal"><span class="pre">Tot[O]+12</span></code> estimates in a subsequent analysis, and the ability to construct a precise
+model of the said HII region in the first place.</p>
+<p><strong>It cannot be stressed enough that choosing appropriate HII regions parameters (in terms
+of pressure, spatial structure, abundances, etc.) for the MAPPINGS simulations can and
+will influence the final estimates of ``LogQ`` and ``Tot[O]+12``, both single and global
+ones</strong>.</p>
+<p>If you are using pyqz, chances are that you do not possess enough information
+to define these elements with certainty, and simply use the default diagnostic grids
+provided. This is fine. But in case of estimates mismatch, one must then keep this fact
+in mind.</p>
 </div>
 </div>
 
 
+           </div>
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-<h3><a href="index.html">Table Of Contents</a></h3>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installing <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_basic/pyqz_demo_basic.html">Running <tt class="docutils literal"><span class="pre">pyqz</span></tt> (basic)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_advanced/pyqz_demo_advanced.html">Running <tt class="docutils literal"><span class="pre">pyqz</span></tt> (advanced)</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Understanding <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_param/pyqz_demo_param.html">The parameters of <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
-<li class="toctree-l1"><a class="reference internal" href="functions.html">The functions of <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
-<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
-</ul>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="pyqz_demo_param/pyqz_demo_param.html" class="btn btn-neutral float-right" title="The parameters of pyqz" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="pyqz_demo_advanced/pyqz_demo_advanced.html" class="btn btn-neutral" title="Running pyqz (advanced)" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="pyqz_demo_advanced/pyqz_demo_advanced.html"
-                        title="previous chapter">Running <tt class="docutils literal docutils literal docutils literal"><span class="pre">pyqz</span></tt> (advanced)</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="pyqz_demo_param/pyqz_demo_param.html"
-                        title="next chapter">The parameters of <tt class="docutils literal docutils literal docutils literal"><span class="pre">pyqz</span></tt></a></p>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016, Frédéric P.A. Vogt.
+
     </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="pyqz_demo_param/pyqz_demo_param.html" title="The parameters of pyqz"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="pyqz_demo_advanced/pyqz_demo_advanced.html" title="Running pyqz (advanced)"
-             >previous</a> |</li>
-        <li><a href="index.html">pyqz 0.7.2 documentation</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer">
-        &copy; Copyright 2014, Frédéric Vogt.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
-    </div>
-  </body>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.7.3',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

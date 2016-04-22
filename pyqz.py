@@ -2024,12 +2024,12 @@ def get_global_qz_ff(fn,
     rats = rats.split(',') # Assumes CSV !    
     data_range = range(len(rats))
     data_range.pop(rats.index('Id'))
-    data = np.genfromtxt(fn,skiprows = 1, missing_values = missing_values, 
+    data = np.genfromtxt(fn,skip_header = 1, missing_values = missing_values, 
                          filling_values = np.nan,
                          usecols = data_range,
                          delimiter = ',',
                          comments='#') 
-    ids = np.genfromtxt(fn, skiprows = 1, missing_values = '',
+    ids = np.genfromtxt(fn, skip_header = 1, missing_values = '',
                         filling_values = '',dtype='S15',
                         usecols = (rats.index('Id')),
                         delimiter=',',comments='#')

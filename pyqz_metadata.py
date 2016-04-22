@@ -27,7 +27,7 @@ pyqz_dir = os.path.dirname(__file__)
 pyqz_grid_dir = os.path.join(pyqz_dir, 'reference_data')
 
 # Define the version of pyqz
-__version__ = '0.7.2'
+__version__ = '0.7.3'
 
 # For test purposes
 fullgrid_x, fullgrid_y = np.mgrid[-3:3:0.01,-3:3:0.01]       

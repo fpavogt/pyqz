@@ -1,6 +1,6 @@
 .. _ref-funcs:
 
-The functions of ``pyqz``
+The functions of pyqz
 ======================
 
 Core functions
