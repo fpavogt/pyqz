@@ -1,6 +1,6 @@
 .. _runningpyqzadvanced:
 
-Running ``pyqz`` (advanced)
+Running pyqz (advanced)
 =======================
 
 This page is also available as an IPython notebook
@@ -19,9 +19,9 @@ First things first, let's start by importing pyqz.
 Advanced use 1: using custom MAPPINGS grids
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-While ``pyqz`` ships with a default set of HII region simulations from
-MAPPINGS, some (all!) users might be interested in using ``pyqz`` with their
-own specific sets of MAPPINGS simulations. ``pyqz`` was designed to be
+While pyqz ships with a default set of HII region simulations from
+MAPPINGS, some (all!) users might be interested in using pyqz with their
+own specific sets of MAPPINGS simulations. pyqz was designed to be
 compatible with the grids generated from the awk script provided
 alongside MAPPINGS.
 
@@ -50,7 +50,8 @@ straightforward to use:
    >>> grid_fn = pyqz.get_MVphotogrid_fn(Pk=5.0,struct='sph', kappa=np.inf)
    >>> pyqz.resample_MVphotogrid(grid_fn, sampling=2)
 
-   Success: grid_QZ_sph_GCZO_Pk50_kinf.csv resampled by a factor 2x2 and saved as grid_QZ_sph_GCZO_Pk50_kinf_samp_2.csv
+   Success: grid_QZ_sph_GCZO_Pk50_kinf.csv resampled by a factor 2x2 and 
+   saved as grid_QZ_sph_GCZO_Pk50_kinf_samp_2.csv
 
 
 More densely resampled grids can then easily be created by varying the
@@ -59,7 +60,7 @@ More densely resampled grids can then easily be created by varying the
 Advanced usage 3: pseudo 3-D line ratio diagrams
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-``pyqz`` does support 2-D line ratio diagrams constructed from 3 sets of
+pyqz does support 2-D line ratio diagrams constructed from 3 sets of
 line ratios (i.e. 3-D line ratio diagrams projected to a given 2-D
 plane):
 ::

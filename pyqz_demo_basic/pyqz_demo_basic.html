@@ -1,76 +1,168 @@
 
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Running pyqz (basic) &mdash; pyqz 0.7.3 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="pyqz 0.7.3 documentation" href="../index.html"/>
+        <link rel="next" title="Running pyqz (advanced)" href="../pyqz_demo_advanced/pyqz_demo_advanced.html"/>
+        <link rel="prev" title="Installing pyqz" href="../installation.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> pyqz
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.7
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installing pyqz</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Running pyqz (basic)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installing-and-importing-pyqz">Installing and importing pyqz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#basic-use-1-accessing-mappings-line-ratio-diagnostic-grids">Basic use 1: accessing MAPPINGS line ratio diagnostic grids</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#basic-use-2-deriving-logq-and-tot-o-12-for-a-given-set-of-line-ratios">Basic use 2: deriving <code class="docutils literal"><span class="pre">LogQ</span></code> and <code class="docutils literal"><span class="pre">Tot[O+12]</span></code> for a given set of line ratios</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pyqz_demo_advanced/pyqz_demo_advanced.html">Running pyqz (advanced)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../understanding.html">Understanding pyqz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyqz_demo_param/pyqz_demo_param.html">The parameters of pyqz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../functions.html">The functions of pyqz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../acknowledge.html">Acknowledging pyqz</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">pyqz</a>
+      </nav>
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Running pyqz (basic) &mdash; pyqz 0.7.2 documentation</title>
-    
-    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '0.7.2',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="pyqz 0.7.2 documentation" href="../index.html" />
-    <link rel="next" title="Running pyqz (advanced)" href="../pyqz_demo_advanced/pyqz_demo_advanced.html" />
-    <link rel="prev" title="Installing pyqz" href="../installation.html" /> 
-  </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../pyqz_demo_advanced/pyqz_demo_advanced.html" title="Running pyqz (advanced)"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="../installation.html" title="Installing pyqz"
-             accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">pyqz 0.7.2 documentation</a> &raquo;</li> 
-      </ul>
-    </div>  
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Running pyqz (basic)</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/pyqz_demo_basic/pyqz_demo_basic.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="running-pyqz-basic">
-<span id="runningpyqzbasic"></span><h1>Running <tt class="docutils literal"><span class="pre">pyqz</span></tt> (basic)<a class="headerlink" href="#running-pyqz-basic" title="Permalink to this headline">¶</a></h1>
+<span id="runningpyqzbasic"></span><h1>Running pyqz (basic)<a class="headerlink" href="#running-pyqz-basic" title="Permalink to this headline">¶</a></h1>
 <p>This page is also available as an IPython notebook
-(<tt class="docutils literal"><span class="pre">pyqz_demo_basic.ipynb</span></tt>) included with the code and located in
-<tt class="docutils literal"><span class="pre">pyqz/examples/</span></tt>.</p>
+(<code class="docutils literal"><span class="pre">pyqz_demo_basic.ipynb</span></code>) included with the code and located in
+<code class="docutils literal"><span class="pre">pyqz/examples/</span></code>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The code syntax in v0.7.0 has changed significantly, and so did the function calls. pyqz v0.7.x is therefore NOT backward compatible with older <tt class="docutils literal"><span class="pre">pyqz</span></tt> versions.</p>
+<p class="last">The code syntax in v0.7.0 has changed significantly, and so did the function calls.
+pyqz v0.7.x is therefore NOT backward compatible with older pyqz versions.</p>
 </div>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<p class="last">The examples below will show you how to run the main functions inside <tt class="docutils literal"><span class="pre">pyqz</span></tt>. But these do not exempt you from getting acquainted with the <a class="reference internal" href="../understanding.html#understandingpyqz"><em>Understanding pyqz</em></a> section of the documentation !</p>
+<p class="last">The examples below will show you how to run the main functions inside pyqz.
+But these do not exempt you from getting acquainted with the <a class="reference internal" href="../understanding.html#understandingpyqz"><span>Understanding pyqz</span></a>
+section of the documentation !</p>
 </div>
 <div class="section" id="installing-and-importing-pyqz">
-<h2>Installing and importing <tt class="docutils literal"><span class="pre">pyqz</span></tt><a class="headerlink" href="#installing-and-importing-pyqz" title="Permalink to this headline">¶</a></h2>
-<p>Installing <tt class="docutils literal"><span class="pre">pyqz</span></tt> is easy. Download it from Github, unpack it anywhere you like, and make sure that this location is in your Python path. You
-should then be able to import the package and check its version from
-within any Python shell:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyqz</span>
+<h2>Installing and importing pyqz<a class="headerlink" href="#installing-and-importing-pyqz" title="Permalink to this headline">¶</a></h2>
+<p>Installing pyqz is easy. Download it from Github, unpack it anywhere you like, and
+make sure that this location is in your Python path. You should then be able to import the
+package and check its version from within any Python shell:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyqz</span>
 
 <span class="go">Multiprocessing possible with: 8 cpus max.</span>
 <span class="go">Loaded matplotlib with backend: agg</span>
@@ -79,108 +171,127 @@ within any Python shell:</p>
 </div>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<p>At this point in time, <tt class="docutils literal"><span class="pre">pyqz</span></tt> requires to use <tt class="docutils literal"><span class="pre">matplotlib</span></tt> with a non-interactive backend - which will be forced to <tt class="docutils literal"><span class="pre">agg</span></tt> upon importing the module. This means no interactive plot windows will pop up anymore, until you change the backend again. The safest way to do so is restarting the Python shell. This requirements stems from the fact that <tt class="docutils literal"><span class="pre">matplotlib</span></tt> does not fare well with the multiprocessing module on a Mac.</p>
-<p class="last">We like enforcing non-interactive backends as little as you do - but that&#8217;s the safest way forward until we can identify an alternative.</p>
+<p>At this point in time, pyqz requires to use matplotlib with a non-interactive backend,
+which will be forced to <code class="docutils literal"><span class="pre">agg</span></code> upon importing the module. This means no interactive
+plot windows will pop up anymore, until you change the backend again. The safest way to
+do so is restarting the Python shell. This requirements stems from the fact that
+matplotlib does not fare well with the multiprocessing module on a Mac.</p>
+<p class="last">We like enforcing non-interactive backends as little as you do. But that&#8217;s the safest
+way forward until we can identify an alternative.</p>
 </div>
 </div>
 <div class="section" id="basic-use-1-accessing-mappings-line-ratio-diagnostic-grids">
 <h2>Basic use 1: accessing MAPPINGS line ratio diagnostic grids<a class="headerlink" href="#basic-use-1-accessing-mappings-line-ratio-diagnostic-grids" title="Permalink to this headline">¶</a></h2>
-<p><tt class="docutils literal"><span class="pre">pyqz</span></tt> gives you easy access to the latest MAPPINGS strong nebular line
+<p>pyqz gives you easy access to the latest MAPPINGS strong nebular line
 ratio diagnostic diagrams (and associated info on the MAPPINGS version
 used to generate the grid, etc...). This can for example be useful to
 create your own line ratio diagnostic plots. You can access the nodes of
-any line ratio diagram using <tt class="docutils literal"><span class="pre">pyqz.get_grid()</span></tt>:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a_grid</span> <span class="o">=</span> <span class="n">pyqz</span><span class="o">.</span><span class="n">get_grid</span><span class="p">(</span><span class="s">&#39;[NII]/[SII]+;[OIII]/[SII]+&#39;</span><span class="p">,</span> <span class="n">sampling</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+any line ratio diagram using <code class="docutils literal"><span class="pre">pyqz.get_grid()</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a_grid</span> <span class="o">=</span> <span class="n">pyqz</span><span class="o">.</span><span class="n">get_grid</span><span class="p">(</span><span class="s1">&#39;[NII]/[SII]+;[OIII]/[SII]+&#39;</span><span class="p">,</span> <span class="n">sampling</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The main parameters of the MAPPINGS simulations can be specified via the
 following keywords:
-- <tt class="docutils literal"><span class="pre">Pk</span></tt> let&#8217;s you define the pressure of the simulated
+- <code class="docutils literal"><span class="pre">Pk</span></code> let&#8217;s you define the pressure of the simulated
 HII regions,
-- <tt class="docutils literal"><span class="pre">struct</span></tt> allows you to choose between plane-parallel (<tt class="docutils literal"><span class="pre">'pp'</span></tt>)
-and spherical (<tt class="docutils literal"><span class="pre">'sph'</span></tt>) HII regions, and
-- <tt class="docutils literal"><span class="pre">kappa</span></tt> lets you define the value of <span class="math">\(\kappa\)</span> (from the so-called <span class="math">\(\kappa\)</span>-distribution).</p>
+- <code class="docutils literal"><span class="pre">struct</span></code> allows you to choose between plane-parallel (<code class="docutils literal"><span class="pre">'pp'</span></code>)
+and spherical (<code class="docutils literal"><span class="pre">'sph'</span></code>) HII regions, and
+- <code class="docutils literal"><span class="pre">kappa</span></code> lets you define the value of <span class="math">\(\kappa\)</span> (from the so-called <span class="math">\(\kappa\)</span>-distribution).</p>
 <p>All these values must match an existing set of MAPPINGS simulations
-inside the <tt class="docutils literal"><span class="pre">pyqz/reference_data/</span></tt> folder, or <tt class="docutils literal"><span class="pre">pyqz</span></tt> will issue an error. In other words, <tt class="docutils literal"><span class="pre">pyqz</span></tt> will not be running new MAPPINGS simulations for you.</p>
+inside the <code class="docutils literal"><span class="pre">pyqz/reference_data/</span></code> folder, or pyqz will issue an error. <strong>In other words,
+pyqz will not be running new MAPPINGS simulations for you.</strong></p>
 <p>So, if one wanted to access the MAPPINGS simulations for plane-parallel
-HII regions, with Maxwell-Boltzmann electron density distribution, <tt class="docutils literal"><span class="pre">Pk</span></tt> =5.0 (these are the default parameters), one should type:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a_grid</span> <span class="o">=</span> <span class="n">pyqz</span><span class="o">.</span><span class="n">get_grid</span><span class="p">(</span><span class="s">&#39;[NII]/[SII]+;[OIII]/[SII]+&#39;</span><span class="p">,</span> <span class="n">struct</span> <span class="o">=</span> <span class="s">&#39;pp&#39;</span><span class="p">,</span> <span class="n">Pk</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">kappa</span> <span class="o">=</span> <span class="s">&#39;inf&#39;</span><span class="p">)</span>
+HII regions, with Maxwell-Boltzmann electron density distribution, <code class="docutils literal"><span class="pre">Pk</span> <span class="pre">=5.0</span></code>
+(these are the default parameters), one should type:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a_grid</span> <span class="o">=</span> <span class="n">pyqz</span><span class="o">.</span><span class="n">get_grid</span><span class="p">(</span><span class="s1">&#39;[NII]/[SII]+;[OIII]/[SII]+&#39;</span><span class="p">,</span> <span class="n">struct</span> <span class="o">=</span> <span class="s1">&#39;pp&#39;</span><span class="p">,</span> <span class="n">Pk</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">kappa</span> <span class="o">=</span> <span class="s1">&#39;inf&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>If you want to simply check how a given line ratio diagnostic diagram
 looks (and e.g. check whether the MAPPINGS grid is flat, or wrapped) for
-line ratios of your choice, you can use <tt class="docutils literal"><span class="pre">pyqz.check\_grid()</span></tt>:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">bad_segments</span> <span class="o">=</span> <span class="n">pyqz</span><span class="o">.</span><span class="n">check_grid</span><span class="p">(</span><span class="s">&#39;[NII]/[OII]+;[OIII]/[OII]+&#39;</span><span class="p">,</span> <span class="n">show_plot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">save_plot</span><span class="o">=</span><span class="s">&#39;./example_plots/check_grid.png&#39;</span><span class="p">)</span>
+line ratios of your choice, you can use <code class="docutils literal"><span class="pre">pyqz.check_grid()</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bad_segments</span> <span class="o">=</span> <span class="n">pyqz</span><span class="o">.</span><span class="n">check_grid</span><span class="p">(</span><span class="s1">&#39;[NII]/[OII]+;[OIII]/[OII]+&#39;</span><span class="p">,</span> <span class="n">show_plot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                                <span class="n">save_plot</span><span class="o">=</span><span class="s1">&#39;./example_plots/check_grid.png&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Note how <tt class="docutils literal"><span class="pre">show_plot=True/False</span></tt> has no effect whatsoever - a consequence
-of the <tt class="docutils literal"><span class="pre">agg</span></tt> backend enforced earlier. For this notebook to look decent, we must then include the saved file manually (sigh !) ...</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s">&#39;./example_plots/check_grid.png&#39;</span><span class="p">)</span>
+<p>Note how <code class="docutils literal"><span class="pre">show_plot=True/False</span></code> has no effect whatsoever - a consequence
+of the <code class="docutils literal"><span class="pre">agg</span></code> backend enforced earlier. For this notebook to look decent, we must then include the saved file manually (sigh !) ...</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;./example_plots/check_grid.png&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <img alt="../_images/output_14_0.png" class="align-center" src="../_images/output_14_0.png" />
 <p>An important feature of pyqz is the auto-detection of wraps in the
 diagnostic grids, marked with red segments in the diagram, and returned
-as an array by the function <tt class="docutils literal"><span class="pre">pyqz.check\_grid()</span></tt>.</p>
-<p>By default, the default MAPPINGS grids shipped with <tt class="docutils literal"><span class="pre">pyqz</span></tt> are coarse. For various reasons better explained elsewhere (see the MAPPINGS
-documentation), only a few abundance values have matching stellar tracks
-AND stellar atmospheres. Hence, only a few abundance points can be
-simulated in a consistent fashion.</p>
+as an array by the function <code class="docutils literal"><span class="pre">pyqz.check_grid()</span></code>.</p>
+<p>By default, the default MAPPINGS grids shipped with pyqz are coarse. For various reasons
+better explained elsewhere (see the MAPPINGS documentation), only a few abundance values
+have matching stellar tracks AND stellar atmospheres. Hence, only a few abundance points
+can be simulated in a consistent fashion.</p>
 <p>Rather than 1) interpolating between stellar tracks and stellar
 atmospheres in the abundance space and 2) running extra MAPPINGS models
-(which would use inconsistent &amp; interpolated input), <tt class="docutils literal"><span class="pre">pyqz</span></tt> can directly
+(which would use inconsistent &amp; interpolated input), pyqz can directly
 resample each diagnostic grid (using the function
-<tt class="docutils literal"><span class="pre">pyqz_tools.refine_MVphotogrid()</span></tt>, see the docs for more info). The resampling is performed in the {<tt class="docutils literal"><span class="pre">LogQ</span></tt> and <tt class="docutils literal"><span class="pre">Tot[O+12]</span></tt> vs line ratio} space for all line ratios returned by MAPPINGS using Akima splines. Resampled grids can be accessed via the sampling keyword. Diagnostic grids resampled 2x2 times are shipped in the default <tt class="docutils literal"><span class="pre">pyqz</span></tt> package and are directly accessible, e.g.:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">bad_segments</span> <span class="o">=</span> <span class="n">pyqz</span><span class="o">.</span><span class="n">check_grid</span><span class="p">(</span><span class="s">&#39;[NII]/[OII]+;[OIII]/[SII]+&#39;</span><span class="p">,</span><span class="n">show_plot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-<span class="go">            save_plot=&#39;./example_plots/check_grid_resampled.png&#39;,</span>
-<span class="go">            sampling=2)</span>
+<code class="docutils literal"><span class="pre">pyqz_tools.refine_MVphotogrid()</span></code>, see the docs for more info). The resampling is
+performed in the {<code class="docutils literal"><span class="pre">LogQ</span></code> and <code class="docutils literal"><span class="pre">Tot[O+12]</span></code> vs line ratio} space for all line ratios
+returned by MAPPINGS using Akima splines. Resampled grids can be accessed via the sampling
+keyword. Diagnostic grids resampled 2x2 times are shipped in the default pyqz package and
+are directly accessible, e.g.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bad_segments</span> <span class="o">=</span> <span class="n">pyqz</span><span class="o">.</span><span class="n">check_grid</span><span class="p">(</span><span class="s1">&#39;[NII]/[OII]+;[OIII]/[SII]+&#39;</span><span class="p">,</span><span class="n">show_plot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>           <span class="n">save_plot</span><span class="o">=</span><span class="s1">&#39;./example_plots/check_grid_resampled.png&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>           <span class="n">sampling</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s">&#39;./example_plots/check_grid_resampled.png&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;./example_plots/check_grid_resampled.png&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <img alt="../_images/output_16_0.png" class="align-center" src="../_images/output_16_0.png" />
-<p>In the default <tt class="docutils literal"><span class="pre">pyqz</span></tt> diagrams, the original MAPPINGS nodes are circled
+<p>In the default pyqz diagrams, the original MAPPINGS nodes are circled
 with a black outline, while the reconstructed nodes are not. For grids
-more densely resampled, see <a class="reference internal" href="../pyqz_demo_advanced/pyqz_demo_advanced.html#runningpyqzadvanced"><em>Running pyqz (advanced)</em></a>.</p>
+more densely resampled, see <a class="reference internal" href="../pyqz_demo_advanced/pyqz_demo_advanced.html#runningpyqzadvanced"><span>Running pyqz (advanced)</span></a>.</p>
 </div>
 <div class="section" id="basic-use-2-deriving-logq-and-tot-o-12-for-a-given-set-of-line-ratios">
-<h2>Basic use 2: deriving <tt class="docutils literal"><span class="pre">LogQ</span></tt> and <tt class="docutils literal"><span class="pre">Tot[O+12]</span></tt> for a given set of line ratios<a class="headerlink" href="#basic-use-2-deriving-logq-and-tot-o-12-for-a-given-set-of-line-ratios" title="Permalink to this headline">¶</a></h2>
-<p>At the core of <tt class="docutils literal"><span class="pre">pyqz</span></tt> lies <tt class="docutils literal"><span class="pre">pyqz.interp_qz()</span></tt>, which is the basic routine
+<h2>Basic use 2: deriving <code class="docutils literal"><span class="pre">LogQ</span></code> and <code class="docutils literal"><span class="pre">Tot[O+12]</span></code> for a given set of line ratios<a class="headerlink" href="#basic-use-2-deriving-logq-and-tot-o-12-for-a-given-set-of-line-ratios" title="Permalink to this headline">¶</a></h2>
+<p>At the core of pyqz lies <code class="docutils literal"><span class="pre">pyqz.interp_qz()</span></code>, which is the basic routine
 used to interpolate a given line ratio diagnostic grid. The function is
-being fed by line ratios stored inside <tt class="docutils literal"><span class="pre">numpy</span></tt> arrays, and will only
+being fed by line ratios stored inside numpy arrays, and will only
 return a value for line ratios landing on valid and un-wrapped regions
 of the grid:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">z</span> <span class="o">=</span> <span class="n">pyqz</span><span class="o">.</span><span class="n">interp_qz</span><span class="p">(</span><span class="s">&#39;Tot[O]+12&#39;</span><span class="p">,[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.6</span><span class="p">]),</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.1</span><span class="p">])],</span><span class="s">&#39;[NII]/[OII]+;[OIII]/[SII]+&#39;</span><span class="p">,</span>
-<span class="go">                sampling=1,struct=&#39;pp&#39;, show_plot=False, save_plot=&#39;./example_plots/interp_qz.png&#39;)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">z</span> <span class="o">=</span> <span class="n">pyqz</span><span class="o">.</span><span class="n">interp_qz</span><span class="p">(</span><span class="s1">&#39;Tot[O]+12&#39;</span><span class="p">,[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.6</span><span class="p">]),</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.1</span><span class="p">])],</span>
+<span class="gp">&gt;&gt;&gt; </span>               <span class="s1">&#39;[NII]/[OII]+;[OIII]/[SII]+&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>               <span class="n">sampling</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">struct</span><span class="o">=</span><span class="s1">&#39;pp&#39;</span><span class="p">,</span> <span class="n">show_plot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>               <span class="n">save_plot</span><span class="o">=</span><span class="s1">&#39;./example_plots/interp_qz.png&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">z</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s">&#39;./example_plots/interp_qz.png&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;./example_plots/interp_qz.png&#39;</span><span class="p">)</span>
 
 <span class="go">[ 8.69743225]</span>
 </pre></div>
 </div>
 <img alt="../_images/output_20_1.png" class="align-center" src="../_images/output_20_1.png" />
-<p>Of course, one usually wants to compute both <tt class="docutils literal"><span class="pre">LogQ</span></tt> and <tt class="docutils literal"><span class="pre">Tot[O+12]</span></tt> or
-<tt class="docutils literal"><span class="pre">gas[O+12]</span></tt> for a large set of strong emission line fluxes, combining the
+<p>Of course, one usually wants to compute both <code class="docutils literal"><span class="pre">LogQ</span></code> and <code class="docutils literal"><span class="pre">Tot[O+12]</span></code> or
+<code class="docutils literal"><span class="pre">gas[O+12]</span></code> for a large set of strong emission line fluxes, combining the
 estimates from different line ratio diagnostics diagrams. This is
-exactly what the function <tt class="docutils literal"><span class="pre">pyqz.get_global_qz()</span></tt> allows you to do.</p>
+exactly what the function <code class="docutils literal"><span class="pre">pyqz.get_global_qz()</span></code> allows you to do.</p>
 <p>The function is being fed the individual line fluxes and associated
-errors in the form of <tt class="docutils literal"><span class="pre">numpy</span></tt> arrays and lists. ID tags for each dataset
+errors in the form of numpy arrays and lists. ID tags for each dataset
 can also be given to the function (these are then used if/when saving
 the different diagrams to files).</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">pyqz</span><span class="o">.</span><span class="n">get_global_qz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="mf">1.00000000e+00</span><span class="p">,</span> <span class="mf">5.00000000e-02</span><span class="p">,</span><span class="mf">2.37684029e+00</span><span class="p">,</span> <span class="mf">1.18842014e-01</span><span class="p">,</span><span class="mf">5.06523968e+00</span><span class="p">,</span> <span class="mf">2.53261984e-01</span><span class="p">,</span>
-<span class="go">                              5.67283302e-01, 2.83641651e-02,   5.10740150e-01, 2.55370075e-02, 2.87541146e+00, 1.43770573e-01]]),</span>
-<span class="go">                    [&#39;Hb&#39;,&#39;stdHb&#39;,&#39;[OIII]&#39;,&#39;std[OIII]&#39;,&#39;[OII]+&#39;,&#39;std[OII]+&#39;,&#39;[NII]&#39;,&#39;std[NII]&#39;,&#39;[SII]+&#39;,&#39;std[SII]+&#39;,&#39;Ha&#39;,&#39;stdHa&#39;],</span>
-<span class="go">                    [&#39;[NII]/[SII]+;[OIII]/Hb&#39;,&#39;[NII]/[OII]+;[OIII]/[SII]+&#39;],</span>
-<span class="go">                    ids = [&#39;NGC_1234&#39;],</span>
-<span class="go">                    show_plot=False, # this has no effect whatsoever because of the backend.</span>
-<span class="go">                    save_plot=&#39;KDE_all&#39;,  # set this to &#39;grids&#39;, &#39;KDE_all&#39;, False or &#39;KDE_flags&#39; (i.e. only the problematic points)</span>
-<span class="go">                    plot_loc = &#39;./example_plots&#39;,</span>
-<span class="go">                    KDE_method = &#39;multiv&#39;,</span>
-<span class="go">                    KDE_qz_sampling=201j,</span>
-<span class="go">                    struct=&#39;pp&#39;,</span>
-<span class="go">                    sampling=1)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s">&#39;./example_plots/NGC_1234_LogQ_Tot[O]+12_multiv_srs400_Pk50_kinf_pp.png&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fluxes_errs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="mf">1.00000000e+00</span><span class="p">,</span> <span class="mf">5.00000000e-02</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                          <span class="mf">2.37684029e+00</span><span class="p">,</span> <span class="mf">1.18842014e-01</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                          <span class="mf">5.06523968e+00</span><span class="p">,</span> <span class="mf">2.53261984e-01</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                          <span class="mf">5.67283302e-01</span><span class="p">,</span> <span class="mf">2.83641651e-02</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                          <span class="mf">5.10740150e-01</span><span class="p">,</span> <span class="mf">2.55370075e-02</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                          <span class="mf">2.87541146e+00</span><span class="p">,</span> <span class="mf">1.43770573e-01</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pyqz</span><span class="o">.</span><span class="n">get_global_qz</span><span class="p">(</span><span class="n">fluxes_errs</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                   <span class="p">[</span><span class="s1">&#39;Hb&#39;</span><span class="p">,</span><span class="s1">&#39;stdHb&#39;</span><span class="p">,</span><span class="s1">&#39;[OIII]&#39;</span><span class="p">,</span><span class="s1">&#39;std[OIII]&#39;</span><span class="p">,</span><span class="s1">&#39;[OII]+&#39;</span><span class="p">,</span><span class="s1">&#39;std[OII]+&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                    <span class="s1">&#39;[NII]&#39;</span><span class="p">,</span><span class="s1">&#39;std[NII]&#39;</span><span class="p">,</span><span class="s1">&#39;[SII]+&#39;</span><span class="p">,</span><span class="s1">&#39;std[SII]+&#39;</span><span class="p">,</span><span class="s1">&#39;Ha&#39;</span><span class="p">,</span><span class="s1">&#39;stdHa&#39;</span><span class="p">],</span>
+<span class="gp">&gt;&gt;&gt; </span>                   <span class="p">[</span><span class="s1">&#39;[NII]/[SII]+;[OIII]/Hb&#39;</span><span class="p">,</span><span class="s1">&#39;[NII]/[OII]+;[OIII]/[SII]+&#39;</span><span class="p">],</span>
+<span class="gp">&gt;&gt;&gt; </span>                   <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;NGC_1234&#39;</span><span class="p">],</span>
+<span class="gp">&gt;&gt;&gt; </span>                   <span class="n">save_plot</span><span class="o">=</span><span class="s1">&#39;KDE_all&#39;</span><span class="p">,</span> <span class="c1"># set this to &#39;grids&#39;, &#39;KDE_all&#39;, False or &#39;KDE_flags&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span>                   <span class="n">plot_loc</span> <span class="o">=</span> <span class="s1">&#39;./example_plots&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                   <span class="n">KDE_method</span> <span class="o">=</span> <span class="s1">&#39;multiv&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                   <span class="n">KDE_qz_sampling</span><span class="o">=</span><span class="mi">201j</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                   <span class="n">struct</span><span class="o">=</span><span class="s1">&#39;pp&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                   <span class="n">sampling</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;./example_plots/NGC_1234_LogQ_Tot[O]+12_multiv_srs400_Pk50_kinf_pp.png&#39;</span><span class="p">)</span>
 
 <span class="go">--&gt; Received 1 spectrum ...</span>
 <span class="go">--&gt; Dealing with them one at a time ... be patient now !</span>
@@ -193,18 +304,18 @@ the different diagrams to files).</p>
 input std value is the 1 standard deviation. Alternatively, line fluxes
 can be tagged as upper-limits by setting their errors to -1.</p>
 <p>Users less keen on using Python extensively can alternatively feed their
-data to <tt class="docutils literal"><span class="pre">pyqz</span></tt> via an appropriately structured <tt class="docutils literal"><span class="pre">.csv</span></tt> file and receive
-another <tt class="docutils literal"><span class="pre">.csv</span></tt> file in return:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">pyqz</span><span class="o">.</span><span class="n">get_global_qz_ff</span><span class="p">(</span><span class="s">&#39;./example_input.csv&#39;</span><span class="p">,</span>
-<span class="go">                       [&#39;[NII]/[SII]+;[OIII]/Hb&#39;,&#39;[NII]/[OII]+;[OIII]/[SII]+&#39;],</span>
-<span class="go">                       show_plot=False, # always set this to fault - will ensure maximum speed, even if nothing is displayed !</span>
-<span class="go">                       save_plot=&#39;KDE_all&#39;,  # set this to &#39;grids&#39;, &#39;KDE_all&#39;, False or &#39;KDE_flags&#39; (i.e. only the problematic points)</span>
-<span class="go">                       plot_loc = &#39;./example_plots/&#39;,</span>
-<span class="go">                       struct=&#39;pp&#39;,</span>
-<span class="go">                       KDE_method=&#39;multiv&#39;,</span>
-<span class="go">                       KDE_qz_sampling = 201j,</span>
-<span class="go">                       sampling=1)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s">&#39;./example_plots/NGC_1234ff_LogQ_Tot[O]+12_multiv_srs400_Pk50_kinf_pp.png&#39;</span><span class="p">)</span>
+data to pyqz via an appropriately structured <code class="docutils literal"><span class="pre">.csv</span></code> file and receive
+another <code class="docutils literal"><span class="pre">.csv</span></code> file in return:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pyqz</span><span class="o">.</span><span class="n">get_global_qz_ff</span><span class="p">(</span><span class="s1">&#39;./example_input.csv&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                      <span class="p">[</span><span class="s1">&#39;[NII]/[SII]+;[OIII]/Hb&#39;</span><span class="p">,</span><span class="s1">&#39;[NII]/[OII]+;[OIII]/[SII]+&#39;</span><span class="p">],</span>
+<span class="gp">&gt;&gt;&gt; </span>                      <span class="n">show_plot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="c1"># always set this to fault - will ensure maximum speed, even if nothing is displayed !</span>
+<span class="gp">&gt;&gt;&gt; </span>                      <span class="n">save_plot</span><span class="o">=</span><span class="s1">&#39;KDE_all&#39;</span><span class="p">,</span>  <span class="c1"># set this to &#39;grids&#39;, &#39;KDE_all&#39;, False or &#39;KDE_flags&#39; (i.e. only the problematic points)</span>
+<span class="gp">&gt;&gt;&gt; </span>                      <span class="n">plot_loc</span> <span class="o">=</span> <span class="s1">&#39;./example_plots/&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                      <span class="n">struct</span><span class="o">=</span><span class="s1">&#39;pp&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                      <span class="n">KDE_method</span><span class="o">=</span><span class="s1">&#39;multiv&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                      <span class="n">KDE_qz_sampling</span> <span class="o">=</span> <span class="mi">201j</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                      <span class="n">sampling</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;./example_plots/NGC_1234ff_LogQ_Tot[O]+12_multiv_srs400_Pk50_kinf_pp.png&#39;</span><span class="p">)</span>
 
 <span class="go">--&gt; Received 1 spectrum ...</span>
 <span class="go">--&gt; Dealing with them one at a time ... be patient now !</span>
@@ -214,18 +325,19 @@ another <tt class="docutils literal"><span class="pre">.csv</span></tt> file in 
 </div>
 <img alt="../_images/output_25_1.png" class="align-center" src="../_images/output_25_1.png" />
 <p>The first line of the input file must contain the name of each column,
-following the <tt class="docutils literal"><span class="pre">pyqz</span></tt> convention. The order itself does not matter, e.g.:</p>
-<div class="highlight-python"><pre>Id,[OII]+,std[OII]+,Hb,stdHb,[OIII],std[OIII],[OI],std[OI],Ha,stdHa,[NII],std[NII],[SII]+,std[SII]+</pre>
+following the pyqz convention. The order itself does not matter, e.g.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>Id,[OII]+,std[OII]+,Hb,stdHb,[OIII],std[OIII],[OI],std[OI],Ha,stdHa,[NII],std[NII],[SII]+,std[SII]+
+</pre></div>
 </div>
 <p>The Id (optional) can be used to add a tag (i.e. a string) to each set
 of line fluxes. This tag will be used in the filenames of the diagrams
-(if some are saved) and in the output <tt class="docutils literal"><span class="pre">.csv</span></tt> file as well.</p>
-<p>Commented line begin with <tt class="docutils literal"><span class="pre">#</span></tt>, missing values are marked with
-<span class="math">\($$$\)</span> (set with the <tt class="docutils literal"><span class="pre">missing_values</span></tt> keyword), and the decimal
-precision in the output file is set with <tt class="docutils literal"><span class="pre">decimals</span></tt> (default=5).</p>
-<p>At this point, it must be stressed that <tt class="docutils literal"><span class="pre">pyqz.get_global_qz()</span></tt> can only
+(if some are saved) and in the output <code class="docutils literal"><span class="pre">.csv</span></code> file as well.</p>
+<p>Commented line begin with <code class="docutils literal"><span class="pre">#</span></code>, missing values are marked with
+<code class="docutils literal"><span class="pre">$$$</span></code> (set with the <code class="docutils literal"><span class="pre">missing_values</span></code> keyword), and the decimal
+precision in the output file is set with <code class="docutils literal"><span class="pre">decimals</span></code> (default=5).</p>
+<p>At this point, it must be stressed that <code class="docutils literal"><span class="pre">pyqz.get_global_qz()</span></code> can only
 exploit a finite set of diagnostic grids, namely:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">pyqz</span><span class="o">.</span><span class="n">diagnostics</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pyqz</span><span class="o">.</span><span class="n">diagnostics</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 
 <span class="go">[&#39;[NII]/[OII]+;[OIII]/[SII]+&#39;,</span>
 <span class="go"> &#39;[NII]/[OII]+;[OIII]/[OII]+&#39;,</span>
@@ -240,76 +352,83 @@ exploit a finite set of diagnostic grids, namely:</p>
 </pre></div>
 </div>
 <p>These specific diagnostic diagrams are chosen to be largely flat, i.e.
-they are able to cleanly disentangle the influence of <tt class="docutils literal"><span class="pre">LogQ</span></tt> and
-<tt class="docutils literal"><span class="pre">Tot[O]+12</span></tt>. One does not need to use all the grids together. For example,
-if one knows that an <tt class="docutils literal"><span class="pre">[OII]</span></tt> line flux measurement is corrupted, one ought
+they are able to cleanly disentangle the influence of <code class="docutils literal"><span class="pre">LogQ</span></code> and
+<code class="docutils literal"><span class="pre">Tot[O]+12</span></code>. One does not need to use all the grids together. For example,
+if one knows that an <code class="docutils literal"><span class="pre">[OII]</span></code> line flux measurement is corrupted, one ought
 to simply use the diagnostic grids that do not rely on this line to
-derive the estimates of <tt class="docutils literal"><span class="pre">LogQ</span></tt> and <tt class="docutils literal"><span class="pre">Tot[O]+12</span></tt>.</p>
+derive the estimates of <code class="docutils literal"><span class="pre">LogQ</span></code> and <code class="docutils literal"><span class="pre">Tot[O]+12</span></code>.</p>
 <p>Users can easily add new diagnostics to this list (defined inside
-<tt class="docutils literal"><span class="pre">pyqz_metadata.py</span></tt>), but will do so at their own risk.</p>
+<code class="docutils literal"><span class="pre">pyqz_metadata.py</span></code>), but will do so at their own risk.</p>
 </div>
 </div>
 
 
+           </div>
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-<h3><a href="../index.html">Table Of Contents</a></h3>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installing <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Running <tt class="docutils literal"><span class="pre">pyqz</span></tt> (basic)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../pyqz_demo_advanced/pyqz_demo_advanced.html">Running <tt class="docutils literal"><span class="pre">pyqz</span></tt> (advanced)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../understanding.html">Understanding <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../pyqz_demo_param/pyqz_demo_param.html">The parameters of <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../functions.html">The functions of <tt class="docutils literal"><span class="pre">pyqz</span></tt></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
-</ul>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../pyqz_demo_advanced/pyqz_demo_advanced.html" class="btn btn-neutral float-right" title="Running pyqz (advanced)" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../installation.html" class="btn btn-neutral" title="Installing pyqz" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="../installation.html"
-                        title="previous chapter">Installing <tt class="docutils literal docutils literal docutils literal"><span class="pre">pyqz</span></tt></a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="../pyqz_demo_advanced/pyqz_demo_advanced.html"
-                        title="next chapter">Running <tt class="docutils literal docutils literal"><span class="pre">pyqz</span></tt> (advanced)</a></p>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016, Frédéric P.A. Vogt.
+
     </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../pyqz_demo_advanced/pyqz_demo_advanced.html" title="Running pyqz (advanced)"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="../installation.html" title="Installing pyqz"
-             >previous</a> |</li>
-        <li><a href="../index.html">pyqz 0.7.2 documentation</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer">
-        &copy; Copyright 2014, Frédéric Vogt.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
-    </div>
-  </body>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.7.3',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>
