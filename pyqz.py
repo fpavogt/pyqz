@@ -678,13 +678,13 @@ def interp_qz ( qz,
         # Plot also the points outside the grid ?
         # Which are they ? Need to check if they have a valid input first !
         # mind the "~" to invert the bools ! isn't this cool ?
-        my_out_pts = ~np.isnan(data[0]) * ~np.isnan(data[1]) * \
+        my_out_pts = ~np.isnan(data_comb[0]) * ~np.isnan(data_comb[1]) * \
             np.isnan(interp_data)
   
         
         if not(np.all(data[0].reshape(input_data_shape)==fullgrid_x)):
-            ax1.scatter(data[0][my_out_pts], 
-                        data[1][my_out_pts],
+            ax1.scatter(data_comb[0][my_out_pts], 
+                        data_comb[1][my_out_pts],
                                   marker = '^', facecolor = 'none', 
                                   edgecolor = 'k', s=60)
         

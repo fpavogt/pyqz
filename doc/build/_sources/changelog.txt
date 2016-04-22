@@ -7,6 +7,8 @@ v0.7.3 April 2016, F.P.A. Vogt
  - replaced skiprows with skip_header in np.genfromtxt calls (reported by F. Sleman).
  - added reference to Dopita+ 2016 for the 3-D line ratio diagram in the doc.
  - migrated the doc's theme from "classic" to "Read the Docs".
+ - fixed plotting bug in ``interp_qz`` for bad points in 3D diagrams (reported by F. Selman).
+ 
 v0.7.2 December 2015 - January 2016, F.P.A. Vogt
  - updated documentation with IPython notebook (static HTML in doc + notebook in ``pyqz/examples/``).
  - added ``run_awk_loop`` function to rapidly create the basic grids for pyqz. This is not intended as a main pyqz feature, but rather as an internal tool to make my life easier. It basically runs the MAPPINGS awk sripts in a loop to avoid many (error prone) manual modifications of the rungrid.sh file. Requires MAPPINGS to be installed properly, as well as the awk scripts - neither provided within ``pyqz`` itself.
