@@ -2,16 +2,14 @@ To build the site:
 
 sphinx-build -a -b html source build
 
+To generate all the function docs automatically, use
+
+sphinx-apidoc -o source/modules/ ../
+
+and change the title in modules.rst
+
 The "pyqz_demo.rst" page must be modified prior to compilation:
-- python blocks must be removed in favor of 
 
-blablabla:
-::
-   >>> some code …
-   results
+Note: should be changed to .. Note:: 
 
-- images must be centered by adding
-
-    :align: center
-
-right after the input tag
+Warning: should be changed to .. Warning::

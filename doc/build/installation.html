@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installing pyqz &mdash; pyqz 0.7.3 documentation</title>
+  <title>Installing pyqz &mdash; pyqz 0.8.0 documentation</title>
   
 
   
@@ -30,9 +30,9 @@
   
 
   
-    <link rel="top" title="pyqz 0.7.3 documentation" href="index.html"/>
-        <link rel="next" title="Running pyqz (basic)" href="pyqz_demo_basic/pyqz_demo_basic.html"/>
-        <link rel="prev" title="pyqz 0.7.3" href="index.html"/> 
+    <link rel="top" title="pyqz 0.8.0 documentation" href="index.html"/>
+        <link rel="next" title="Running pyqz I" href="pyqz_demo_basic/pyqz_demo_basic.html"/>
+        <link rel="prev" title="pyqz 0.8.0" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -59,10 +59,6 @@
           
             
             
-              <div class="version">
-                0.7
-              </div>
-            
           
 
           
@@ -83,7 +79,7 @@
             
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Installing pyqz</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installing pyqz</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#testing-the-installation">Testing the installation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#more-tests-with-unittest">More tests with unittest</a></li>
@@ -92,11 +88,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_basic/pyqz_demo_basic.html">Running pyqz (basic)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_advanced/pyqz_demo_advanced.html">Running pyqz (advanced)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_basic/pyqz_demo_basic.html">Running pyqz I</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_advanced/pyqz_demo_advanced.html">Running pyqz II</a></li>
 <li class="toctree-l1"><a class="reference internal" href="understanding.html">Understanding pyqz</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyqz_demo_param/pyqz_demo_param.html">The parameters of pyqz</a></li>
-<li class="toctree-l1"><a class="reference internal" href="functions.html">The functions of pyqz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/modules.html">Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="acknowledge.html">Acknowledging pyqz</a></li>
@@ -122,7 +118,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -146,138 +142,145 @@
             
   <div class="section" id="installing-pyqz">
 <h1>Installing pyqz<a class="headerlink" href="#installing-pyqz" title="Permalink to this headline">¶</a></h1>
-<p>The most recent release of pyqz is available for download from its Github repository: <a class="reference external" href="https://github.com/fpavogt/pyqz/releases">https://github.com/fpavogt/pyqz/releases</a></p>
-<p>Installing pyqz merely requires to let your Python installation know about its existence. Specifically:</p>
+<p>The most recent release of pyqz is available for download from its Github repository:
+<a class="reference external" href="https://github.com/fpavogt/pyqz/releases">https://github.com/fpavogt/pyqz/releases</a></p>
+<p>Installing pyqz merely requires to let your Python installation know about its existence.
+Specifically:</p>
 <ol class="arabic simple">
 <li>Unzip the compressed files (downloaded from the link above),</li>
 <li>place the <code class="docutils literal"><span class="pre">pyqz/</span></code> folder anywhere you like, and</li>
-<li>add its location to your Python path.</li>
+<li>add the location of <code class="docutils literal"><span class="pre">pyqz/src/</span></code> to your Python path.</li>
 </ol>
 <p>In my case (on MAC OSX), my <code class="docutils literal"><span class="pre">.bash_profile</span></code> would look like :</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>export PYTHONPATH=$PYTHONPATH:/Users/fvogt/Tools/Python/fpav_pylib/pyqz/
+<div class="highlight-default"><div class="highlight"><pre><span></span>export PYTHONPATH=$PYTHONPATH:/Users/fvogt/Tools/Python/fpav_pylib/pyqz/src/
 </pre></div>
 </div>
-<p>Github users are welcome to fork the pyqz repository if they want to get access to the latest updates not yet released. <em>Push requests</em> for bug fixes and new features are welcome and will be examined in detail.</p>
+<p>Github users are welcome to fork the pyqz repository if they want to get access to the
+latest updates not yet released. <em>Push requests</em> for bug fixes and new features are
+welcome and will be examined in detail.</p>
 <div class="section" id="requirements">
 <h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
 <p>The basic packages below are required for pyqz to work properly:</p>
 <ul class="simple">
-<li>numpy (1.8.1 or or above)</li>
-<li>scipy (0.14.0 or above)</li>
-<li>matplotlib (1.4.2 or above)</li>
+<li>numpy (1.10.4 or or above)</li>
+<li>scipy (0.17.0 or above)</li>
+<li>matplotlib (1.5.1 or above)</li>
 </ul>
 <p>Optional (but strongly recommended):</p>
 <ul class="simple">
-<li>statsmodels (0.6.0 or above)</li>
+<li>statsmodels (0.6.1 or above)</li>
 </ul>
-<p>The statsmodel package is required to perform the Kernel Density Estimations using <code class="docutils literal"><span class="pre">statsmodel.nonparametric.KDEMultivariate()</span></code>, which is often more suitable than the alternative <code class="docutils literal"><span class="pre">scipy.stats.gaussian_kde()</span></code>.</p>
+<p>The statsmodel package is required to perform the Kernel Density Estimations using
+<code class="docutils literal"><span class="pre">statsmodel.nonparametric.KDEMultivariate()</span></code>, which is often more suitable than the
+alternative <code class="docutils literal"><span class="pre">scipy.stats.gaussian_kde()</span></code>.</p>
 </div>
 <div class="section" id="testing-the-installation">
 <h2>Testing the installation<a class="headerlink" href="#testing-the-installation" title="Permalink to this headline">¶</a></h2>
 <p>First, launch a Python shell and check that you can import pyqz:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyqz</span>
-
-<span class="go">Multiprocessing possible with: 8 cpus max.</span>
-<span class="go">Loaded matplotlib with backend: agg</span>
-<span class="go">Loaded pyqz 0.7.2</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyqz</span>
 </pre></div>
 </div>
-<p>If this fails, then the <code class="docutils literal"><span class="pre">pyqz/</span></code> folder is not in your Python path. If the command succeeds,
-pyqz will tell how many cpus it can find, which matplotlib backend is currently being used
-(critical if you plan on using more than 1 cpu), and finally the code version.</p>
+<p>If this fails, then the <code class="docutils literal"><span class="pre">pyqz/src/</span></code> folder is not in your Python path.</p>
 <p>Next, as a quick test, try to fetch one of the diagnostic grid:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a_grid</span> <span class="o">=</span> <span class="n">pyqz</span><span class="o">.</span><span class="n">get_grid</span><span class="p">(</span><span class="s1">&#39;[NII]/[SII]+;[OIII]/[SII]+&#39;</span><span class="p">,</span> <span class="n">sampling</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">a_grid</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a_grid</span> <span class="o">=</span> <span class="n">pyqz</span><span class="o">.</span><span class="n">get_grid</span><span class="p">(</span><span class="s1">&#39;[NII]/[SII]+;[OIII]/[SII]+&#39;</span><span class="p">,</span> <span class="n">sampling</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">a_grid</span>
 </pre></div>
 </div>
 <div class="section" id="more-tests-with-unittest">
 <span id="unittest"></span><h3>More tests with unittest<a class="headerlink" href="#more-tests-with-unittest" title="Permalink to this headline">¶</a></h3>
-<p>A more complete set of tests, relying on the Python unittest module, are located inside <code class="docutils literal"><span class="pre">pyqz/unittest/</span></code>.
-The interested reader willing to check things further can run them as follows:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cd</span> <span class="o">/</span><span class="n">path</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">pyqz</span><span class="o">/</span><span class="n">pyqz</span><span class="o">/</span><span class="n">unittest</span><span class="o">/</span>
+<p>A more complete set of tests, relying on the Python unittest module, are located inside
+<code class="docutils literal"><span class="pre">pyqz/unittest/</span></code>. The interested reader willing to check things further can run them as
+follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cd</span> <span class="o">/</span><span class="n">path</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">pyqz</span><span class="o">/</span><span class="n">pyqz</span><span class="o">/</span><span class="n">unittest</span><span class="o">/</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">run</span> <span class="n">pyqz_check</span><span class="o">.</span><span class="n">py</span>
 
-<span class="go"> Starting pyqz tests:</span>
+<span class="go">Starting pyqz tests:</span>
 
 <span class="go">test01_interpgridnodes (__main__.Testpyqz) ... ok</span>
 <span class="go">test02_interpoffgrid (__main__.Testpyqz) ... ok</span>
 <span class="go">test03_interp_midMVq (__main__.Testpyqz) ...</span>
 <span class="go">--&gt; Received 1 spectrum ...</span>
 <span class="go">--&gt; Dealing with them one at a time ... be patient now !</span>
+<span class="go">    (no status update until I am done ...)</span>
 
-<span class="go">All done in 0:00:00.340057</span>
+<span class="go">All done in 0:00:00.836408</span>
 <span class="go">ok</span>
 <span class="go">test04_get_bad_global_qz (__main__.Testpyqz) ...</span>
 <span class="go">--&gt; Received 1 spectrum ...</span>
 <span class="go">--&gt; Dealing with them one at a time ... be patient now !</span>
-<span class="go">  1: No KDE calculable (bad points/grids ?)</span>
+<span class="go">    (no status update until I am done ...)</span>
 
-<span class="go">All done in 0:00:00.660051</span>
+<span class="go">All done in 0:00:00.511196</span>
 <span class="go">ok</span>
 <span class="go">test05_multiprocessing (__main__.Testpyqz) ...</span>
 <span class="go">--&gt; Received 1 spectrum ...</span>
-<span class="go">--&gt; Launching the multiple processes ... be patient now !</span>
+<span class="go">--&gt; Launching the multiple processes ...</span>
 <span class="go">    1 job(s) completed.</span>
 
-<span class="go">All done in 0:00:01.423516</span>
+<span class="go">All done in 0:00:06.841791</span>
 <span class="go">ok</span>
 <span class="go">test06_speed_benchmark (__main__.Testpyqz) ...</span>
 <span class="go">--&gt; Received 1 spectrum ...</span>
 <span class="go">--&gt; Dealing with them one at a time ... be patient now !</span>
+<span class="go">    (no status update until I am done ...)</span>
 
-<span class="go">All done in 0:00:00.409525</span>
-
-<span class="go">--&gt; Received 1 spectrum ...</span>
-<span class="go">--&gt; Dealing with them one at a time ... be patient now !</span>
-
-<span class="go">All done in 0:00:01.623224</span>
+<span class="go">All done in 0:00:00.446071</span>
 
 <span class="go">--&gt; Received 1 spectrum ...</span>
 <span class="go">--&gt; Dealing with them one at a time ... be patient now !</span>
+<span class="go">    (no status update until I am done ...)</span>
 
-<span class="go">All done in 0:00:06.755430</span>
+<span class="go">All done in 0:00:02.790566</span>
 
 <span class="go">--&gt; Received 1 spectrum ...</span>
 <span class="go">--&gt; Dealing with them one at a time ... be patient now !</span>
+<span class="go">  (no status update until I am done ...)</span>
 
-<span class="go">All done in 0:00:32.537323</span>
+<span class="go">All done in 0:00:10.590837</span>
+
+<span class="go">--&gt; Received 1 spectrum ...</span>
+<span class="go">--&gt; Dealing with them one at a time ... be patient now !</span>
+<span class="go">    (no status update until I am done ...)</span>
+
+<span class="go">All done in 0:00:08.683867</span>
 
 <span class="go">--&gt; Received 24 spectra ...</span>
-<span class="go">--&gt; Launching the multiple processes ... be patient now !</span>
+<span class="go">--&gt; Launching the multiple processes ...</span>
 <span class="go">    24 job(s) completed.</span>
 
-<span class="go">All done in 0:00:41.917625</span>
+<span class="go">All done in 0:00:33.726544</span>
 <span class="go">ok</span>
+<span class="go">test07_plots (__main__.Testpyqz) ... ok</span>
 
 <span class="go">----------------------------------------------------------------------</span>
-<span class="go">Ran 6 tests in 85.806s</span>
+<span class="go">Ran 7 tests in 162.785s</span>
 
 <span class="go">OK</span>
 </pre></div>
 </div>
-<p>Be warned - running these tests will change your matplotlib backend to a non-interactive
-one for the current Python session. In fact, the mere fact of importing pyqz will switch
-your backend to the non-interactive <code class="docutils literal"><span class="pre">agg</span></code>.</p>
+<p>Note that the last test takes a few seconds (~130s on my Macbook pro) to complete. It is
+designed to test the functions of pyqz_plots. If it succeeds, the demonstration plots will
+be located in <code class="docutils literal"><span class="pre">pyqz/unittest/plots/</span></code>.</p>
 </div>
 </div>
 <div class="section" id="troubleshooting">
 <span id="id1"></span><h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h2>
 <p>1.
 If you get the following message when importing pyqz:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>WARNING: Statsmodels module not found. KDE_method must be set to &#39;gauss&#39; or else I will crash.
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">WARNING</span><span class="p">:</span> <span class="n">Statsmodels</span> <span class="n">module</span> <span class="ow">not</span> <span class="n">found</span><span class="o">.</span> <span class="n">KDE_method</span> <span class="n">must</span> <span class="n">be</span> <span class="nb">set</span> <span class="n">to</span> <span class="s1">&#39;gauss&#39;</span> <span class="ow">or</span> <span class="k">else</span> <span class="n">I</span> <span class="n">will</span> <span class="n">crash</span><span class="o">.</span>
 </pre></div>
 </div>
 <p>then pyqz could not import the statsmodels module. This module is required <strong>only if</strong>
 you want to use the <code class="docutils literal"><span class="pre">KDEMultivariate</span></code> function to construct the joint probability
 density function (which we suggest you do). To remove the warning, install statsmodels
-and try reloading pyqz. See <a class="reference internal" href="pyqz_demo_basic/pyqz_demo_basic.html#runningpyqzbasic"><span>Running pyqz (basic)</span></a> for more details.</p>
+and try reloading pyqz. See <a class="reference internal" href="pyqz_demo_basic/pyqz_demo_basic.html#runningpyqzbasic"><span class="std std-ref">Running pyqz I</span></a> for more details.</p>
 <p>2.
 If you encounter other errors when importing the module or running the example above,
 ensure that your numpy, scipy and matplotlib packages are up-to-date and try again.</p>
 <p>3.
-If you still encounter errors after doing all that, check the <a class="reference internal" href="faq.html#faq"><span>FAQ</span></a>.</p>
+If you still encounter errors after doing all that, check the <a class="reference internal" href="faq.html#faq"><span class="std std-ref">FAQ</span></a>.</p>
 <p>4.
-If the <a class="reference internal" href="faq.html#faq"><span>FAQ</span></a> doesn&#8217;t shine some light on your problem, try <a class="reference internal" href="#unittest"><span>More tests with unittest</span></a>.</p>
+If the <a class="reference internal" href="faq.html#faq"><span class="std std-ref">FAQ</span></a> doesn&#8217;t shine some light on your problem, try <a class="reference internal" href="#unittest"><span class="std std-ref">More tests with unittest</span></a>.</p>
 <p>5.
 Check if this is a known issue: <a class="reference external" href="https://github.com/fpavogt/pyqz/issues">https://github.com/fpavogt/pyqz/issues</a></p>
 <p>6.
@@ -304,10 +307,10 @@ really against doing it (why would you ?), you can always email
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="pyqz_demo_basic/pyqz_demo_basic.html" class="btn btn-neutral float-right" title="Running pyqz (basic)" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="pyqz_demo_basic/pyqz_demo_basic.html" class="btn btn-neutral float-right" title="Running pyqz I" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="pyqz 0.7.3" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral" title="pyqz 0.8.0" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -338,7 +341,7 @@ really against doing it (why would you ?), you can always email
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.7.3',
+            VERSION:'0.8.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

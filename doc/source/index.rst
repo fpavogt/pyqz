@@ -3,18 +3,6 @@
 
 pyqz |release|
 ==================
-
-.. warning::
-   These pages describe pyqz |release|. The module is currently being updated, and NOT yet ready for deployment. For more information, send an email to frederic.vogt@alumni.anu.edu.au.
-
-   You can also track the latest changes on the Github repository of the code: 
-   https://github.com/fpavogt/pyqz
-
-   The last publicly released version of the code is pyqz 0.4: 
-   https://datacommons.anu.edu.au:8443/DataCommons/item/anudc:5037
-
-   See the :ref:`changelog` for more details.
-
    
 The pyqz Python module computes the values of log(Q) [the ionization parameter] and 12+log(O/H) [the oxygen abundance, either total or in the gas phase] for a given set of strong emission lines fluxes from HII regions. 
 
@@ -24,7 +12,18 @@ pyqz 0.4 was the first publicly released version of the code, which is described
 
   Dopita et al., *New Strong Line Abundance Diagnostics for HII Regions: Effects of Updated Atomic Data and kappa-Distributed Electron Energies*, ApJS, 208, 10 (2013). `ADS entry <http://adsabs.harvard.edu/abs/2013ApJS..208...10D>`_ 
 
-pyqz has since been subject to a major overhaul to track the latest heroic developments in the MAPPINGS code, support the propagation of observational errors on the emission lines fluxes and the construction of the probability density function associated with the estimates of log(Q) and 12+log(O/H), auto-detect wraps in the diagnostics grids, and more. See the :ref:`changelog` for a complete list of changes.
+pyqz has since been subject to a major overhaul to track the latest heroic developments in 
+the MAPPINGS code, support the propagation of observational errors on the emission lines 
+fluxes and the construction of the probability density function associated with the estimates 
+of log(Q) and 12+log(O/H), auto-detect wraps in the diagnostics grids, and more.
+
+.. note::
+
+   You can also track the latest changes in the code on the dedicated Github repository: 
+   https://github.com/fpavogt/pyqz
+
+   See also the :ref:`changelog`.
+
 
 .. warning:: **Garbage in, garbage out !** 
 
@@ -43,7 +42,7 @@ Contents
    pyqz_demo_advanced/pyqz_demo_advanced
    understanding
    pyqz_demo_param/pyqz_demo_param
-   functions
+   modules/modules
    faq
    changelog
    acknowledge

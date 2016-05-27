@@ -23,9 +23,11 @@
 # import the required packages
 import numpy as np
 import pyqz
+import pyqz_plots
 import unittest
 import sys
 import os
+import glob
 
 # ---------------------- Define the basic test functions -----------------------
 
@@ -48,14 +50,12 @@ def interpgridnodes(Pk = 5.0, kappa = np.inf, struct='pp', sampling = 1):
                                grid_name, 
                                coeffs = pyqz.diagnostics[grid_name]['coeffs'],
                                Pk = Pk, kappa = kappa, struct = struct,
-                               sampling = sampling, show_plot = False,
-                               save_plot = False) 
+                               sampling = sampling) 
     interp_zs = pyqz.interp_qz('Tot[O]+12', [grid_nodes[:,-2],grid_nodes[:,-1]],
                                grid_name, 
                                coeffs = pyqz.diagnostics[grid_name]['coeffs'],
                                Pk = Pk, kappa = kappa, struct = struct,
-                               sampling = sampling, show_plot = False,
-                               save_plot = False) 
+                               sampling = sampling) 
 
     return (np.all(np.round(interp_qs,2) == grid_nodes[:,0]) and
        np.all(np.round(interp_zs,3) == grid_nodes[:,1]))
@@ -69,27 +69,24 @@ def interpoffgrid(Pk = 5.0, kappa = np.inf, struct = 'pp', sampling=1):
                                grid_name, 
                                coeffs = pyqz.diagnostics[grid_name]['coeffs'],
                                Pk = Pk, kappa = kappa, struct = struct,
-                               sampling = sampling, show_plot = False,
-                               save_plot = False)           
-        
+                               sampling = sampling)           
         
     return np.isnan(interp_q)
 
 # When I interpolate a MAPPINGS V simulations done at different Qs, do I get
 # the Qs values out correctly ?    
 def interp_midMVq(Pk = 5.0, kappa = np.inf, struct = 'pp', sampling = 1,
-                  KDE_qz_sampling = 101j, do_single_spec = True,
-                  error = 0.05,nproc=1, save_plot=False, 
-                  diags = ['[NII]/[SII]+;[OIII]/[SII]+']):
+                  KDE_qz_sampling = 101j, do_single_spec = True, KDE_pickle_loc = None,
+                  error = 0.05,nproc=1, diags = ['[NII]/[SII]+;[OIII]/[SII]+']):
         
         # 1: get the intermediate data points from the MV shell script
-        # Zs are identical, but at least we have chnaged the Qs
+        # Zs are identical, but at least we have changed the Qs
         
         # Where are we ?
         this_dir = os.path.dirname(__file__)
         
         fn = os.path.join(this_dir,'grid_QZ_midQs_pp_GCZO_Pk50_kinf.csv')
-        metadata = pyqz.get_MVphotogrid_metadata(fn)
+        metadata = pyqz.pyqz_tools.get_MVphotogrid_metadata(fn)
         data = np.loadtxt(fn, comments='c', delimiter=',',skiprows=4)
         
         # Build 'Pseudo' line fluxes - and then assume a 10% error
@@ -129,8 +126,7 @@ def interp_midMVq(Pk = 5.0, kappa = np.inf, struct = 'pp', sampling = 1,
                                         '[SII]+','std[SII]+','Ha','stdHa'],
                                         diags,
                                         Pk = 5.0, kappa = np.inf, struct = 'pp',
-                                        show_plot = False, save_plot=save_plot,
-                                        plot_loc = './plots',
+                                        KDE_pickle_loc = KDE_pickle_loc,
                                         sampling=sampling,
                                         KDE_qz_sampling = KDE_qz_sampling,
                                         KDE_method='multiv',srs=400,
@@ -146,9 +142,9 @@ def interp_midMVq(Pk = 5.0, kappa = np.inf, struct = 'pp', sampling = 1,
                 np.abs(results[0][0,results[1].index('<Tot[O]+12{KDE}>')]/data[nspec,metadata['columns'].index('Tot[O]+12')]-1.)<0.01
                )                                                                                                                                                                                                                            
 
-# Run get_blobal_qz with a data points outside all diagnostics
+# Run get_global_qz with a data points outside all diagnostics
 def get_bad_global_qz(Pk = 5.0, kappa = np.inf, struct = 'pp', sampling = 1,
-                      nproc=1, error = 0.05):
+                      nproc=1, error = 0.05, KDE_pickle_loc = None):
                       
         # 1: get the intermediate data points from the MV shell script
         # Zs are identical, but at least we have chnaged the Qs
@@ -157,7 +153,7 @@ def get_bad_global_qz(Pk = 5.0, kappa = np.inf, struct = 'pp', sampling = 1,
         this_dir = os.path.dirname(__file__)
         
         fn = os.path.join(this_dir,'grid_QZ_midQs_pp_GCZO_Pk50_kinf.csv')
-        metadata = pyqz.get_MVphotogrid_metadata(fn)
+        metadata = pyqz.pyqz_tools.get_MVphotogrid_metadata(fn)
         data = np.loadtxt(fn, comments='c', delimiter=',',skiprows=4)
         
         # Build 'Pseudo' line fluxes
@@ -192,8 +188,7 @@ def get_bad_global_qz(Pk = 5.0, kappa = np.inf, struct = 'pp', sampling = 1,
                                         ['[NII]/[SII]+;[OIII]/Hb',
                                          '[NII]/[OII]+;[OIII]/[SII]+'],
                                         Pk = 5.0, kappa = np.inf, struct = 'pp',
-                                        show_plot = False,save_plot='KDE_all',
-                                        plot_loc = './plots',
+                                        KDE_pickle_loc = KDE_pickle_loc,
                                         sampling=1,
                                         KDE_qz_sampling = 201j,
                                         KDE_method='multiv',srs=400,
@@ -219,7 +214,7 @@ class Testpyqz(unittest.TestCase):
   
   def test03_interp_midMVq(self):
       
-      out = interp_midMVq(nproc = 1, save_plot=False)
+      out = interp_midMVq(nproc = 1, KDE_pickle_loc = './plots')
       
       self.assertTrue(out)
   
@@ -231,7 +226,7 @@ class Testpyqz(unittest.TestCase):
               
   def test05_multiprocessing(self):
       
-      out = interp_midMVq(nproc=2,save_plot='KDE_all')
+      out = interp_midMVq(nproc=2, KDE_pickle_loc = './plots')
           
       self.assertTrue(out) 
          
@@ -244,20 +239,37 @@ class Testpyqz(unittest.TestCase):
                     '[NII]/[OII]+;[SII]+/Ha'
                     ]
                     
-      out = interp_midMVq(nproc=1, save_plot=False, diags = [main_diags[0]],
+      out = interp_midMVq(nproc=1, KDE_pickle_loc = None, diags = [main_diags[0]],
                           sampling=1,KDE_qz_sampling=101j, do_single_spec = True)              
-      out = interp_midMVq(nproc=1, save_plot=False, diags = main_diags,
+      out = interp_midMVq(nproc=1, KDE_pickle_loc = None, diags = main_diags,
                           sampling=1,KDE_qz_sampling=101j, do_single_spec = True)
-      out = interp_midMVq(nproc=1, save_plot=False, diags = main_diags,
+      out = interp_midMVq(nproc=1, KDE_pickle_loc = None, diags = main_diags,
                           sampling=2,KDE_qz_sampling=201j, do_single_spec = True)    
-      out = interp_midMVq(nproc=1, save_plot=True, diags = main_diags,
+      out = interp_midMVq(nproc=1, KDE_pickle_loc = './plots', diags = main_diags,
                           sampling=2,KDE_qz_sampling=201j, do_single_spec = True)                                     
       
-      out = interp_midMVq(nproc=8, save_plot=False, diags = main_diags,
+      out = interp_midMVq(nproc=8, KDE_pickle_loc = None, diags = main_diags,
                           sampling=2,KDE_qz_sampling=201j, do_single_spec = False) 
         
             
       self.assertTrue(out)  
+  
+  def test07_plots(self):
+      
+      fns = glob.glob('./plots/*.pkl')
+      
+      try:
+          for fn in fns:
+          
+              pyqz_plots.plot_global_qz(fn, do_all_diags = True, show_plots = False, 
+                                        save_loc = './plots/')
+      
+          out = True
+      except:
+          out = False
+            
+      self.assertTrue(out)
+  
 
 # launch the testing
 print ' '

@@ -2,35 +2,41 @@
 Installing pyqz
 ===================
 
-The most recent release of pyqz is available for download from its Github repository: https://github.com/fpavogt/pyqz/releases
+The most recent release of pyqz is available for download from its Github repository: 
+https://github.com/fpavogt/pyqz/releases
 
-Installing pyqz merely requires to let your Python installation know about its existence. Specifically:
+Installing pyqz merely requires to let your Python installation know about its existence. 
+Specifically:
 
 1. Unzip the compressed files (downloaded from the link above), 
 2. place the ``pyqz/`` folder anywhere you like, and 
-3. add its location to your Python path. 
+3. add the location of ``pyqz/src/`` to your Python path. 
 
 In my case (on MAC OSX), my ``.bash_profile`` would look like : 
 ::
 
-      export PYTHONPATH=$PYTHONPATH:/Users/fvogt/Tools/Python/fpav_pylib/pyqz/
+      export PYTHONPATH=$PYTHONPATH:/Users/fvogt/Tools/Python/fpav_pylib/pyqz/src/
 
 
-Github users are welcome to fork the pyqz repository if they want to get access to the latest updates not yet released. *Push requests* for bug fixes and new features are welcome and will be examined in detail. 
+Github users are welcome to fork the pyqz repository if they want to get access to the 
+latest updates not yet released. *Push requests* for bug fixes and new features are 
+welcome and will be examined in detail. 
       
 Requirements
 ------------
 The basic packages below are required for pyqz to work properly:
 
-* numpy (1.8.1 or or above)
-* scipy (0.14.0 or above)
-* matplotlib (1.4.2 or above)
+* numpy (1.10.4 or or above)
+* scipy (0.17.0 or above)
+* matplotlib (1.5.1 or above)
 
 Optional (but strongly recommended): 
 
-* statsmodels (0.6.0 or above)
+* statsmodels (0.6.1 or above)
 
-The statsmodel package is required to perform the Kernel Density Estimations using ``statsmodel.nonparametric.KDEMultivariate()``, which is often more suitable than the alternative ``scipy.stats.gaussian_kde()``.
+The statsmodel package is required to perform the Kernel Density Estimations using 
+``statsmodel.nonparametric.KDEMultivariate()``, which is often more suitable than the 
+alternative ``scipy.stats.gaussian_kde()``.
 
 Testing the installation
 ------------------------
@@ -40,14 +46,7 @@ First, launch a Python shell and check that you can import pyqz:
   
   >>> import pyqz
  
-  Multiprocessing possible with: 8 cpus max. 
-  Loaded matplotlib with backend: agg
-  Loaded pyqz 0.7.2
-
- 
-If this fails, then the ``pyqz/`` folder is not in your Python path. If the command succeeds, 
-pyqz will tell how many cpus it can find, which matplotlib backend is currently being used 
-(critical if you plan on using more than 1 cpu), and finally the code version. 
+If this fails, then the ``pyqz/src/`` folder is not in your Python path.
 
 Next, as a quick test, try to fetch one of the diagnostic grid:
 ::
@@ -60,74 +59,81 @@ Next, as a quick test, try to fetch one of the diagnostic grid:
 More tests with unittest 
 ++++++++++++++++++++++++++++++
 
-A more complete set of tests, relying on the Python unittest module, are located inside ``pyqz/unittest/``. 
-The interested reader willing to check things further can run them as follows:
+A more complete set of tests, relying on the Python unittest module, are located inside 
+``pyqz/unittest/``. The interested reader willing to check things further can run them as 
+follows:
 ::
 
   >>> cd /path-to-pyqz/pyqz/unittest/
   >>> run pyqz_check.py
- 
-   Starting pyqz tests:
- 
+  
+  Starting pyqz tests:
+  
   test01_interpgridnodes (__main__.Testpyqz) ... ok
   test02_interpoffgrid (__main__.Testpyqz) ... ok
   test03_interp_midMVq (__main__.Testpyqz) ...  
   --> Received 1 spectrum ...
   --> Dealing with them one at a time ... be patient now !
-   
-  All done in 0:00:00.340057
+      (no status update until I am done ...)
+ 
+  All done in 0:00:00.836408
   ok
   test04_get_bad_global_qz (__main__.Testpyqz) ...  
   --> Received 1 spectrum ...
   --> Dealing with them one at a time ... be patient now !
-    1: No KDE calculable (bad points/grids ?)
-   
-  All done in 0:00:00.660051
+      (no status update until I am done ...)
+ 
+  All done in 0:00:00.511196
   ok
   test05_multiprocessing (__main__.Testpyqz) ...  
   --> Received 1 spectrum ...
-  --> Launching the multiple processes ... be patient now !
+  --> Launching the multiple processes ... 
       1 job(s) completed.      
-   
-  All done in 0:00:01.423516
+  
+  All done in 0:00:06.841791
   ok
   test06_speed_benchmark (__main__.Testpyqz) ...  
   --> Received 1 spectrum ...
   --> Dealing with them one at a time ... be patient now !
-   
-  All done in 0:00:00.409525
-   
+      (no status update until I am done ...)
+  
+  All done in 0:00:00.446071
+  
   --> Received 1 spectrum ...
   --> Dealing with them one at a time ... be patient now !
-   
-  All done in 0:00:01.623224
-   
+      (no status update until I am done ...)
+  
+  All done in 0:00:02.790566
+  
   --> Received 1 spectrum ...
   --> Dealing with them one at a time ... be patient now !
-   
-  All done in 0:00:06.755430
-   
+    (no status update until I am done ...)
+  
+  All done in 0:00:10.590837
+  
   --> Received 1 spectrum ...
   --> Dealing with them one at a time ... be patient now !
-   
-  All done in 0:00:32.537323
-   
+      (no status update until I am done ...)
+  
+  All done in 0:00:08.683867
+  
   --> Received 24 spectra ...
-  --> Launching the multiple processes ... be patient now !
+  --> Launching the multiple processes ... 
       24 job(s) completed.      
-   
-  All done in 0:00:41.917625
+  
+  All done in 0:00:33.726544
   ok
+  test07_plots (__main__.Testpyqz) ... ok
   
   ----------------------------------------------------------------------
-  Ran 6 tests in 85.806s
+  Ran 7 tests in 162.785s
   
   OK
-
-
-Be warned - running these tests will change your matplotlib backend to a non-interactive 
-one for the current Python session. In fact, the mere fact of importing pyqz will switch 
-your backend to the non-interactive ``agg``.
+  
+  
+Note that the last test takes a few seconds (~130s on my Macbook pro) to complete. It is
+designed to test the functions of pyqz_plots. If it succeeds, the demonstration plots will
+be located in ``pyqz/unittest/plots/``.
 
 .. _troubleshooting:
 
@@ -137,6 +143,7 @@ Troubleshooting
 1. 
 If you get the following message when importing pyqz:
 ::
+
     WARNING: Statsmodels module not found. KDE_method must be set to 'gauss' or else I will crash.
 
 then pyqz could not import the statsmodels module. This module is required **only if** 
