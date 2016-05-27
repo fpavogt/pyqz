@@ -3,7 +3,7 @@
 
 pyqz |release|
 ==================
-   
+
 The pyqz Python module computes the values of log(Q) [the ionization parameter] and 12+log(O/H) [the oxygen abundance, either total or in the gas phase] for a given set of strong emission lines fluxes from HII regions. 
 
 The log(Q) and 12+log(O/H) values are interpolated from a finite set of **diagnostic line ratio grids** computed with the MAPPINGS code. The grids used by pyqz are chosen to be **flat, without wraps, to decouple the influence of log(Q) and 12+log(O/H)** on the emission line ratios.
