@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>The parameters of pyqz &mdash; pyqz 0.7.3 documentation</title>
+  <title>The parameters of pyqz &mdash; pyqz 0.8.0 documentation</title>
   
 
   
@@ -30,8 +30,8 @@
   
 
   
-    <link rel="top" title="pyqz 0.7.3 documentation" href="../index.html"/>
-        <link rel="next" title="The functions of pyqz" href="../functions.html"/>
+    <link rel="top" title="pyqz 0.8.0 documentation" href="../index.html"/>
+        <link rel="next" title="Functions" href="../modules/modules.html"/>
         <link rel="prev" title="Understanding pyqz" href="../understanding.html"/> 
 
   
@@ -59,10 +59,6 @@
           
             
             
-              <div class="version">
-                0.7
-              </div>
-            
           
 
           
@@ -84,17 +80,17 @@
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installing pyqz</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../pyqz_demo_basic/pyqz_demo_basic.html">Running pyqz (basic)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../pyqz_demo_advanced/pyqz_demo_advanced.html">Running pyqz (advanced)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyqz_demo_basic/pyqz_demo_basic.html">Running pyqz I</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyqz_demo_advanced/pyqz_demo_advanced.html">Running pyqz II</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../understanding.html">Understanding pyqz</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">The parameters of pyqz</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">The parameters of pyqz</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#parameter-1-srs">Parameter 1: <code class="docutils literal"><span class="pre">srs</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#parameter-2-kde-method">Parameter 2: <code class="docutils literal"><span class="pre">KDE_method</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#parameter-3-kde-qz-sampling">Parameter 3: <code class="docutils literal"><span class="pre">KDE_qz_sampling</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-other-parameters">The other parameters</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../functions.html">The functions of pyqz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/modules.html">Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../acknowledge.html">Acknowledging pyqz</a></li>
@@ -120,7 +116,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -143,171 +139,172 @@
            <div itemprop="articleBody">
             
   <div class="section" id="the-parameters-of-pyqz">
-<span id="pyqzparam"></span><h1>The parameters of pyqz<a class="headerlink" href="#the-parameters-of-pyqz" title="Permalink to this headline">¶</a></h1>
+<h1>The parameters of pyqz<a class="headerlink" href="#the-parameters-of-pyqz" title="Permalink to this headline">¶</a></h1>
 <p>This page is also available as an IPython notebook
 (<code class="docutils literal"><span class="pre">pyqz_demo_param.ipynb</span></code>) included with the code and located in
 <code class="docutils literal"><span class="pre">pyqz/examples/</span></code>.</p>
-<p>pyqz is designed to be easy and quick to use, but without withholding any
-information to the user. As such, all parameters of importance for
+<p>pyqz is designed to be easy and quick to use, but without withholding
+any information from the user. As such, all parameters of importance for
 deriving the estimates of <code class="docutils literal"><span class="pre">LogQ</span></code> and <code class="docutils literal"><span class="pre">Tot[O]+12</span></code> can be modified via
 dedicated keywords. Here, we present some basic examples to clarify what
-does what. In addition to these examples, the documentation also contains
-a detailed list of <a class="reference internal" href="../functions.html#ref-funcs"><span>The functions of pyqz</span></a>, along
-with a brief description of each keyword.</p>
+does what. In addition to these examples, the documentation also
+contains a detailed list of the functions of pyqz, along with a brief
+description of each keyword.</p>
 <p>First things first, let&#8217;s import pyqz and the Image module to display
 the figures.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyqz</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<span class="kn">import</span> <span class="nn">pyqz</span>
+<span class="kn">import</span> <span class="nn">pyqz_plots</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </pre></div>
 </div>
 <div class="section" id="parameter-1-srs">
 <h2>Parameter 1: <code class="docutils literal"><span class="pre">srs</span></code><a class="headerlink" href="#parameter-1-srs" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal"><span class="pre">srs</span></code> defines the <em>size of the random sample</em> of line fluxes generated by
-pyqz. This is an essential keyword to the propagation of observational
-errors associated with each line flux measurements. In other words, <code class="docutils literal"><span class="pre">srs</span></code>
-is the number of discrete estimates of the probability density function
-(in the {<code class="docutils literal"><span class="pre">LogQ</span></code> vs. <code class="docutils literal"><span class="pre">Tot[O]+12</span></code>} plane) associated with one diagnostic grid.</p>
+<p><code class="docutils literal"><span class="pre">srs</span></code> defines the <strong>size of the random sample</strong> of line fluxes
+generated by pyqz. This is an essential keyword to the propagation of
+observational errors associated with each line flux measurements. In
+other words, <code class="docutils literal"><span class="pre">srs</span></code> is the number of discrete estimates of the
+probability density function (in the {<code class="docutils literal"><span class="pre">LogQ</span></code> vs. <code class="docutils literal"><span class="pre">Tot[O]+12</span></code>} plane)
+associated with one diagnostic grid.</p>
 <p>Hence, the joint probability function density function (combining
 <span class="math">\(n\)</span> diagnostic grids) will be reconstructed via a Kernel Density
-Estimation routine from <span class="math">\(n\cdot\)</span>srs points. <code class="docutils literal"><span class="pre">srs=400</span></code> is the
-default value, suitable for error levels of ~5%. We
-suggest <code class="docutils literal"><span class="pre">srs=800</span></code> for errors at the 10%-15% level. Basically, larger
-errors result in wider probability density peaks, and thus require more
-<code class="docutils literal"><span class="pre">srs</span></code> points to be properly discretized - at the cost of additional
-computation time of course ! Try changing the value of <code class="docutils literal"><span class="pre">my_srs</span></code> in the
-example below, and watch the number of black dots vary accordingly in
-the KDE diagram.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">my_srs</span> <span class="o">=</span> <span class="mi">800</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fluxes_errs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="mf">1.00000000e+00</span><span class="p">,</span> <span class="mf">5.00000000e-02</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                          <span class="mf">2.37684029e+00</span><span class="p">,</span> <span class="mf">1.18842014e-01</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                          <span class="mf">5.06523968e+00</span><span class="p">,</span> <span class="mf">2.53261984e-01</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                          <span class="mf">5.67283302e-01</span><span class="p">,</span> <span class="mf">2.83641651e-02</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                          <span class="mf">5.10740150e-01</span><span class="p">,</span> <span class="mf">2.55370075e-02</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                          <span class="mf">2.87541146e+00</span><span class="p">,</span> <span class="mf">1.43770573e-01</span><span class="p">]])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pyqz</span><span class="o">.</span><span class="n">get_global_qz</span><span class="p">(</span><span class="n">fluxes_errs</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                <span class="p">[</span><span class="s1">&#39;Hb&#39;</span><span class="p">,</span><span class="s1">&#39;stdHb&#39;</span><span class="p">,</span><span class="s1">&#39;[OIII]&#39;</span><span class="p">,</span><span class="s1">&#39;std[OIII]&#39;</span><span class="p">,</span><span class="s1">&#39;[OII]+&#39;</span><span class="p">,</span><span class="s1">&#39;std[OII]+&#39;</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                 <span class="s1">&#39;[NII]&#39;</span><span class="p">,</span><span class="s1">&#39;std[NII]&#39;</span><span class="p">,</span><span class="s1">&#39;[SII]+&#39;</span><span class="p">,</span><span class="s1">&#39;std[SII]+&#39;</span><span class="p">,</span><span class="s1">&#39;Ha&#39;</span><span class="p">,</span><span class="s1">&#39;stdHa&#39;</span><span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>                <span class="p">[</span><span class="s1">&#39;[NII]/[OII]+;[OIII]/[SII]+&#39;</span><span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>                <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;NGC_1234&#39;</span><span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>                <span class="n">srs</span> <span class="o">=</span> <span class="n">my_srs</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                <span class="n">show_plot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="c1"># set this to True to also see the individual line ratio diagrams</span>
-<span class="gp">&gt;&gt;&gt; </span>                <span class="n">save_plot</span><span class="o">=</span><span class="s1">&#39;KDE_all&#39;</span><span class="p">,</span>  <span class="c1"># set this to &#39;grids&#39;, &#39;KDE_all&#39;, False or &#39;KDE_flags&#39; (i.e. only the problematic points)</span>
-<span class="gp">&gt;&gt;&gt; </span>                <span class="n">plot_loc</span> <span class="o">=</span> <span class="s1">&#39;./example_plots/&#39;</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                <span class="n">KDE_method</span> <span class="o">=</span> <span class="s1">&#39;multiv&#39;</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                <span class="n">KDE_qz_sampling</span><span class="o">=</span><span class="mi">201j</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                <span class="n">struct</span><span class="o">=</span><span class="s1">&#39;pp&#39;</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                <span class="n">sampling</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;./example_plots/NGC_1234_LogQ_Tot[O]+12_multiv_srs&#39;</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">str</span><span class="p">(</span><span class="n">my_srs</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_Pk50_kinf_pp.png&#39;</span><span class="p">)</span>
+Estimation routine from <span class="math">\(n\cdot\)</span><code class="docutils literal"><span class="pre">srs</span></code> points. <code class="docutils literal"><span class="pre">srs=400</span></code> is
+the default value, suitable for error levels of $:raw-latex:<cite>sim`$5%.
+We suggest ``srs=800`</cite> for errors at the 10%-15% level. Basically,
+larger errors result in wider probability density peaks, and thus
+require more <code class="docutils literal"><span class="pre">srs</span></code> points to be properly discretized - at the cost of
+additional computation time of course ! Try changing the value of
+<code class="docutils literal"><span class="pre">my_srs</span></code> in the example below, and watch the number of black dots vary
+accordingly in the KDE diagram.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">my_srs</span> <span class="o">=</span> <span class="mi">800</span>
+<span class="n">pyqz</span><span class="o">.</span><span class="n">get_global_qz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="mf">1.00e+00</span><span class="p">,</span> <span class="mf">5.00e-02</span><span class="p">,</span> <span class="mf">2.38e+00</span><span class="p">,</span> <span class="mf">1.19e-01</span><span class="p">,</span> <span class="mf">5.07e+00</span><span class="p">,</span> <span class="mf">2.53e-01</span><span class="p">,</span>
+                               <span class="mf">5.67e-01</span><span class="p">,</span> <span class="mf">2.84e-02</span><span class="p">,</span> <span class="mf">5.11e-01</span><span class="p">,</span> <span class="mf">2.55e-02</span><span class="p">,</span> <span class="mf">2.88e+00</span><span class="p">,</span> <span class="mf">1.44e-01</span><span class="p">]]),</span>
+                   <span class="p">[</span><span class="s1">&#39;Hb&#39;</span><span class="p">,</span><span class="s1">&#39;stdHb&#39;</span><span class="p">,</span><span class="s1">&#39;[OIII]&#39;</span><span class="p">,</span><span class="s1">&#39;std[OIII]&#39;</span><span class="p">,</span><span class="s1">&#39;[OII]+&#39;</span><span class="p">,</span><span class="s1">&#39;std[OII]+&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;[NII]&#39;</span><span class="p">,</span><span class="s1">&#39;std[NII]&#39;</span><span class="p">,</span><span class="s1">&#39;[SII]+&#39;</span><span class="p">,</span><span class="s1">&#39;std[SII]+&#39;</span><span class="p">,</span><span class="s1">&#39;Ha&#39;</span><span class="p">,</span><span class="s1">&#39;stdHa&#39;</span><span class="p">],</span>
+                   <span class="p">[</span><span class="s1">&#39;[NII]/[OII]+;[OIII]/[SII]+&#39;</span><span class="p">],</span>
+                   <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;NGC_5678&#39;</span><span class="p">],</span>
+                   <span class="n">srs</span> <span class="o">=</span> <span class="n">my_srs</span><span class="p">,</span>
+                   <span class="n">KDE_pickle_loc</span> <span class="o">=</span> <span class="s1">&#39;./example_plots/&#39;</span><span class="p">,</span>
+                   <span class="n">KDE_method</span> <span class="o">=</span> <span class="s1">&#39;multiv&#39;</span><span class="p">,</span>
+                   <span class="n">KDE_qz_sampling</span><span class="o">=</span><span class="mi">201</span><span class="n">j</span><span class="p">,</span>
+                   <span class="n">struct</span><span class="o">=</span><span class="s1">&#39;pp&#39;</span><span class="p">,</span>
+                   <span class="n">sampling</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="go">--&gt; Received 1 spectrum ...</span>
-<span class="go">--&gt; Dealing with them one at a time ... be patient now !</span>
+<span class="c1"># And use pyqz_plots.plot_global_qz() to display the result</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="n">fn</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;./example_plots/*NGC_5678*.pkl&#39;</span><span class="p">)</span>
 
-<span class="go">All done in 0:00:01.197884</span>
+<span class="n">pyqz_plots</span><span class="o">.</span><span class="n">plot_global_qz</span><span class="p">(</span><span class="n">fn</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">show_plots</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">save_loc</span> <span class="o">=</span> <span class="s1">&#39;./example_plots&#39;</span><span class="p">,</span> <span class="n">do_all_diags</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
-<img alt="../_images/output_6_1.png" class="align-center" src="../_images/output_6_1.png" />
+<div class="highlight-default"><div class="highlight"><pre><span></span>--&gt; Received 1 spectrum ...
+--&gt; Dealing with them one at a time ... be patient now !
+    (no status update until I am done ...)
+
+All done in 0:00:00.298957
+</pre></div>
+</div>
+<img alt="../_images/output_6_1.png" src="../_images/output_6_1.png" />
 </div>
 <div class="section" id="parameter-2-kde-method">
 <h2>Parameter 2: <code class="docutils literal"><span class="pre">KDE_method</span></code><a class="headerlink" href="#parameter-2-kde-method" title="Permalink to this headline">¶</a></h2>
 <p>This keyword specifies the Kernel Density Estimation routine used to
 reconstruct the individual and joint probability density functions in
-the {<code class="docutils literal"><span class="pre">LogQ</span></code> vs. <code class="docutils literal"><span class="pre">Tot[O]+12</span></code>} plane. It can be either <code class="docutils literal"><span class="pre">gauss</span></code> to use
-<code class="docutils literal"><span class="pre">gaussian_kde</span></code> from the <code class="docutils literal"><span class="pre">scipy.stats</span></code> module, or <code class="docutils literal"><span class="pre">multiv</span></code> to use
-<code class="docutils literal"><span class="pre">KDEMultivariate</span></code> from the statsmodels package.</p>
-<p>The former option is 10-100 times faster, but usually results in less
+the {<code class="docutils literal"><span class="pre">LogQ</span></code> vs. <code class="docutils literal"><span class="pre">Tot[O]+12</span></code>} plane. It can be either <code class="docutils literal"><span class="pre">gauss</span></code> to
+use <code class="docutils literal"><span class="pre">gaussian_kde</span></code> from the <code class="docutils literal"><span class="pre">scipy.stats</span></code> module, or <code class="docutils literal"><span class="pre">multiv</span></code> to
+use <code class="docutils literal"><span class="pre">KDEMultivariate</span></code> from the <code class="docutils literal"><span class="pre">statsmodels</span></code> package.</p>
+<p>The former option is 10-100x faster, but usually results in less
 accurate results if different diagnostic grids disagree. The underlying
 reason is that with <code class="docutils literal"><span class="pre">gaussian_kde</span></code>, the kernel bandwidth cannot be
-explicitly set individually for the <code class="docutils literal"><span class="pre">LogQ</span></code> and <code class="docutils literal"><span class="pre">Tot[O]+12</span></code> directions, so
-that the function tends to over-smooth the distribution. <code class="docutils literal"><span class="pre">KDEMultivariate</span></code>
-should be preferred as the bandwidth of the kernel is set individually
-for both the <code class="docutils literal"><span class="pre">LogQ</span></code> and <code class="docutils literal"><span class="pre">Tot[O]+12</span></code> directions using Scott&#8217;s rule, scaled by
-the standard deviation of the distribution along these directions.</p>
+explicitly set individually for the <code class="docutils literal"><span class="pre">LogQ</span></code> and <code class="docutils literal"><span class="pre">Tot[O]+12</span></code>
+directions, so that the function tends to over-smooth the distribution.
+<code class="docutils literal"><span class="pre">KDEMultivariate</span></code> should be preferred as the bandwidth of the kernel
+is set individually for both the <code class="docutils literal"><span class="pre">LogQ</span></code> and <code class="docutils literal"><span class="pre">Tot[O]+12</span></code> directions
+using Scott&#8217;s rule, scaled by the standard deviation of the distribution
+along these directions.</p>
 <p>In the example below, we insert some error in the [OII] line flux -
 thereby creating a mismatch between the different line ratio space
-estimates. Switch my_method from <code class="docutils literal"><span class="pre">'gauss'</span></code> to <code class="docutils literal"><span class="pre">'multiv'</span></code>, and watch how the
-joint PDF (shown as shades of grey) traces the distribution of black
-dots in a significantly worse/better manner.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">my_method</span> <span class="o">=</span> <span class="s1">&#39;gauss&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fluxes_errs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="mf">1.00000000e+00</span><span class="p">,</span> <span class="mf">5.00000000e-02</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                          <span class="mf">2.37684029e+00</span><span class="p">,</span> <span class="mf">1.18842014e-01</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                          <span class="mf">3.06523968e+00</span><span class="p">,</span> <span class="mf">2.53261984e-01</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                          <span class="mf">5.67283302e-01</span><span class="p">,</span> <span class="mf">2.83641651e-02</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                          <span class="mf">5.10740150e-01</span><span class="p">,</span> <span class="mf">2.55370075e-02</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                          <span class="mf">2.87541146e+00</span><span class="p">,</span> <span class="mf">1.43770573e-01</span><span class="p">]])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pyqz</span><span class="o">.</span><span class="n">get_global_qz</span><span class="p">(</span><span class="n">fluxes_errs</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                   <span class="p">[</span><span class="s1">&#39;Hb&#39;</span><span class="p">,</span><span class="s1">&#39;stdHb&#39;</span><span class="p">,</span><span class="s1">&#39;[OIII]&#39;</span><span class="p">,</span><span class="s1">&#39;std[OIII]&#39;</span><span class="p">,</span><span class="s1">&#39;[OII]+&#39;</span><span class="p">,</span><span class="s1">&#39;std[OII]+&#39;</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                    <span class="s1">&#39;[NII]&#39;</span><span class="p">,</span><span class="s1">&#39;std[NII]&#39;</span><span class="p">,</span><span class="s1">&#39;[SII]+&#39;</span><span class="p">,</span><span class="s1">&#39;std[SII]+&#39;</span><span class="p">,</span><span class="s1">&#39;Ha&#39;</span><span class="p">,</span><span class="s1">&#39;stdHa&#39;</span><span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>                   <span class="p">[</span><span class="s1">&#39;[NII]/[SII]+;[OIII]/[SII]+&#39;</span><span class="p">,</span><span class="s1">&#39;[NII]/[OII]+;[OIII]/[OII]+&#39;</span><span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>                   <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;NGC_1234&#39;</span><span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>                   <span class="n">srs</span> <span class="o">=</span> <span class="mi">400</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                   <span class="n">show_plot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="c1"># set this to True to also see the individual line ratio diagrams</span>
-<span class="gp">&gt;&gt;&gt; </span>                   <span class="n">save_plot</span><span class="o">=</span><span class="s1">&#39;KDE_all&#39;</span><span class="p">,</span>  <span class="c1"># set this to &#39;grids&#39;, &#39;KDE_all&#39;, False or &#39;KDE_flags&#39; (i.e. only the problematic points)</span>
-<span class="gp">&gt;&gt;&gt; </span>                   <span class="n">plot_loc</span> <span class="o">=</span> <span class="s1">&#39;./example_plots/&#39;</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                   <span class="n">KDE_method</span> <span class="o">=</span> <span class="n">my_method</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                   <span class="n">KDE_qz_sampling</span><span class="o">=</span><span class="mi">201j</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                   <span class="n">struct</span><span class="o">=</span><span class="s1">&#39;pp&#39;</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                   <span class="n">sampling</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;./example_plots/NGC_1234_LogQ_Tot[O]+12_&#39;</span><span class="o">+</span><span class="n">my_method</span><span class="o">+</span><span class="s1">&#39;_srs400_Pk50_kinf_pp.png&#39;</span><span class="p">)</span>
+estimates. Switch <code class="docutils literal"><span class="pre">my_method</span></code> from <code class="docutils literal"><span class="pre">'gauss'</span></code> to <code class="docutils literal"><span class="pre">'multiv'</span></code>, and
+watch how the joint PDF (shown as shades of gray) traces the
+distribution of black dots in a significantly worse/better manner.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">my_method</span> <span class="o">=</span> <span class="s1">&#39;gauss&#39;</span>
+<span class="n">pyqz</span><span class="o">.</span><span class="n">get_global_qz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="mf">1.00e+00</span><span class="p">,</span> <span class="mf">5.00e-02</span><span class="p">,</span> <span class="mf">2.38e+00</span><span class="p">,</span> <span class="mf">1.19e-01</span><span class="p">,</span> <span class="mf">2.07e+00</span><span class="p">,</span> <span class="mf">2.53e-01</span><span class="p">,</span>
+                               <span class="mf">5.67e-01</span><span class="p">,</span> <span class="mf">2.84e-02</span><span class="p">,</span> <span class="mf">5.11e-01</span><span class="p">,</span> <span class="mf">2.55e-02</span><span class="p">,</span> <span class="mf">2.88e+00</span><span class="p">,</span> <span class="mf">1.44e-01</span><span class="p">]]),</span>
+                   <span class="p">[</span><span class="s1">&#39;Hb&#39;</span><span class="p">,</span><span class="s1">&#39;stdHb&#39;</span><span class="p">,</span><span class="s1">&#39;[OIII]&#39;</span><span class="p">,</span><span class="s1">&#39;std[OIII]&#39;</span><span class="p">,</span><span class="s1">&#39;[OII]+&#39;</span><span class="p">,</span><span class="s1">&#39;std[OII]+&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;[NII]&#39;</span><span class="p">,</span><span class="s1">&#39;std[NII]&#39;</span><span class="p">,</span><span class="s1">&#39;[SII]+&#39;</span><span class="p">,</span><span class="s1">&#39;std[SII]+&#39;</span><span class="p">,</span><span class="s1">&#39;Ha&#39;</span><span class="p">,</span><span class="s1">&#39;stdHa&#39;</span><span class="p">],</span>
+                   <span class="p">[</span><span class="s1">&#39;[NII]/[SII]+;[OIII]/[SII]+&#39;</span><span class="p">,</span><span class="s1">&#39;[NII]/[OII]+;[OIII]/[OII]+&#39;</span><span class="p">],</span>
+                   <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;NGC_09&#39;</span><span class="p">],</span>
+                   <span class="n">srs</span> <span class="o">=</span> <span class="mi">400</span><span class="p">,</span>
+                   <span class="n">KDE_pickle_loc</span> <span class="o">=</span> <span class="s1">&#39;./example_plots/&#39;</span><span class="p">,</span>
+                   <span class="n">KDE_method</span> <span class="o">=</span> <span class="n">my_method</span><span class="p">,</span>
+                   <span class="n">KDE_qz_sampling</span><span class="o">=</span><span class="mi">201</span><span class="n">j</span><span class="p">,</span>
+                   <span class="n">struct</span><span class="o">=</span><span class="s1">&#39;pp&#39;</span><span class="p">,</span>
+                   <span class="n">sampling</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="go">--&gt; Received 1 spectrum ...</span>
-<span class="go">--&gt; Dealing with them one at a time ... be patient now !</span>
+<span class="c1"># And use pyqz_plots.plot_global_qz() to display the result</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="n">fn</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;./example_plots/*NGC_09*</span><span class="si">%s</span><span class="s1">*.pkl&#39;</span> <span class="o">%</span> <span class="n">my_method</span><span class="p">)</span>
 
-<span class="go">All done in 0:00:01.392809</span>
+<span class="n">pyqz_plots</span><span class="o">.</span><span class="n">plot_global_qz</span><span class="p">(</span><span class="n">fn</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">show_plots</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">save_loc</span> <span class="o">=</span> <span class="s1">&#39;./example_plots&#39;</span><span class="p">,</span> <span class="n">do_all_diags</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
-<img alt="../_images/output_9_1.png" class="align-center" src="../_images/output_9_1.png" />
+<div class="highlight-default"><div class="highlight"><pre><span></span>--&gt; Received 1 spectrum ...
+--&gt; Dealing with them one at a time ... be patient now !
+    (no status update until I am done ...)
+
+All done in 0:00:00.548880
+</pre></div>
+</div>
+<img alt="../_images/output_9_1.png" src="../_images/output_9_1.png" />
 </div>
 <div class="section" id="parameter-3-kde-qz-sampling">
 <h2>Parameter 3: <code class="docutils literal"><span class="pre">KDE_qz_sampling</span></code><a class="headerlink" href="#parameter-3-kde-qz-sampling" title="Permalink to this headline">¶</a></h2>
 <p>This sets the sampling of the {<code class="docutils literal"><span class="pre">LogQ</span></code> vs. <code class="docutils literal"><span class="pre">Tot[O]+12</span></code>} plane, when
-reconstructing the individual and global PDFs. Set to <code class="docutils literal"><span class="pre">101j</span></code> by default
-(i.e. a grid with 101x101 = 10201 sampling nodes), datasets with small errors (&lt;5%)
+reconstructing the individual and global PDFs. Set to <code class="docutils literal"><span class="pre">101j</span></code> by
+default (i.e. a grid with
+101$:raw-latex:<cite>cdot</cite><span class="math">\(101 = 10201 sampling nodes), datasets with small errors (\)</span>&lt;$5%)
 could benefit from using twice this resolution for better results (i.e.
 <code class="docutils literal"><span class="pre">KDE_qz_sampling=201j</span></code>). Resulting in a longer processing time of
-course. In the following example, the influence of <code class="docutils literal"><span class="pre">KDE_qz_sampling</span></code> can
-be seen in the size of the resolution elements of the joint PDF map (in grey), as
-well as the smoothness of the (orange) contour at 0.61%.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">my_qz_sampling</span> <span class="o">=</span> <span class="mi">101j</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fluxes_errs</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="mf">1.00000000e+00</span><span class="p">,</span> <span class="mf">5.00000000e-02</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                         <span class="mf">2.37684029e+00</span><span class="p">,</span> <span class="mf">1.18842014e-01</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                         <span class="mf">5.06523968e+00</span><span class="p">,</span> <span class="mf">2.53261984e-01</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                         <span class="mf">5.67283302e-01</span><span class="p">,</span> <span class="mf">2.83641651e-02</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                         <span class="mf">5.10740150e-01</span><span class="p">,</span> <span class="mf">2.55370075e-02</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                         <span class="mf">2.87541146e+00</span><span class="p">,</span> <span class="mf">1.43770573e-01</span><span class="p">]])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pyqz</span><span class="o">.</span><span class="n">get_global_qz</span><span class="p">(</span><span class="n">fluxes_errs</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                   <span class="p">[</span><span class="s1">&#39;Hb&#39;</span><span class="p">,</span><span class="s1">&#39;stdHb&#39;</span><span class="p">,</span><span class="s1">&#39;[OIII]&#39;</span><span class="p">,</span><span class="s1">&#39;std[OIII]&#39;</span><span class="p">,</span><span class="s1">&#39;[OII]+&#39;</span><span class="p">,</span><span class="s1">&#39;std[OII]+&#39;</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                    <span class="s1">&#39;[NII]&#39;</span><span class="p">,</span><span class="s1">&#39;std[NII]&#39;</span><span class="p">,</span><span class="s1">&#39;[SII]+&#39;</span><span class="p">,</span><span class="s1">&#39;std[SII]+&#39;</span><span class="p">,</span><span class="s1">&#39;Ha&#39;</span><span class="p">,</span><span class="s1">&#39;stdHa&#39;</span><span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>                   <span class="p">[</span><span class="s1">&#39;[NII]/[OII]+;[OIII]/[SII]+&#39;</span><span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>                   <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;NGC_1234&#39;</span><span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>                   <span class="n">srs</span> <span class="o">=</span> <span class="mi">400</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                   <span class="n">show_plot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="c1"># set this to True to also see the individual line ratio diagrams</span>
-<span class="gp">&gt;&gt;&gt; </span>                   <span class="n">save_plot</span><span class="o">=</span><span class="s1">&#39;KDE_all&#39;</span><span class="p">,</span>  <span class="c1"># set this to &#39;grids&#39;, &#39;KDE_all&#39;, False or &#39;KDE_flags&#39; (i.e. only the problematic points)</span>
-<span class="gp">&gt;&gt;&gt; </span>                   <span class="n">plot_loc</span> <span class="o">=</span> <span class="s1">&#39;./example_plots/&#39;</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                   <span class="n">KDE_method</span> <span class="o">=</span> <span class="s1">&#39;multiv&#39;</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                   <span class="n">KDE_qz_sampling</span><span class="o">=</span><span class="n">my_qz_sampling</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                   <span class="n">struct</span><span class="o">=</span><span class="s1">&#39;pp&#39;</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                   <span class="n">sampling</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;./example_plots/NGC_1234_LogQ_Tot[O]+12_multiv_srs400_Pk50_kinf_pp.png&#39;</span><span class="p">)</span>
+course. In the following example, the influence of <code class="docutils literal"><span class="pre">KDE_qz_sampling</span></code>
+can be seen in the size of the resolution elements of the joint PDF map,
+as well as the smoothness of the (orange) contour at 0.61%.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">my_qz_sampling</span> <span class="o">=</span> <span class="mi">101</span><span class="n">j</span>
+<span class="n">pyqz</span><span class="o">.</span><span class="n">get_global_qz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="mf">1.00e+00</span><span class="p">,</span> <span class="mf">5.00e-02</span><span class="p">,</span> <span class="mf">2.38e+00</span><span class="p">,</span> <span class="mf">1.19e-01</span><span class="p">,</span> <span class="mf">5.07e+00</span><span class="p">,</span> <span class="mf">2.53e-01</span><span class="p">,</span>
+                               <span class="mf">5.67e-01</span><span class="p">,</span> <span class="mf">2.84e-02</span><span class="p">,</span> <span class="mf">5.11e-01</span><span class="p">,</span> <span class="mf">2.55e-02</span><span class="p">,</span> <span class="mf">2.88e+00</span><span class="p">,</span> <span class="mf">1.44e-01</span><span class="p">]]),</span>
+                   <span class="p">[</span><span class="s1">&#39;Hb&#39;</span><span class="p">,</span><span class="s1">&#39;stdHb&#39;</span><span class="p">,</span><span class="s1">&#39;[OIII]&#39;</span><span class="p">,</span><span class="s1">&#39;std[OIII]&#39;</span><span class="p">,</span><span class="s1">&#39;[OII]+&#39;</span><span class="p">,</span><span class="s1">&#39;std[OII]+&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;[NII]&#39;</span><span class="p">,</span><span class="s1">&#39;std[NII]&#39;</span><span class="p">,</span><span class="s1">&#39;[SII]+&#39;</span><span class="p">,</span><span class="s1">&#39;std[SII]+&#39;</span><span class="p">,</span><span class="s1">&#39;Ha&#39;</span><span class="p">,</span><span class="s1">&#39;stdHa&#39;</span><span class="p">],</span>
+                   <span class="p">[</span><span class="s1">&#39;[NII]/[OII]+;[OIII]/[SII]+&#39;</span><span class="p">],</span>
+                   <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;NGC_00&#39;</span><span class="p">],</span>
+                   <span class="n">srs</span> <span class="o">=</span> <span class="mi">400</span><span class="p">,</span>
+                   <span class="n">KDE_pickle_loc</span> <span class="o">=</span> <span class="s1">&#39;./example_plots/&#39;</span><span class="p">,</span>
+                   <span class="n">KDE_method</span> <span class="o">=</span> <span class="s1">&#39;multiv&#39;</span><span class="p">,</span>
+                   <span class="n">KDE_qz_sampling</span><span class="o">=</span><span class="n">my_qz_sampling</span><span class="p">,</span>
+                   <span class="n">struct</span><span class="o">=</span><span class="s1">&#39;pp&#39;</span><span class="p">,</span>
+                   <span class="n">sampling</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="go">--&gt; Received 1 spectrum ...</span>
-<span class="go">--&gt; Dealing with them one at a time ... be patient now !</span>
+<span class="c1"># And use pyqz_plots.plot_global_qz() to display the result</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="n">fn</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;./example_plots/*NGC_00*.pkl&#39;</span><span class="p">)</span>
 
-<span class="go">All done in 0:00:00.939003</span>
+<span class="n">pyqz_plots</span><span class="o">.</span><span class="n">plot_global_qz</span><span class="p">(</span><span class="n">fn</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">show_plots</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">save_loc</span> <span class="o">=</span> <span class="s1">&#39;./example_plots/&#39;</span><span class="p">,</span> <span class="n">do_all_diags</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
-<img alt="../_images/output_12_1.png" class="align-center" src="../_images/output_12_1.png" />
+<div class="highlight-default"><div class="highlight"><pre><span></span>--&gt; Received 1 spectrum ...
+--&gt; Dealing with them one at a time ... be patient now !
+    (no status update until I am done ...)
+
+All done in 0:00:00.104960
+</pre></div>
+</div>
+<img alt="../_images/output_12_1.png" src="../_images/output_12_1.png" />
 </div>
 <div class="section" id="the-other-parameters">
 <h2>The other parameters<a class="headerlink" href="#the-other-parameters" title="Permalink to this headline">¶</a></h2>
 <p>Most of the other parameters ought to be straightforward to understand
-(e.g. <code class="docutils literal"><span class="pre">verbose</span></code>, <code class="docutils literal"><span class="pre">plot_loc</span></code>, <code class="docutils literal"><span class="pre">plot_fmt</span></code> etc.). To use the maximum number of
-cpus available when running pyqz, set <code class="docutils literal"><span class="pre">nproc=None</span></code>.</p>
-<p>At this time, <code class="docutils literal"><span class="pre">show_plot</span></code> will have no effect because of the non-interactive matplotlib
-backend. But funny enough, if you don&#8217;t set <code class="docutils literal"><span class="pre">show_plot=False</span></code>, you will
-<strong>still get the speed penalty associated with showing the code diagrams
-- even if none will be visible.</strong> So, just make sure to use
-<code class="docutils literal"><span class="pre">show_plot=False</span></code>.</p>
-<p>Check <a class="reference internal" href="../functions.html#ref-funcs"><span>The functions of pyqz</span></a> for more details.</p>
+(e.g. <code class="docutils literal"><span class="pre">verbose</span></code>). To use the maximum number of cpus available when
+running pyqz, set <code class="docutils literal"><span class="pre">nproc</span> <span class="pre">=</span> <span class="pre">-1</span></code>.</p>
+<p>Check the page the functions of pyqz in the docs for more details.</p>
 </div>
 </div>
 
@@ -318,7 +315,7 @@ backend. But funny enough, if you don&#8217;t set <code class="docutils literal"
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../functions.html" class="btn btn-neutral float-right" title="The functions of pyqz" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../modules/modules.html" class="btn btn-neutral float-right" title="Functions" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../understanding.html" class="btn btn-neutral" title="Understanding pyqz" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -352,7 +349,7 @@ backend. But funny enough, if you don&#8217;t set <code class="docutils literal"
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.7.3',
+            VERSION:'0.8.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

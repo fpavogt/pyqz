@@ -2,7 +2,7 @@
 Acknowledging pyqz
 ====================
 
-Only use lower case letters when mentioning pyqz, and always include the version number, e.g. pyqz 0.7.1 . 
+Only use lower case letters when mentioning pyqz, and always include the version number, e.g. pyqz |release| . 
 
 pyqz will be described in detail in 
 
@@ -16,7 +16,8 @@ If you find pyqz useful for your research, please cite these references accordin
 
 Additional references you may wish to cite as well include:
 
-1) the article describing the new 3D diagnostic combining Ha, [NII], [SII]+, [OIII] and Hb:
+1) the article describing the new projected 3-D diagnostic combining Ha, [NII], [SII]+, 
+   [OIII] and Hb:
 
     **Dopita, Kewley, Sutherland, & Nicholls**, *Chemical abundances in high-redshift galaxies: a powerful new emission line diagnostic*, Ap&SS, 361, 61 (2016). `ADS entry <http://adsabs.harvard.edu/abs/2016Ap%26SS.361...61D>`_ 
 
@@ -27,3 +28,22 @@ Additional references you may wish to cite as well include:
 3) the initial description of the updated error propagation mechanism (first implemented in pyqz 0.6.0), described in Appendix B of
 
     **Vogt, Dopita, Borthakur, Verdes-Montenegro, Heckman, Yun & Chambers**, *Galaxy interactions in compact groups - II. Abundance and kinematic anomalies in HCG 91c*, MNRAS, 450, 2593 (2015). `ADS entry <http://adsabs.harvard.edu/abs/2015MNRAS.450.2593V>`_
+
+pyqz also uses several packages that **should also be acknowledged in their own right.** 
+The following Tex-formatted acknowledgment is one way to do so::
+
+    This research has made use of \textsc{pyqz} (Dopita et al., 2013), a Python module to 
+    derive the ionization parameter and oxygen abundance of HII regions from their strong 
+    emission line ratios hosted at \url{http://http://fpavogt.github.io/pyqz}. \textsc{pyqz} 
+    relies on \textsc{statsmodel} (Seabold & Perktold 2010) and \textsc{matplotlib} (Hunter 2007).
+
+References:
+ - `Hunter (2007) <http://cdsads.u-strasbg.fr/abs/2007CSE.....9...90H>`_    
+ - Seabold & Perktold (2010)::
+ 
+    @inproceedings{seabold2010,
+        title={Statsmodels: Econometric and statistical modeling with python},
+        author={Seabold, Skipper and Perktold, Josef},
+        booktitle={9th Python in Science Conference},
+        year={2010},
+    }
