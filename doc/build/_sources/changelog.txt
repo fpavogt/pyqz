@@ -8,6 +8,11 @@ TODO:
    fo matplotlib (e.g. _cntr.Cntr).
  - add a setup.py, and register this on pypi.
 
+v0.8.1 June 2016, F.P.A. Vogt
+ - fixed omission of "if verbose:".
+ - added new logo to website.
+ - added disclaimer about current "safe range" of the MAPPINGS models shipped with pyqz
+
 v0.8.0 May 2016, F.P.A. Vogt
  - changed directory structure of the code
  - updated the plotting to use Latex (usetex=True)

@@ -1193,20 +1193,22 @@ def get_global_qz(data, data_cols, which_grids,
             # Let's track the overall progress, see 
             # http://stackoverflow.com/questions/5666576/show-the-progress-of-a-python-multiprocessing-pool-map-call
             chunksize = rs._chunksize
-            while (True):
-                if (rs.ready()): break
-                remaining = rs._number_left
-                sys.stdout.write("    ... %i job(s) left ...\r" % (remaining*chunksize) )
-                sys.stdout.flush()
-                time.sleep(0.5)
+            if verbose:
+                while (True):
+                    time.sleep(0.5)
+                    if (rs.ready()): break
+                    remaining = rs._number_left
+                    sys.stdout.write("    ... %i job(s) left ...\r" % (remaining*chunksize) )
+                    sys.stdout.flush()
+
             
             # And for safety, make a "join" call ...
             mypool.join()
             
             results = rs._value
-            
-            sys.stdout.write("    %i job(s) completed.      \n" % len(results))
-            sys.stdout.flush()
+            if verbose:
+                sys.stdout.write("    %i job(s) completed.      \n" % len(results))
+                sys.stdout.flush()
             
     # All done. Now let's collect the results ...
     for j in range(len(jobs)):      
