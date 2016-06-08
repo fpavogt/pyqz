@@ -17,13 +17,23 @@ the MAPPINGS code, support the propagation of observational errors on the emissi
 fluxes and the construction of the probability density function associated with the estimates 
 of log(Q) and 12+log(O/H), auto-detect wraps in the diagnostics grids, and more.
 
+The current photo-ionization models shipped with pyz were generated using
+`MAPPINGS 5.0.16 <https://miocene.anu.edu.au/Mappings/>`_. At this time the **safe ranges of the models are:**
+    
+.. math::
+    :nowrap:
+    
+    6.5\ \leq\ \mathrm{LogQ}\ \leq\ 8.5\\
+    8.11\ \leq\ \mathrm{Tot[O]+12}\ \leq\ 8.985\\
+    \kappa\ =\ \infty
+
+Generating MAPPINGS models outside this zone is currently unsafe, and thus will remain 
+unsupported by pyqz until further updates to the MAPPINGS code.
+
 .. note::
 
-   You can also track the latest changes in the code on the dedicated Github repository: 
-   https://github.com/fpavogt/pyqz
-
-   See also the :ref:`changelog`.
-
+   You can track the latest changes in the code on the dedicated Github repository: 
+   https://github.com/fpavogt/pyqz. See also the :ref:`changelog`.
 
 .. warning:: **Garbage in, garbage out !** 
 

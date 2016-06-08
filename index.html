@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pyqz 0.8.0 &mdash; pyqz 0.8.0 documentation</title>
+  <title>pyqz 0.8.1 &mdash; pyqz 0.8.1 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="pyqz 0.8.0 documentation" href="#"/>
+    <link rel="top" title="pyqz 0.8.1 documentation" href="#"/>
         <link rel="next" title="Installing pyqz" href="installation.html"/> 
 
   
@@ -53,10 +53,17 @@
           
 
           
+            
+            <img src="_static/pyqz.png" class="logo" />
+          
           </a>
 
           
             
+            
+              <div class="version">
+                0.8
+              </div>
             
           
 
@@ -117,7 +124,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="#">Docs</a> &raquo;</li>
       
-    <li>pyqz 0.8.0</li>
+    <li>pyqz 0.8.1</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -132,7 +139,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="pyqz-release">
-<h1>pyqz 0.8.0<a class="headerlink" href="#pyqz-release" title="Permalink to this headline">¶</a></h1>
+<h1>pyqz 0.8.1<a class="headerlink" href="#pyqz-release" title="Permalink to this headline">¶</a></h1>
 <p>The pyqz Python module computes the values of log(Q) [the ionization parameter] and 12+log(O/H) [the oxygen abundance, either total or in the gas phase] for a given set of strong emission lines fluxes from HII regions.</p>
 <p>The log(Q) and 12+log(O/H) values are interpolated from a finite set of <strong>diagnostic line ratio grids</strong> computed with the MAPPINGS code. The grids used by pyqz are chosen to be <strong>flat, without wraps, to decouple the influence of log(Q) and 12+log(O/H)</strong> on the emission line ratios.</p>
 <p>pyqz 0.4 was the first publicly released version of the code, which is described in detail in</p>
@@ -142,11 +149,17 @@
 the MAPPINGS code, support the propagation of observational errors on the emission lines
 fluxes and the construction of the probability density function associated with the estimates
 of log(Q) and 12+log(O/H), auto-detect wraps in the diagnostics grids, and more.</p>
+<p>The current photo-ionization models shipped with pyz were generated using
+<a class="reference external" href="https://miocene.anu.edu.au/Mappings/">MAPPINGS 5.0.16</a>. At this time the <strong>safe ranges of the models are:</strong></p>
+<div class="math">
+\[6.5\ \leq\ \mathrm{LogQ}\ \leq\ 8.5\\
+8.11\ \leq\ \mathrm{Tot[O]+12}\ \leq\ 8.985\\
+\kappa\ =\ \infty\]</div><p>Generating MAPPINGS models outside this zone is currently unsafe, and thus will remain
+unsupported by pyqz until further updates to the MAPPINGS code.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p>You can also track the latest changes in the code on the dedicated Github repository:
-<a class="reference external" href="https://github.com/fpavogt/pyqz">https://github.com/fpavogt/pyqz</a></p>
-<p class="last">See also the <a class="reference internal" href="changelog.html#changelog"><span class="std std-ref">Changelog</span></a>.</p>
+<p class="last">You can track the latest changes in the code on the dedicated Github repository:
+<a class="reference external" href="https://github.com/fpavogt/pyqz">https://github.com/fpavogt/pyqz</a>. See also the <a class="reference internal" href="changelog.html#changelog"><span class="std std-ref">Changelog</span></a>.</p>
 </div>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
@@ -218,7 +231,7 @@ The pyqz Python module is free software: you can redistribute it and/or modify i
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.8.0',
+            VERSION:'0.8.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
