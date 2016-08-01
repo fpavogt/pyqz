@@ -321,7 +321,7 @@ def plot_global_qz(pickle_fn, do_all_diags = True, show_plots = True, save_loc =
             
             plot_grid(key.split('|')[0], 
                       coeffs = diagnostics[key.split('|')[0]]['coeffs'],
-                      Pk = Pk, kappa=np.inf, struct = struct, sampling = sampling,
+                      Pk = Pk, kappa=kappa, struct = struct, sampling = sampling,
                       color_mode = key.split('|')[1], 
                       figname = plot_name, show_plot = show_plots,
                       data = Rval, interp_data = discrete_pdf[key])
