@@ -1,0 +1,648 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>The parameters of pyqz &mdash; pyqz 0.8.4 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="pyqz 0.8.4 documentation" href="index.html"/>
+        <link rel="next" title="Functions" href="modules/modules.html"/>
+        <link rel="prev" title="Understanding pyqz" href="understanding.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pyqz
+          
+
+          
+            
+            <img src="_static/logo.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.8
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installing pyqz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_basic.html">Running pyqz I</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_advanced.html">Running pyqz II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="understanding.html">Understanding pyqz</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">The parameters of pyqz</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Parameter-1:-srs">Parameter 1: <code class="docutils literal"><span class="pre">srs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Parameter-2:-KDE_method">Parameter 2: <code class="docutils literal"><span class="pre">KDE_method</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Parameter-3:-KDE_qz_sampling">Parameter 3: <code class="docutils literal"><span class="pre">KDE_qz_sampling</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#The-other-parameters">The other parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules/modules.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acknowledge.html">Acknowledging pyqz</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">pyqz</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>The parameters of pyqz</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/pyqz_demo_param.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #303F9F;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #D84315;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 8ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-bold { font-weight: bold; }
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="The-parameters-of-pyqz">
+<h1>The parameters of pyqz<a class="headerlink" href="#The-parameters-of-pyqz" title="Permalink to this headline">¶</a></h1>
+<p>pyqz is designed to be easy and quick to use, but without withholding
+any information from the user. As such, all parameters of importance for
+deriving the estimates of <code class="docutils literal"><span class="pre">LogQ</span></code> and <code class="docutils literal"><span class="pre">Tot[O]+12</span></code> can be modified via
+dedicated keywords. Here, we present some basic examples to clarify what
+does what. In addition to these examples, the documentation also
+contains a detailed list of the functions of pyqz, along with a brief
+description of each keyword.</p>
+<p>First things first, let’s import pyqz and the Image module to display
+the figures.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">pyqz</span>
+<span class="kn">import</span> <span class="nn">pyqz.pyqz_plots</span> <span class="kn">as</span> <span class="nn">pyqzp</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="Parameter-1:-srs">
+<h2>Parameter 1: <code class="docutils literal"><span class="pre">srs</span></code><a class="headerlink" href="#Parameter-1:-srs" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">srs</span></code> defines the <strong>size of the random sample</strong> of line fluxes
+generated by pyqz. This is an essential keyword to the propagation of
+observational errors associated with each line flux measurements. In
+other words, <code class="docutils literal"><span class="pre">srs</span></code> is the number of discrete estimates of the
+probability density function (in the {<code class="docutils literal"><span class="pre">LogQ</span></code> vs. <code class="docutils literal"><span class="pre">Tot[O]+12</span></code>} plane)
+associated with one diagnostic grid.</p>
+<p>Hence, the joint probability function density function (combining
+<span class="math">\(n\)</span> diagnostic grids) will be reconstructed via a Kernel Density
+Estimation routine from <span class="math">\(n\cdot\)</span><code class="docutils literal"><span class="pre">srs</span></code> points. <code class="docutils literal"><span class="pre">srs=400</span></code> is
+the default value, suitable for error levels of $:raw-latex:<cite>sim`$5%.
+We suggest “srs=800`</cite> for errors at the 10%-15% level. Basically,
+larger errors result in wider probability density peaks, and thus
+require more <code class="docutils literal"><span class="pre">srs</span></code> points to be properly discretized - at the cost of
+additional computation time of course ! Try changing the value of
+<code class="docutils literal"><span class="pre">my_srs</span></code> in the example below, and watch the number of black dots vary
+accordingly in the KDE diagram.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="n">my_srs</span> <span class="o">=</span> <span class="mi">800</span>
+<span class="n">pyqz</span><span class="o">.</span><span class="n">get_global_qz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="mf">1.00e+00</span><span class="p">,</span> <span class="mf">5.00e-02</span><span class="p">,</span> <span class="mf">2.38e+00</span><span class="p">,</span> <span class="mf">1.19e-01</span><span class="p">,</span> <span class="mf">5.07e+00</span><span class="p">,</span> <span class="mf">2.53e-01</span><span class="p">,</span>
+                               <span class="mf">5.67e-01</span><span class="p">,</span> <span class="mf">2.84e-02</span><span class="p">,</span> <span class="mf">5.11e-01</span><span class="p">,</span> <span class="mf">2.55e-02</span><span class="p">,</span> <span class="mf">2.88e+00</span><span class="p">,</span> <span class="mf">1.44e-01</span><span class="p">]]),</span>
+                   <span class="p">[</span><span class="s1">&#39;Hb&#39;</span><span class="p">,</span><span class="s1">&#39;stdHb&#39;</span><span class="p">,</span><span class="s1">&#39;[OIII]&#39;</span><span class="p">,</span><span class="s1">&#39;std[OIII]&#39;</span><span class="p">,</span><span class="s1">&#39;[OII]+&#39;</span><span class="p">,</span><span class="s1">&#39;std[OII]+&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;[NII]&#39;</span><span class="p">,</span><span class="s1">&#39;std[NII]&#39;</span><span class="p">,</span><span class="s1">&#39;[SII]+&#39;</span><span class="p">,</span><span class="s1">&#39;std[SII]+&#39;</span><span class="p">,</span><span class="s1">&#39;Ha&#39;</span><span class="p">,</span><span class="s1">&#39;stdHa&#39;</span><span class="p">],</span>
+                   <span class="p">[</span><span class="s1">&#39;[NII]/[OII]+;[OIII]/[SII]+&#39;</span><span class="p">],</span>
+                   <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;NGC_5678&#39;</span><span class="p">],</span>
+                   <span class="n">srs</span> <span class="o">=</span> <span class="n">my_srs</span><span class="p">,</span>
+                   <span class="n">KDE_pickle_loc</span> <span class="o">=</span> <span class="s1">&#39;./examples/&#39;</span><span class="p">,</span>
+                   <span class="n">KDE_method</span> <span class="o">=</span> <span class="s1">&#39;multiv&#39;</span><span class="p">,</span>
+                   <span class="n">KDE_qz_sampling</span><span class="o">=</span><span class="mi">201j</span><span class="p">,</span>
+                   <span class="n">struct</span><span class="o">=</span><span class="s1">&#39;pp&#39;</span><span class="p">,</span>
+                   <span class="n">sampling</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># And use pyqz_plots.plot_global_qz() to display the result</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="n">fn</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;./examples/*NGC_5678*.pkl&#39;</span><span class="p">)</span>
+
+<span class="n">pyqzp</span><span class="o">.</span><span class="n">plot_global_qz</span><span class="p">(</span><span class="n">fn</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">show_plots</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">save_loc</span> <span class="o">=</span> <span class="s1">&#39;./examples&#39;</span><span class="p">,</span> <span class="n">do_all_diags</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+--&gt; Received 1 spectrum ...
+--&gt; Dealing with them one at a time ... be patient now !
+    (no status update until I am done ...)
+
+All done in 0:00:00.312550
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/pyqz_demo_param_5_1.png" src="_images/pyqz_demo_param_5_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Parameter-2:-KDE_method">
+<h2>Parameter 2: <code class="docutils literal"><span class="pre">KDE_method</span></code><a class="headerlink" href="#Parameter-2:-KDE_method" title="Permalink to this headline">¶</a></h2>
+<p>This keyword specifies the Kernel Density Estimation routine used to
+reconstruct the individual and joint probability density functions in
+the {<code class="docutils literal"><span class="pre">LogQ</span></code> vs. <code class="docutils literal"><span class="pre">Tot[O]+12</span></code>} plane. It can be either <code class="docutils literal"><span class="pre">gauss</span></code> to
+use <code class="docutils literal"><span class="pre">gaussian_kde</span></code> from the <code class="docutils literal"><span class="pre">scipy.stats</span></code> module, or <code class="docutils literal"><span class="pre">multiv</span></code> to
+use <code class="docutils literal"><span class="pre">KDEMultivariate</span></code> from the <code class="docutils literal"><span class="pre">statsmodels</span></code> package.</p>
+<p>The former option is 10-100x faster, but usually results in less
+accurate results if different diagnostic grids disagree. The underlying
+reason is that with <code class="docutils literal"><span class="pre">gaussian_kde</span></code>, the kernel bandwidth cannot be
+explicitly set individually for the <code class="docutils literal"><span class="pre">LogQ</span></code> and <code class="docutils literal"><span class="pre">Tot[O]+12</span></code>
+directions, so that the function tends to over-smooth the distribution.
+<code class="docutils literal"><span class="pre">KDEMultivariate</span></code> should be preferred as the bandwidth of the kernel
+is set individually for both the <code class="docutils literal"><span class="pre">LogQ</span></code> and <code class="docutils literal"><span class="pre">Tot[O]+12</span></code> directions
+using Scott’s rule, scaled by the standard deviation of the distribution
+along these directions.</p>
+<p>In the example below, we insert some error in the [OII] line flux -
+thereby creating a mismatch between the different line ratio space
+estimates. Switch <code class="docutils literal"><span class="pre">my_method</span></code> from <code class="docutils literal"><span class="pre">'gauss'</span></code> to <code class="docutils literal"><span class="pre">'multiv'</span></code>, and
+watch how the joint PDF (shown as shades of gray) traces the
+distribution of black dots in a significantly worse/better manner.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="n">my_method</span> <span class="o">=</span> <span class="s1">&#39;gauss&#39;</span>
+<span class="n">pyqz</span><span class="o">.</span><span class="n">get_global_qz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="mf">1.00e+00</span><span class="p">,</span> <span class="mf">5.00e-02</span><span class="p">,</span> <span class="mf">2.38e+00</span><span class="p">,</span> <span class="mf">1.19e-01</span><span class="p">,</span> <span class="mf">2.07e+00</span><span class="p">,</span> <span class="mf">2.53e-01</span><span class="p">,</span>
+                               <span class="mf">5.67e-01</span><span class="p">,</span> <span class="mf">2.84e-02</span><span class="p">,</span> <span class="mf">5.11e-01</span><span class="p">,</span> <span class="mf">2.55e-02</span><span class="p">,</span> <span class="mf">2.88e+00</span><span class="p">,</span> <span class="mf">1.44e-01</span><span class="p">]]),</span>
+                   <span class="p">[</span><span class="s1">&#39;Hb&#39;</span><span class="p">,</span><span class="s1">&#39;stdHb&#39;</span><span class="p">,</span><span class="s1">&#39;[OIII]&#39;</span><span class="p">,</span><span class="s1">&#39;std[OIII]&#39;</span><span class="p">,</span><span class="s1">&#39;[OII]+&#39;</span><span class="p">,</span><span class="s1">&#39;std[OII]+&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;[NII]&#39;</span><span class="p">,</span><span class="s1">&#39;std[NII]&#39;</span><span class="p">,</span><span class="s1">&#39;[SII]+&#39;</span><span class="p">,</span><span class="s1">&#39;std[SII]+&#39;</span><span class="p">,</span><span class="s1">&#39;Ha&#39;</span><span class="p">,</span><span class="s1">&#39;stdHa&#39;</span><span class="p">],</span>
+                   <span class="p">[</span><span class="s1">&#39;[NII]/[SII]+;[OIII]/[SII]+&#39;</span><span class="p">,</span><span class="s1">&#39;[NII]/[OII]+;[OIII]/[OII]+&#39;</span><span class="p">],</span>
+                   <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;NGC_09&#39;</span><span class="p">],</span>
+                   <span class="n">srs</span> <span class="o">=</span> <span class="mi">400</span><span class="p">,</span>
+                   <span class="n">KDE_pickle_loc</span> <span class="o">=</span> <span class="s1">&#39;./examples/&#39;</span><span class="p">,</span>
+                   <span class="n">KDE_method</span> <span class="o">=</span> <span class="n">my_method</span><span class="p">,</span>
+                   <span class="n">KDE_qz_sampling</span><span class="o">=</span><span class="mi">201j</span><span class="p">,</span>
+                   <span class="n">struct</span><span class="o">=</span><span class="s1">&#39;pp&#39;</span><span class="p">,</span>
+                   <span class="n">sampling</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># And use pyqz_plots.plot_global_qz() to display the result</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="n">fn</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;./examples/*NGC_09*</span><span class="si">%s</span><span class="s1">*.pkl&#39;</span> <span class="o">%</span> <span class="n">my_method</span><span class="p">)</span>
+
+<span class="n">pyqzp</span><span class="o">.</span><span class="n">plot_global_qz</span><span class="p">(</span><span class="n">fn</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">show_plots</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">save_loc</span> <span class="o">=</span> <span class="s1">&#39;./examples&#39;</span><span class="p">,</span> <span class="n">do_all_diags</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+--&gt; Received 1 spectrum ...
+--&gt; Dealing with them one at a time ... be patient now !
+    (no status update until I am done ...)
+
+All done in 0:00:00.561540
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/pyqz_demo_param_8_1.png" src="_images/pyqz_demo_param_8_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Parameter-3:-KDE_qz_sampling">
+<h2>Parameter 3: <code class="docutils literal"><span class="pre">KDE_qz_sampling</span></code><a class="headerlink" href="#Parameter-3:-KDE_qz_sampling" title="Permalink to this headline">¶</a></h2>
+<p>This sets the sampling of the {<code class="docutils literal"><span class="pre">LogQ</span></code> vs. <code class="docutils literal"><span class="pre">Tot[O]+12</span></code>} plane, when
+reconstructing the individual and global PDFs. Set to <code class="docutils literal"><span class="pre">101j</span></code> by
+default (i.e. a grid with
+101$:raw-latex:<cite>cdot</cite><span class="math">\(101 = 10201 sampling nodes), datasets with small errors (\)</span>&lt;$5%)
+could benefit from using twice this resolution for better results (i.e.
+<code class="docutils literal"><span class="pre">KDE_qz_sampling=201j</span></code>). Resulting in a longer processing time of
+course. In the following example, the influence of <code class="docutils literal"><span class="pre">KDE_qz_sampling</span></code>
+can be seen in the size of the resolution elements of the joint PDF map,
+as well as the smoothness of the (orange) contour at 0.61%.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span><span class="n">my_qz_sampling</span> <span class="o">=</span> <span class="mi">101j</span>
+<span class="n">pyqz</span><span class="o">.</span><span class="n">get_global_qz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="mf">1.00e+00</span><span class="p">,</span> <span class="mf">5.00e-02</span><span class="p">,</span> <span class="mf">2.38e+00</span><span class="p">,</span> <span class="mf">1.19e-01</span><span class="p">,</span> <span class="mf">5.07e+00</span><span class="p">,</span> <span class="mf">2.53e-01</span><span class="p">,</span>
+                               <span class="mf">5.67e-01</span><span class="p">,</span> <span class="mf">2.84e-02</span><span class="p">,</span> <span class="mf">5.11e-01</span><span class="p">,</span> <span class="mf">2.55e-02</span><span class="p">,</span> <span class="mf">2.88e+00</span><span class="p">,</span> <span class="mf">1.44e-01</span><span class="p">]]),</span>
+                   <span class="p">[</span><span class="s1">&#39;Hb&#39;</span><span class="p">,</span><span class="s1">&#39;stdHb&#39;</span><span class="p">,</span><span class="s1">&#39;[OIII]&#39;</span><span class="p">,</span><span class="s1">&#39;std[OIII]&#39;</span><span class="p">,</span><span class="s1">&#39;[OII]+&#39;</span><span class="p">,</span><span class="s1">&#39;std[OII]+&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;[NII]&#39;</span><span class="p">,</span><span class="s1">&#39;std[NII]&#39;</span><span class="p">,</span><span class="s1">&#39;[SII]+&#39;</span><span class="p">,</span><span class="s1">&#39;std[SII]+&#39;</span><span class="p">,</span><span class="s1">&#39;Ha&#39;</span><span class="p">,</span><span class="s1">&#39;stdHa&#39;</span><span class="p">],</span>
+                   <span class="p">[</span><span class="s1">&#39;[NII]/[OII]+;[OIII]/[SII]+&#39;</span><span class="p">],</span>
+                   <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;NGC_00&#39;</span><span class="p">],</span>
+                   <span class="n">srs</span> <span class="o">=</span> <span class="mi">400</span><span class="p">,</span>
+                   <span class="n">KDE_pickle_loc</span> <span class="o">=</span> <span class="s1">&#39;./examples/&#39;</span><span class="p">,</span>
+                   <span class="n">KDE_method</span> <span class="o">=</span> <span class="s1">&#39;multiv&#39;</span><span class="p">,</span>
+                   <span class="n">KDE_qz_sampling</span><span class="o">=</span><span class="n">my_qz_sampling</span><span class="p">,</span>
+                   <span class="n">struct</span><span class="o">=</span><span class="s1">&#39;pp&#39;</span><span class="p">,</span>
+                   <span class="n">sampling</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># And use pyqz_plots.plot_global_qz() to display the result</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="n">fn</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;./examples/*NGC_00*.pkl&#39;</span><span class="p">)</span>
+
+<span class="n">pyqzp</span><span class="o">.</span><span class="n">plot_global_qz</span><span class="p">(</span><span class="n">fn</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">show_plots</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">save_loc</span> <span class="o">=</span> <span class="s1">&#39;./examples/&#39;</span><span class="p">,</span> <span class="n">do_all_diags</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+--&gt; Received 1 spectrum ...
+--&gt; Dealing with them one at a time ... be patient now !
+    (no status update until I am done ...)
+
+All done in 0:00:00.120194
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/pyqz_demo_param_11_1.png" src="_images/pyqz_demo_param_11_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="The-other-parameters">
+<h2>The other parameters<a class="headerlink" href="#The-other-parameters" title="Permalink to this headline">¶</a></h2>
+<p>Most of the other parameters ought to be straightforward to understand
+(e.g. <code class="docutils literal"><span class="pre">verbose</span></code>). To use the maximum number of cpus available when
+running pyqz, set <code class="docutils literal"><span class="pre">nproc</span> <span class="pre">=</span> <span class="pre">-1</span></code>.</p>
+<p>Check the page the functions of pyqz in the docs for more details.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="modules/modules.html" class="btn btn-neutral float-right" title="Functions" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="understanding.html" class="btn btn-neutral" title="Understanding pyqz" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2017, Frédéric P.A. Vogt.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.8.4',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

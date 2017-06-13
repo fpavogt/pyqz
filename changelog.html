@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Changelog &mdash; pyqz 0.8.3 documentation</title>
+  <title>Changelog &mdash; pyqz 0.8.4 documentation</title>
   
 
   
@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="pyqz 0.8.3 documentation" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="pyqz 0.8.4 documentation" href="index.html"/>
         <link rel="next" title="Acknowledging pyqz" href="acknowledge.html"/>
         <link rel="prev" title="FAQ" href="faq.html"/> 
 
@@ -55,7 +58,7 @@
 
           
             
-            <img src="_static/pyqz.png" class="logo" />
+            <img src="_static/logo.png" class="logo" />
           
           </a>
 
@@ -87,10 +90,10 @@
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installing pyqz</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_basic/pyqz_demo_basic.html">Running pyqz I</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_advanced/pyqz_demo_advanced.html">Running pyqz II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_basic.html">Running pyqz I</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_advanced.html">Running pyqz II</a></li>
 <li class="toctree-l1"><a class="reference internal" href="understanding.html">Understanding pyqz</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_param/pyqz_demo_param.html">The parameters of pyqz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_param.html">The parameters of pyqz</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules/modules.html">Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a></li>
@@ -129,7 +132,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/changelog.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/changelog.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -139,14 +142,62 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="changelog">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="changelog">
 <span id="id1"></span><h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
 <dl class="docutils">
 <dt>TODO:</dt>
 <dd><ul class="first last simple">
 <li>implement a dedicated contour function, to avoid relying on an undocumented function
-fo matplotlib (e.g. _cntr.Cntr).</li>
-<li>add a setup.py, and register this on pypi.</li>
+from matplotlib (e.g. _cntr.Cntr).</li>
+</ul>
+</dd>
+<dt>v0.8.4 June 2017, F.P.A. Vogt:</dt>
+<dd><ul class="first last simple">
+<li>finalized proper module packaging, ready for pypi upload</li>
+<li>adding the M_version variable to select the latest MV models, or the legacy MIV ones.</li>
+<li>changing the pyqz_metadata import to allow the above to work fine</li>
+<li>replaced all “sys.exit” with “raise Exception”</li>
+<li>removed the modification of the rcParams values in favor of plt.style.use()</li>
+<li>updated docs</li>
+</ul>
+</dd>
+<dt>v0.8.3 May 2017, F.P.A. Vogt:</dt>
+<dd><ul class="first last simple">
+<li>updating code for compatibility with scipy 0.19.0, numpy 1.11.3</li>
 </ul>
 </dd>
 <dt>v0.8.2 August 2016, F.P.A. Vogt:</dt>
@@ -156,9 +207,9 @@ fo matplotlib (e.g. _cntr.Cntr).</li>
 </dd>
 <dt>v0.8.1 June 2016, F.P.A. Vogt</dt>
 <dd><ul class="first last simple">
-<li>fixed omission of &#8220;if verbose:&#8221;.</li>
+<li>fixed omission of “if verbose:”.</li>
 <li>added new logo to website.</li>
-<li>added disclaimer about current &#8220;safe range&#8221; of the MAPPINGS models shipped with pyqz</li>
+<li>added disclaimer about current “safe range” of the MAPPINGS models shipped with pyqz</li>
 </ul>
 </dd>
 <dt>v0.8.0 May 2016, F.P.A. Vogt</dt>
@@ -169,12 +220,12 @@ fo matplotlib (e.g. _cntr.Cntr).</li>
 <li>separated all plotting into a dedicated module: pyqz_plot</li>
 <li>beefed-up the pickle file generated by get_global_qz(), and created a dedicated plotting
 function pyqz_plots.plot_global_qz() to generate all the associated diagram.</li>
-<li>Removed the requirement for a non-interactive backend ... hurray !</li>
+<li>Removed the requirement for a non-interactive backend … hurray !</li>
 <li>implemented the calculation of the KDE contours via matplotlib._cntr.Cntr(), the core
-function inside the pyplot.contour() routine. _cntr.Cntr() is not documented ...
+function inside the pyplot.contour() routine. _cntr.Cntr() is not documented …
 I should write my own at some point, to avoid surprises upon new matplotlib releases.</li>
 <li>Tweaked the look of the Figures generated by the pyqz_plots routines.</li>
-<li>updated doc accordingly, refactored the &#8220;function&#8221; section, changed the docstring
+<li>updated doc accordingly, refactored the “function” section, changed the docstring
 layout for all functions.</li>
 </ul>
 </dd>
@@ -186,7 +237,7 @@ layout for all functions.</li>
 <li>fixed missing numpy as np import in notebooks (reported by F. Selman).</li>
 <li>replaced skiprows with skip_header in np.genfromtxt calls (reported by F. Selman).</li>
 <li>added reference to Dopita+ 2016 for the 3-D line ratio diagram in the doc.</li>
-<li>migrated the doc&#8217;s theme from &#8220;classic&#8221; to &#8220;Read the Docs&#8221;.</li>
+<li>migrated the doc’s theme from “classic” to “Read the Docs”.</li>
 <li>fixed plotting bug in <code class="docutils literal"><span class="pre">interp_qz</span></code> for bad points in 3D diagrams (reported by F. Selman).</li>
 </ul>
 </dd>
@@ -203,68 +254,61 @@ layout for all functions.</li>
 <li>started implementing multiprocessing (send different spectra to different cpus). This requires a non-interactive backend for matplotlib !!!</li>
 <li>created a separate pyqz_tools.py file for clearing up a bit the content of pyqz.py</li>
 <li>Finished implementing multiprocessing. Sends different spectrum to different CPUs - gets useful with many data points at once (e.g. IFU field). Does NOT work in Canopy environment. Speed gain prop. to numbher of cpus used (in principle).</li>
-<li>Speed up get_global_qz ~25times for 1 spectra and 1 diagram, by restricting the reconstructed PDF area to where we have QZ estimates - anywhere else, it&#8217;ll be close from zero - we already know that, no need to send time calculating it !</li>
+<li>Speed up get_global_qz ~25times for 1 spectra and 1 diagram, by restricting the reconstructed PDF area to where we have QZ estimates - anywhere else, it’ll be close from zero - we already know that, no need to send time calculating it !</li>
 <li>Fixed bugs when the spectrum is so bad it lands on no grid. Added specific unittest example for this scenario as well.</li>
 <li>Changed the doc color scheme</li>
-<li>Updated doc, added dedicated &#8220;Parameters&#8221; page.</li>
-<li>Forced mpl backend to be &#8216;agg&#8217; by default ...</li>
+<li>Updated doc, added dedicated “Parameters” page.</li>
+<li>Forced mpl backend to be ‘agg’ by default …</li>
 </ul>
 </dd>
 <dt>v0.7.1 November 2015, F.P.A. Vogt</dt>
 <dd><ul class="first last simple">
-<li>created &#8220;get_MVphotogrid_fn&#8221; to construct the filename of the MAPPINGS grids once only (for more portability in future updates).</li>
-<li>added safety check for the diagnostic grids given by the user in &#8220;get_global_qz&#8221;</li>
+<li>created “get_MVphotogrid_fn” to construct the filename of the MAPPINGS grids once only (for more portability in future updates).</li>
+<li>added safety check for the diagnostic grids given by the user in “get_global_qz”</li>
 <li>updated MAPPINGS models to latest version</li>
-<li>adjusted the resampling function for more consistency with the &#8220;resampling factor&#8221;</li>
-<li>updated FAQ with point about the &#8220;paired&#8221; colormap, to avoid the wrath of the internet ...</li>
+<li>adjusted the resampling function for more consistency with the “resampling factor”</li>
+<li>updated FAQ with point about the “paired” colormap, to avoid the wrath of the internet …</li>
 <li>improved the looping of the grid inside <code class="docutils literal"><span class="pre">interp_qz</span></code> (by checking the presence of data point inside each panel prior to the interpolation) to speed up the process</li>
 <li>implemented the automatic reshaping of arrays to a 1xN array inside <code class="docutils literal"><span class="pre">interp_qz</span></code> (and reshaping to the original shape prior to returning the results)</li>
-<li>updated the &#8220;plot regions&#8221; assigned to each diagnostic grid for the latest MAPPINGS grids (no scientific meaning - just to get pretty plots)</li>
+<li>updated the “plot regions” assigned to each diagnostic grid for the latest MAPPINGS grids (no scientific meaning - just to get pretty plots)</li>
 <li>fixed minor typo in <code class="docutils literal"><span class="pre">get_global_qz_ff</span></code>: flag is now written as an integer to the file</li>
 <li>added the <code class="docutils literal"><span class="pre">KDE_QZ_sampling</span></code> and <code class="docutils literal"><span class="pre">KDE_do_singles</span></code> keywords to <code class="docutils literal"><span class="pre">get_global_qz</span></code> for easier access</li>
 <li>moved <code class="docutils literal"><span class="pre">QZs_lim</span></code> and <code class="docutils literal"><span class="pre">PDF_cont_level</span></code> to <code class="docutils literal"><span class="pre">pyqz_metadata.py</span></code> for easy access</li>
 <li>re-instated the ability to calculate the individual KDE alongside the global one</li>
 <li>created custom colormap for the KDE plot</li>
 <li>added ability to save all the reconstucted PDFs (individuals AND global) to a pickle file via the <code class="docutils literal"><span class="pre">KDE_save_PDF</span></code> keyword</li>
-<li>fixed bugs when <code class="docutils literal"><span class="pre">srs</span> <span class="pre">=</span> <span class="pre">0</span></code> or all errors are 0: the code now doesn&#8217;t compute any KDEs in those cases, and issues the flag -1</li>
-<li>fixed minor &#8220;aesthetic&#8221; sign issue with axes labelling</li>
+<li>fixed bugs when <code class="docutils literal"><span class="pre">srs</span> <span class="pre">=</span> <span class="pre">0</span></code> or all errors are 0: the code now doesn’t compute any KDEs in those cases, and issues the flag -1</li>
+<li>fixed minor “aesthetic” sign issue with axes labelling</li>
 </ul>
 </dd>
 <dt>v0.7.0 August 2015, F.P.A. Vogt</dt>
 <dd><ul class="first last simple">
 <li>added the function <code class="docutils literal"><span class="pre">refine_MVphotogrid</span></code>, which uses Akima splines (in 1-D) to resample a given MAPPINGS grid.</li>
 <li>updated code to allow the use of resampled MAPPINGS grid (or not)</li>
-<li>updated plots to differentiate between &#8220;genuine&#8221; MAPPINGS points and resampled nodes</li>
+<li>updated plots to differentiate between “genuine” MAPPINGS points and resampled nodes</li>
 </ul>
 </dd>
 </dl>
 <hr class="docutils" />
 <dl class="docutils">
 <dt>v0.6.3 July-August 2015, F.P.A. Vogt</dt>
-<dd><ul class="first last">
-<li><p class="first">updated input files to MAPPINGS V files (csv created by Awk scripts, incl. <code class="docutils literal"><span class="pre">Pk</span></code>, <code class="docutils literal"><span class="pre">kappa</span></code>, <code class="docutils literal"><span class="pre">sph/pp</span></code>, ...)</p>
-</li>
-<li><p class="first">added functions to check grids</p>
-</li>
-<li><p class="first">started added proper warnings.warn and sys.exit(&#8216;error message&#8217;)</p>
-</li>
-<li><p class="first">implemented new MAPPINGS V terminology for line ratios</p>
-</li>
-<li><p class="first">fixed several minor/less minor bugs</p>
-</li>
-<li><p class="first">added auto-detection of wraps (not bullet-proof, but sufficient for the task at hand)</p>
-</li>
-<li><p class="first">removed pre-defined &#8220;valid&#8221; grid regions in favor of auto-detection of the good regions</p>
-</li>
+<dd><ul class="first last simple">
+<li>updated input files to MAPPINGS V files (csv created by Awk scripts, incl. <code class="docutils literal"><span class="pre">Pk</span></code>, <code class="docutils literal"><span class="pre">kappa</span></code>, <code class="docutils literal"><span class="pre">sph/pp</span></code>, …)</li>
+<li>added functions to check grids</li>
+<li>started added proper warnings.warn and sys.exit(‘error message’)</li>
+<li>implemented new MAPPINGS V terminology for line ratios</li>
+<li>fixed several minor/less minor bugs</li>
+<li>added auto-detection of wraps (not bullet-proof, but sufficient for the task at hand)</li>
+<li>removed pre-defined “valid” grid regions in favor of auto-detection of the good regions</li>
 <li><dl class="first docutils">
-<dt>added flag (&#8216;9&#8217;) for when multiple KDE peak (best value) exist</dt>
+<dt>added flag (‘9’) for when multiple KDE peak (best value) exist</dt>
 <dd><dl class="first last docutils">
 <dt>Note:</dt>
-<dd><ul class="first last simple">
-<li>flag 1 =&gt; (&#8216;direct&#8217; mean -&#8216;KDE&#8217; mean)/ std &#8216;direct&#8217; mean &lt;= flag_level, for qz[0]</li>
-<li>flag 2 =&gt; (&#8216;direct&#8217; mean - &#8216;KDE&#8217; mean)/ std &#8216;KDE&#8217; mean &lt;= flag_level, for qz[0]</li>
-<li>flag 3 =&gt; (&#8216;direct&#8217; mean -&#8216;KDE&#8217; mean)/ std &#8216;direct&#8217; mean &lt;= flag_level, for qz[1]</li>
-<li>flag 4 =&gt; (&#8216;direct&#8217; mean - &#8216;KDE&#8217; mean)/ std &#8216;KDE&#8217; mean &lt;= flag_level, for qz[1]</li>
+<dd><ul class="first last">
+<li>flag 1 =&gt; (‘direct’ mean -‘KDE’ mean)/ std ‘direct’ mean &lt;= flag_level, for qz[0]</li>
+<li>flag 2 =&gt; (‘direct’ mean - ‘KDE’ mean)/ std ‘KDE’ mean &lt;= flag_level, for qz[0]</li>
+<li>flag 3 =&gt; (‘direct’ mean -‘KDE’ mean)/ std ‘direct’ mean &lt;= flag_level, for qz[1]</li>
+<li>flag 4 =&gt; (‘direct’ mean - ‘KDE’ mean)/ std ‘KDE’ mean &lt;= flag_level, for qz[1]</li>
 <li>flag 8 =&gt; the data lands outside of ALL the grids</li>
 <li>flag 9 =&gt; multiple peak to the KDE map exist. Defaulted to highest peak.</li>
 </ul>
@@ -273,14 +317,10 @@ layout for all functions.</li>
 </dd>
 </dl>
 </li>
-<li><p class="first">updated diagrams design</p>
-</li>
-<li><p class="first">started implementing 3-D diagnostics diagrams</p>
-</li>
-<li><p class="first">added <code class="docutils literal"><span class="pre">get_global_qz_ff</span></code>, to feed the data in via CSV files</p>
-</li>
-<li><p class="first">moved project to Github, consolidated the Sphinx Documentation as Github pages.</p>
-</li>
+<li>updated diagrams design</li>
+<li>started implementing 3-D diagnostics diagrams</li>
+<li>added <code class="docutils literal"><span class="pre">get_global_qz_ff</span></code>, to feed the data in via CSV files</li>
+<li>moved project to Github, consolidated the Sphinx Documentation as Github pages.</li>
 </ul>
 </dd>
 <dt>v0.6.2 December 2014, F.P.A. Vogt</dt>
@@ -300,9 +340,9 @@ layout for all functions.</li>
 <dd><ul class="first last simple">
 <li>added proper support of the observational errors on the line fluxes. Done via propagation of probability density function and KDE reconstruction. KDE can be done via either the <code class="docutils literal"><span class="pre">scipy</span></code> package (fast) or the <code class="docutils literal"><span class="pre">statsmodels</span></code> package (very slow) but more accurate for multi-modal distributions.</li>
 <li>updated saveplot/savefig commands in <code class="docutils literal"><span class="pre">get_qz_ff</span></code> for more freedom</li>
-<li>added flag to output file when simple mean and advanced &#8216;KDE&#8217; mean disagree by n sigmas</li>
-<li>created new &#8216;KDE&#8217; diagram of the q-z plane.</li>
-<li>fixed output file header to avoid &#8216;spaces&#8217; in column names</li>
+<li>added flag to output file when simple mean and advanced ‘KDE’ mean disagree by n sigmas</li>
+<li>created new ‘KDE’ diagram of the q-z plane.</li>
+<li>fixed output file header to avoid ‘spaces’ in column names</li>
 </ul>
 </dd>
 </dl>
@@ -318,7 +358,7 @@ or png ! It is linked to <code class="docutils literal"><span class="pre">faceco
 <li><code class="docutils literal"><span class="pre">get_qzff</span></code> can now handle files with only 1 spectrum properly</li>
 <li>added <code class="docutils literal"><span class="pre">savefig/plot/plot_loc/save_fmt</span></code> keywords to <code class="docutils literal"><span class="pre">get_qzff</span></code> for better
 control and ability to save figures</li>
-<li>fixed a bug in <code class="docutils literal"><span class="pre">get_qzff</span></code>: the function can now handle &#8216;extra&#8217; column
+<li>fixed a bug in <code class="docutils literal"><span class="pre">get_qzff</span></code>: the function can now handle ‘extra’ column
 containing numbers and/or text</li>
 </ul>
 </dd>
@@ -338,7 +378,7 @@ containing numbers and/or text</li>
 <li>clarified the required input structure - must be numpy arrays (1D or 2D)</li>
 <li>plots are now prettier, and more robust (defined via local rcParams)</li>
 <li>added possibility to save plot via <code class="docutils literal"><span class="pre">savefig</span></code> keyword</li>
-<li>improved axis labels in the plots to make them &#8216;publication-ready&#8217; (if one wanted to)</li>
+<li>improved axis labels in the plots to make them ‘publication-ready’ (if one wanted to)</li>
 </ul>
 </dd>
 </dl>
@@ -358,10 +398,10 @@ triangles (only for the 1-D array input type)</li>
 </dd>
 <dt>v0.3.2, June 2013, F. Vogt (following suggestions by D. Nicholls)</dt>
 <dd><ul class="first last simple">
-<li>added &#8216;smart&#8217; plot limits (instead of fixed ones)</li>
+<li>added ‘smart’ plot limits (instead of fixed ones)</li>
 <li>increased grid and data point size</li>
 <li>added new keyword for choosing the plot window number (n_plot)</li>
-<li>added &#8216;if&#8217; statement to close the plot if all values are NaNs
+<li>added ‘if’ statement to close the plot if all values are NaNs
 (removed in v0.4)</li>
 <li>added plot title</li>
 </ul>
@@ -374,18 +414,18 @@ triangles (only for the 1-D array input type)</li>
 <dt>v0.3.1 April 2013, F. Vogt</dt>
 <dd><ul class="first last simple">
 <li>added .csv output for the <code class="docutils literal"><span class="pre">get_qzff</span></code> (or txt, which ever you like best)</li>
-<li>changed header column of output files (only &#8216;z&#8217; is used for consistency)</li>
+<li>changed header column of output files (only ‘z’ is used for consistency)</li>
 </ul>
 </dd>
 <dt>v0.3.0 April 2013, F.P.A. Vogt</dt>
 <dd><ul class="first last simple">
 <li>added <code class="docutils literal"><span class="pre">get_qzff</span></code> function to directly work from a txt file</li>
-<li>corrected <code class="docutils literal"><span class="pre">get_pyqz</span></code> for when points are &#8216;on&#8217; the grid.</li>
+<li>corrected <code class="docutils literal"><span class="pre">get_pyqz</span></code> for when points are ‘on’ the grid.</li>
 </ul>
 </dd>
 <dt>v0.2.0 April 2013, F.P.A. Vogt</dt>
 <dd><ul class="first last simple">
-<li>modified fitting method to be &#8216;slice-by-slice&#8217; for smoother results</li>
+<li>modified fitting method to be ‘slice-by-slice’ for smoother results</li>
 <li>added the get_grid function</li>
 <li>added different readable areas for different grids and kappas</li>
 </ul>
@@ -417,7 +457,7 @@ triangles (only for the 1-D array input type)</li>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2016, Frédéric P.A. Vogt.
+        &copy; Copyright 2014-2017, Frédéric P.A. Vogt.
 
     </p>
   </div>
@@ -439,7 +479,7 @@ triangles (only for the 1-D array input type)</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.8.3',
+            VERSION:'0.8.4',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -448,7 +488,7 @@ triangles (only for the 1-D array input type)</li>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

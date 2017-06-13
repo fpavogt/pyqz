@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Acknowledging pyqz &mdash; pyqz 0.8.3 documentation</title>
+  <title>Acknowledging pyqz &mdash; pyqz 0.8.4 documentation</title>
   
 
   
@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="pyqz 0.8.3 documentation" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="pyqz 0.8.4 documentation" href="index.html"/>
         <link rel="prev" title="Changelog" href="changelog.html"/> 
 
   
@@ -54,7 +57,7 @@
 
           
             
-            <img src="_static/pyqz.png" class="logo" />
+            <img src="_static/logo.png" class="logo" />
           
           </a>
 
@@ -86,10 +89,10 @@
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installing pyqz</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_basic/pyqz_demo_basic.html">Running pyqz I</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_advanced/pyqz_demo_advanced.html">Running pyqz II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_basic.html">Running pyqz I</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_advanced.html">Running pyqz II</a></li>
 <li class="toctree-l1"><a class="reference internal" href="understanding.html">Understanding pyqz</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_param/pyqz_demo_param.html">The parameters of pyqz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_param.html">The parameters of pyqz</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules/modules.html">Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
@@ -128,7 +131,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/acknowledge.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/acknowledge.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -138,12 +141,47 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="acknowledging-pyqz">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="acknowledging-pyqz">
 <h1>Acknowledging pyqz<a class="headerlink" href="#acknowledging-pyqz" title="Permalink to this headline">¶</a></h1>
 <ol class="arabic simple">
 <li>Only use lower case letters when mentioning pyqz, and always include the version number.
 Ideally, you should also include the DOI (Digital Object Identifier) associated with any
 of the Github release, e.g.:<ul>
+<li>pyqz (all version): <a class="reference external" href="http://dx.doi.org/10.5281/zenodo.592456"><img alt="DOI_latest" src="https://zenodo.org/badge/doi/10.5281/zenodo.592456.svg" /></a></li>
 <li>pyqz 0.8.0: <a class="reference external" href="http://dx.doi.org/10.5281/zenodo.53201"><img alt="DOI_0.8.0" src="https://zenodo.org/badge/doi/10.5281/zenodo.53201.svg" /></a></li>
 <li>pyqz 0.7.1: <a class="reference external" href="http://dx.doi.org/10.5281/zenodo.34502"><img alt="DOI_0.7.1" src="https://zenodo.org/badge/doi/10.5281/zenodo.34502.svg" /></a></li>
 </ul>
@@ -151,7 +189,7 @@ of the Github release, e.g.:<ul>
 </ol>
 <hr class="docutils" />
 <ol class="arabic" start="2">
-<li><p class="first">pyqz will be described in detail in</p>
+<li><p class="first">pyqz might be described in detail in</p>
 <blockquote>
 <div><p><strong>Vogt et al.</strong>, in prep.</p>
 </div></blockquote>
@@ -172,13 +210,13 @@ of the Github release, e.g.:<ul>
 <div><p><strong>Dopita, Kewley, Sutherland, &amp; Nicholls</strong>, <em>Chemical abundances in high-redshift galaxies: a powerful new emission line diagnostic</em>, Ap&amp;SS, 361, 61 (2016). <a class="reference external" href="http://adsabs.harvard.edu/abs/2016Ap%26SS.361...61D">ADS entry</a></p>
 </div></blockquote>
 <ul class="simple">
-<li>the article first introducing pyqz</li>
+<li>the article first introducing pyqz:</li>
 </ul>
 <blockquote>
 <div><p><strong>Dopita, Sutherland, Nicholls, Kewley &amp; Vogt</strong>, <em>New Strong Line Abundance Diagnostics for HII Regions: Effects of Updated Atomic Data and kappa-Distributed Electron Energies</em>, ApJS, 208, 10 (2013). <a class="reference external" href="http://adsabs.harvard.edu/abs/2013ApJS..208...10D">ADS entry</a></p>
 </div></blockquote>
 <ul class="simple">
-<li>the initial description of the updated error propagation mechanism (first implemented in pyqz 0.6.0), described in Appendix B of</li>
+<li>the initial description of the updated error propagation mechanism (first implemented in pyqz 0.6.0), described in Appendix B of:</li>
 </ul>
 <blockquote>
 <div><p><strong>Vogt, Dopita, Borthakur, Verdes-Montenegro, Heckman, Yun &amp; Chambers</strong>, <em>Galaxy interactions in compact groups - II. Abundance and kinematic anomalies in HCG 91c</em>, MNRAS, 450, 2593 (2015). <a class="reference external" href="http://adsabs.harvard.edu/abs/2015MNRAS.450.2593V">ADS entry</a></p>
@@ -198,19 +236,20 @@ The following Tex-formatted acknowledgment is one way to do so:</p>
 </div>
 <dl class="docutils">
 <dt>References:</dt>
-<dd><ul class="first simple">
-<li><a class="reference external" href="http://cdsads.u-strasbg.fr/abs/2007CSE.....9...90H">Hunter (2007)</a></li>
-<li>Seabold &amp; Perktold (2010):</li>
+<dd><ul class="first last">
+<li><p class="first"><a class="reference external" href="http://cdsads.u-strasbg.fr/abs/2007CSE.....9...90H">Hunter (2007)</a></p>
+</li>
+<li><p class="first">Seabold &amp; Perktold (2010):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nd">@inproceedings</span><span class="p">{</span><span class="n">seabold2010</span><span class="p">,</span>
+<span class="n">title</span><span class="o">=</span><span class="p">{</span><span class="n">Statsmodels</span><span class="p">:</span> <span class="n">Econometric</span> <span class="ow">and</span> <span class="n">statistical</span> <span class="n">modeling</span> <span class="k">with</span> <span class="n">python</span><span class="p">},</span>
+<span class="n">author</span><span class="o">=</span><span class="p">{</span><span class="n">Seabold</span><span class="p">,</span> <span class="n">Skipper</span> <span class="ow">and</span> <span class="n">Perktold</span><span class="p">,</span> <span class="n">Josef</span><span class="p">},</span>
+<span class="n">booktitle</span><span class="o">=</span><span class="p">{</span><span class="mi">9</span><span class="n">th</span> <span class="n">Python</span> <span class="ow">in</span> <span class="n">Science</span> <span class="n">Conference</span><span class="p">},</span>
+<span class="n">year</span><span class="o">=</span><span class="p">{</span><span class="mi">2010</span><span class="p">},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
 </ul>
-<dl class="docutils">
-<dt>&#64;inproceedings{seabold2010,</dt>
-<dd><p class="first last">title={Statsmodels: Econometric and statistical modeling with python},
-author={Seabold, Skipper and Perktold, Josef},
-booktitle={9th Python in Science Conference},
-year={2010},</p>
-</dd>
-</dl>
-<p class="last">}</p>
 </dd>
 </dl>
 </li>
@@ -234,7 +273,7 @@ year={2010},</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2016, Frédéric P.A. Vogt.
+        &copy; Copyright 2014-2017, Frédéric P.A. Vogt.
 
     </p>
   </div>
@@ -256,7 +295,7 @@ year={2010},</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.8.3',
+            VERSION:'0.8.4',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -265,7 +304,7 @@ year={2010},</p>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

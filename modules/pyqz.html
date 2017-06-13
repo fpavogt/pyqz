@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pyqz module &mdash; pyqz 0.8.3 documentation</title>
+  <title>pyqz package &mdash; pyqz 0.8.4 documentation</title>
   
 
   
@@ -30,9 +30,12 @@
   
 
   
-    <link rel="top" title="pyqz 0.8.3 documentation" href="../index.html"/>
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="pyqz 0.8.4 documentation" href="../index.html"/>
         <link rel="up" title="Functions" href="modules.html"/>
-        <link rel="next" title="pyqz_metadata module" href="pyqz_metadata.html"/>
+        <link rel="next" title="pyqz.tests package" href="pyqz.tests.html"/>
         <link rel="prev" title="Functions" href="modules.html"/> 
 
   
@@ -56,7 +59,7 @@
 
           
             
-            <img src="../_static/pyqz.png" class="logo" />
+            <img src="../_static/logo.png" class="logo" />
           
           </a>
 
@@ -88,15 +91,24 @@
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installing pyqz</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../pyqz_demo_basic/pyqz_demo_basic.html">Running pyqz I</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../pyqz_demo_advanced/pyqz_demo_advanced.html">Running pyqz II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyqz_demo_basic.html">Running pyqz I</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyqz_demo_advanced.html">Running pyqz II</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../understanding.html">Understanding pyqz</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../pyqz_demo_param/pyqz_demo_param.html">The parameters of pyqz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyqz_demo_param.html">The parameters of pyqz</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">Functions</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">pyqz module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyqz_metadata.html">pyqz_metadata module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyqz_plots.html">pyqz_plots module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyqz_tools.html">pyqz_tools module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">pyqz package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyqz.tests.html">pyqz.tests package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-pyqz.pyqz">pyqz.pyqz module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-pyqz.pyqz_metadata">pyqz.pyqz_metadata module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-pyqz.pyqz_plots">pyqz.pyqz_plots module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-pyqz.pyqz_tools">pyqz.pyqz_tools module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-pyqz">Module contents</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
@@ -134,11 +146,11 @@
       
           <li><a href="modules.html">Functions</a> &raquo;</li>
       
-    <li>pyqz module</li>
+    <li>pyqz package</li>
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/modules/pyqz.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/modules/pyqz.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -148,9 +160,61 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="pyqz-module">
-<h1>pyqz module<a class="headerlink" href="#pyqz-module" title="Permalink to this headline">¶</a></h1>
-<span class="target" id="module-pyqz"></span><p>pyqz: a Python module to derive the ionization parameter and oxygen abundance of HII 
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="pyqz-package">
+<h1>pyqz package<a class="headerlink" href="#pyqz-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pyqz.tests.html">pyqz.tests package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyqz.tests.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyqz.tests.html#module-pyqz.tests.pyqz_tests">pyqz.tests.pyqz_tests module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyqz.tests.html#module-pyqz.tests">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pyqz.pyqz">
+<span id="pyqz-pyqz-module"></span><h2>pyqz.pyqz module<a class="headerlink" href="#module-pyqz.pyqz" title="Permalink to this headline">¶</a></h2>
+<p>pyqz: a Python module to derive the ionization parameter and oxygen abundance of HII 
 regions, by comparing their strong emission line ratios with MAPPINGS photoionization 
 models.</p>
 <p>Copyright (C) 2014-2016,  F.P.A. Vogt</p>
@@ -170,17 +234,17 @@ GNU General Public License for more details.</p>
 <p>You should have received a copy of the GNU General Public License
 along with this program.  If not, see &lt;<a class="reference external" href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</p>
 <dl class="function">
-<dt id="pyqz.check_grid">
-<code class="descclassname">pyqz.</code><code class="descname">check_grid</code><span class="sig-paren">(</span><em>ratios, coeffs=[[1, 0], [0, 1]], Pk=5.0, kappa=inf, struct='pp', sampling=1</em><span class="sig-paren">)</span><a class="headerlink" href="#pyqz.check_grid" title="Permalink to this definition">¶</a></dt>
+<dt id="pyqz.pyqz.check_grid">
+<code class="descclassname">pyqz.pyqz.</code><code class="descname">check_grid</code><span class="sig-paren">(</span><em>ratios, coeffs=[[1, 0], [0, 1]], Pk=5.0, kappa=inf, struct=’pp’, sampling=1</em><span class="sig-paren">)</span><a class="headerlink" href="#pyqz.pyqz.check_grid" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates the diagram of a given line ratio grid for rapid inspection, and identify the 
-location of &#8220;wraps&#8221; (= fold-over ambiguous regions).</p>
+location of “wraps” (= fold-over ambiguous regions).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Args:</th><td class="field-body"><dl class="first docutils">
 <dt>ratios: string </dt>
-<dd><p class="first last">The line ratios defining the grid, e.g. &#8216;[NII]/[SII]+;[OIII]/Hb&#8217;</p>
+<dd><p class="first last">The line ratios defining the grid, e.g. ‘[NII]/[SII]+;[OIII]/Hb’</p>
 </dd>
 <dt>coeffs: list of list [default: [[1,0],[0,1]] ]</dt>
 <dd><p class="first last">The different coefficients with which to mix the line ratios. 
@@ -193,8 +257,8 @@ involved. Used for projected 3D diagnostic grids.</p>
 <dt>kappa: float [default: np.inf </dt>
 <dd><p class="first last">The kappa value. This value must match an existing grid file.</p>
 </dd>
-<dt>struct: string [default: &#8216;pp&#8217;]</dt>
-<dd><p class="first last">spherical (&#8216;sph&#8217;) or plane-parallel (&#8216;pp&#8217;) HII regions. This value 
+<dt>struct: string [default: ‘pp’]</dt>
+<dd><p class="first last">spherical (‘sph’) or plane-parallel (‘pp’) HII regions. This value 
 must match an existing reference grid file.</p>
 </dd>
 <dt>sampling: int [default: 1]</dt>
@@ -215,15 +279,15 @@ must match an existing reference grid file.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="pyqz.get_global_qz">
-<code class="descclassname">pyqz.</code><code class="descname">get_global_qz</code><span class="sig-paren">(</span><em>data, data_cols, which_grids, ids=None, qzs=['LogQ', 'Tot[O]+12'], Pk=5.0, kappa=inf, struct='pp', sampling=1, error_pdf='normal', srs=400, flag_level=2.0, KDE_method='gauss', KDE_qz_sampling=101j, KDE_do_singles=True, KDE_pickle_loc=None, verbose=True, nproc=1</em><span class="sig-paren">)</span><a class="headerlink" href="#pyqz.get_global_qz" title="Permalink to this definition">¶</a></dt>
+<dt id="pyqz.pyqz.get_global_qz">
+<code class="descclassname">pyqz.pyqz.</code><code class="descname">get_global_qz</code><span class="sig-paren">(</span><em>data, data_cols, which_grids, ids=None, qzs=[‘LogQ’, ‘Tot[O]+12’], Pk=5.0, kappa=inf, struct=’pp’, sampling=1, error_pdf=’normal’, srs=400, flag_level=2.0, KDE_method=’gauss’, KDE_qz_sampling=101j, KDE_do_singles=True, KDE_pickle_loc=None, verbose=True, nproc=1</em><span class="sig-paren">)</span><a class="headerlink" href="#pyqz.pyqz.get_global_qz" title="Permalink to this definition">¶</a></dt>
 <dd><p>Derives the LogQ and [O]+12 values for a given set of line fluxes based on a given set 
 of diagnostic grids.</p>
-<p>This function only uses &#8220;valid&#8221; grids defined in pyqz_metadata.py.</p>
+<p>This function only uses “valid” grids defined in pyqz_metadata.py.</p>
 <p>For each set of line ratios, this function combines the estimates from invdividual 
 diagnostics into a combined best estimate of LogQ and [O]+12. Observational errors are 
 propagated via the joint probability density function, reconstructed via a Kernel 
-Density Estimation from &#8220;srs&#8221; realizations of the measured line fluxes, constructed
+Density Estimation from “srs” realizations of the measured line fluxes, constructed
 randomly according to the observational errors and probability distribution function.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -235,19 +299,19 @@ randomly according to the observational errors and probability distribution func
 line flux is an upper limit.</p>
 </dd>
 <dt>data_cols: list of Mx2 strings</dt>
-<dd><p class="first last">Description of the coumns in &#8220;data&#8221;, e.g. [&#8216;[NII]+&#8217;,&#8217;stdHa&#8217;,...]
+<dd><p class="first last">Description of the coumns in “data”, e.g. [‘[NII]+’,’stdHa’,…]
 Mind the MAPPINGS + pyqz conventions.</p>
 </dd>
 <dt>which_grids: list of strings</dt>
 <dd><p class="first last">The list of the diagnostic grids to use for the estimations,
-e.g. [&#8216;[NII]+/Ha;[OII]/Hb&#8217;, ...]</p>
+e.g. [‘[NII]+/Ha;[OII]/Hb’, …]</p>
 </dd>
 <dt>ids: list [default: None]</dt>
 <dd><p class="first last">An optional length-N list of numbers or strings to identify each data point 
-(e.g. spaxel number, source ID, etc ...)</p>
+(e.g. spaxel number, source ID, etc …)</p>
 </dd>
-<dt>qzs: list of strings [default: [&#8216;LogQ&#8217;,&#8217;Tot[O]+12&#8217;]]</dt>
-<dd><p class="first last">list of Q/Z values to compute: [&#8216;LogQ&#8217;,&#8217;Tot[O]+12&#8217;] or [&#8216;LogQ&#8217;,&#8217;gas[O]+12&#8217;]</p>
+<dt>qzs: list of strings [default: [‘LogQ’,’Tot[O]+12’]]</dt>
+<dd><p class="first last">list of Q/Z values to compute: [‘LogQ’,’Tot[O]+12’] or [‘LogQ’,’gas[O]+12’]</p>
 </dd>
 <dt>Pk: float [default: 5.0] </dt>
 <dd><p class="first last">MAPPINGS model pressure. This value must match an existing grid file.</p>
@@ -255,32 +319,32 @@ e.g. [&#8216;[NII]+/Ha;[OII]/Hb&#8217;, ...]</p>
 <dt>kappa: float [default: np.inf] </dt>
 <dd><p class="first last">The kappa value. This value must match an existing grid file.</p>
 </dd>
-<dt>struct: string [default: &#8216;pp&#8217;]</dt>
-<dd><p class="first last">spherical (&#8216;sph&#8217;) or plane-parallel (&#8216;pp&#8217;) HII regions. This value 
+<dt>struct: string [default: ‘pp’]</dt>
+<dd><p class="first last">spherical (‘sph’) or plane-parallel (‘pp’) HII regions. This value 
 must match an existing reference grid file.</p>
 </dd>
 <dt>sampling: int [default: 1]</dt>
 <dd><p class="first last">Use a resampled MAPPINGS grid ?</p>
 </dd>
-<dt>error_pdf: string [default = &#8216;normal&#8217;]</dt>
+<dt>error_pdf: string [default = ‘normal’]</dt>
 <dd><p class="first last">The shape of the error function for the line fluxes. 
-Currently, only &#8216;normal&#8217; is supported.</p>
+Currently, only ‘normal’ is supported.</p>
 </dd>
 <dt>srs: int [default: 400]</dt>
 <dd><p class="first last">The number of random line fluxes generated to discretize (and reconstruct) 
 the joint probability function. If srs = 0, no KDE is computed.</p>
 </dd>
 <dt>flag_level: float [default: 2]</dt>
-<dd><p class="first last">A &#8216;flag&#8217; is raised (in the output array) when the direct q/z estimates
+<dd><p class="first last">A ‘flag’ is raised (in the output array) when the direct q/z estimates
 and the KDE q/z estimates (q_rs and z_rs) are offset by more than 
 flag_level * standard_deviation. Might indicate trouble.
 A flag is always raised when a point is outside all of the grids (8), 
 when the KDE PDF is multipeaked (9) or when srs = 0 
 (-1, no KDE computed).</p>
 </dd>
-<dt>KDE_method: string [default: &#8216;gauss&#8217;]</dt>
-<dd><p class="first last">Whether to use scipy.stats.gaussian_kde (&#8216;gauss&#8217;) or 
-sm.nonparametric.KDEMultivariate (&#8216;multiv&#8217;) to perform the 2-D Kernel 
+<dt>KDE_method: string [default: ‘gauss’]</dt>
+<dd><p class="first last">Whether to use scipy.stats.gaussian_kde (‘gauss’) or 
+sm.nonparametric.KDEMultivariate (‘multiv’) to perform the 2-D Kernel 
 Density Estimation.</p>
 </dd>
 <dt>KDE_qz_sampling: complex [default: 101j]</dt>
@@ -317,9 +381,9 @@ values, and r contains the columns name</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="pyqz.get_global_qz_ff">
-<code class="descclassname">pyqz.</code><code class="descname">get_global_qz_ff</code><span class="sig-paren">(</span><em>fn, which_grids, qzs=['LogQ', 'Tot[O]+12'], Pk=5.0, kappa=inf, struct='pp', sampling=1, error_pdf='normal', srs=400, flag_level=2.0, KDE_method='gauss', KDE_qz_sampling=101j, KDE_do_singles=True, KDE_pickle_loc=False, decimals=5, missing_values='$$$', suffix_out='_out', verbose=True, nproc=1</em><span class="sig-paren">)</span><a class="headerlink" href="#pyqz.get_global_qz_ff" title="Permalink to this definition">¶</a></dt>
-<dd><p>The get_global_qz-&#8216;from a file&#8217; function. Gets the line ratios from a csv 
+<dt id="pyqz.pyqz.get_global_qz_ff">
+<code class="descclassname">pyqz.pyqz.</code><code class="descname">get_global_qz_ff</code><span class="sig-paren">(</span><em>fn, which_grids, qzs=[‘LogQ’, ‘Tot[O]+12’], Pk=5.0, kappa=inf, struct=’pp’, sampling=1, error_pdf=’normal’, srs=400, flag_level=2.0, KDE_method=’gauss’, KDE_qz_sampling=101j, KDE_do_singles=True, KDE_pickle_loc=False, decimals=5, missing_values=’$$$’, suffix_out=’_out’, verbose=True, nproc=1</em><span class="sig-paren">)</span><a class="headerlink" href="#pyqz.pyqz.get_global_qz_ff" title="Permalink to this definition">¶</a></dt>
+<dd><p>The get_global_qz-‘from a file’ function. Gets the line ratios from a csv 
 file, and not directly as Python arrays.</p>
 <p>Save to file the log(q) and 12+log(O/H) values for a given set of line 
 fluxes based on a given set of diagnostic grids. Requires a specific 
@@ -334,10 +398,10 @@ input file, and can batch process several measurements automatically.</p>
 </dd>
 <dt>which_grids: list of strings</dt>
 <dd><p class="first last">The list of the diagnostic grids to use for the estimations,
-e.g. [&#8216;[NII]+/Ha;[OII]/Hb&#8217;, ...]</p>
+e.g. [‘[NII]+/Ha;[OII]/Hb’, …]</p>
 </dd>
-<dt>qzs: list of strings [default: [&#8216;LogQ&#8217;,&#8217;Tot[O]+12&#8217;]]</dt>
-<dd><p class="first last">list of Q/Z values to compute: [&#8216;LogQ&#8217;,&#8217;Tot[O]+12&#8217;] or [&#8216;LogQ&#8217;,&#8217;gas[O]+12&#8217;]</p>
+<dt>qzs: list of strings [default: [‘LogQ’,’Tot[O]+12’]]</dt>
+<dd><p class="first last">list of Q/Z values to compute: [‘LogQ’,’Tot[O]+12’] or [‘LogQ’,’gas[O]+12’]</p>
 </dd>
 <dt>Pk: float [default: 5.0] </dt>
 <dd><p class="first last">MAPPINGS model pressure. This value must match an existing grid file.</p>
@@ -345,32 +409,32 @@ e.g. [&#8216;[NII]+/Ha;[OII]/Hb&#8217;, ...]</p>
 <dt>kappa: float [default: np.inf] </dt>
 <dd><p class="first last">The kappa value. This value must match an existing grid file.</p>
 </dd>
-<dt>struct: string [default: &#8216;pp&#8217;]</dt>
-<dd><p class="first last">spherical (&#8216;sph&#8217;) or plane-parallel (&#8216;pp&#8217;) HII regions. This value 
+<dt>struct: string [default: ‘pp’]</dt>
+<dd><p class="first last">spherical (‘sph’) or plane-parallel (‘pp’) HII regions. This value 
 must match an existing reference grid file.</p>
 </dd>
 <dt>sampling: int [default: 1]</dt>
 <dd><p class="first last">Use a resampled MAPPINGS grid ?</p>
 </dd>
-<dt>error_pdf: string [default = &#8216;normal&#8217;]</dt>
+<dt>error_pdf: string [default = ‘normal’]</dt>
 <dd><p class="first last">The shape of the error function for the line fluxes. 
-Currently, only &#8216;normal&#8217; is supported.</p>
+Currently, only ‘normal’ is supported.</p>
 </dd>
 <dt>srs: int [default: 400]</dt>
 <dd><p class="first last">The number of random line fluxes generated to discretize (and reconstruct) 
 the joint probability function. If srs = 0, no KDE is computed.</p>
 </dd>
 <dt>flag_level: float [default: 2]</dt>
-<dd><p class="first last">A &#8216;flag&#8217; is raised (in the output array) when the direct q/z estimates
+<dd><p class="first last">A ‘flag’ is raised (in the output array) when the direct q/z estimates
 and the KDE q/z estimates (q_rs and z_rs) are offset by more than 
 flag_level * standard_deviation. Might indicate trouble.
 A flag is always raised when a point is outside all of the grids (8), 
 when the KDE PDF is multipeaked (9) or when srs = 0 
 (-1, no KDE computed).</p>
 </dd>
-<dt>KDE_method: string [default: &#8216;gauss&#8217;]</dt>
-<dd><p class="first last">Whether to use scipy.stats.gaussian_kde (&#8216;gauss&#8217;) or 
-sm.nonparametric.KDEMultivariate (&#8216;multiv&#8217;) to perform the 2-D Kernel 
+<dt>KDE_method: string [default: ‘gauss’]</dt>
+<dd><p class="first last">Whether to use scipy.stats.gaussian_kde (‘gauss’) or 
+sm.nonparametric.KDEMultivariate (‘multiv’) to perform the 2-D Kernel 
 Density Estimation.</p>
 </dd>
 <dt>KDE_qz_sampling: complex [default: 101j]</dt>
@@ -388,10 +452,10 @@ via pyqz_plots.plot_global_qz()</p>
 <dt>decimals: int [default: 5]</dt>
 <dd><p class="first last">The number of decimals to print in the final CSV file.</p>
 </dd>
-<dt>missing_values: string [default: &#8216;$$$&#8217;]</dt>
+<dt>missing_values: string [default: ‘$$$’]</dt>
 <dd><p class="first last">The symbol used to mark missing values in the CSV file.</p>
 </dd>
-<dt>suffix_out: string [default = &#8216;_ggQZff-out&#8217;}</dt>
+<dt>suffix_out: string [default = ‘_ggQZff-out’}</dt>
 <dd><p class="first last">The string to add to the input filename to create the output filename.</p>
 </dd>
 <dt>verbose: bool [default: True]</dt>
@@ -408,8 +472,8 @@ via pyqz_plots.plot_global_qz()</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="pyqz.get_global_qz_singlespec">
-<code class="descclassname">pyqz.</code><code class="descname">get_global_qz_singlespec</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyqz.get_global_qz_singlespec" title="Permalink to this definition">¶</a></dt>
+<dt id="pyqz.pyqz.get_global_qz_singlespec">
+<code class="descclassname">pyqz.pyqz.</code><code class="descname">get_global_qz_singlespec</code><span class="sig-paren">(</span><em>(j</em>, <em>final_cols</em>, <em>data</em>, <em>data_cols</em>, <em>which_grids</em>, <em>ids</em>, <em>qzs</em>, <em>Pk</em>, <em>kappa</em>, <em>struct</em>, <em>sampling</em>, <em>error_pdf</em>, <em>srs</em>, <em>flag_level</em>, <em>KDE_method</em>, <em>KDE_qz_sampling</em>, <em>KDE_do_singles</em>, <em>KDE_pickle_loc</em>, <em>verbose)</em><span class="sig-paren">)</span><a class="headerlink" href="#pyqz.pyqz.get_global_qz_singlespec" title="Permalink to this definition">¶</a></dt>
 <dd><p>The single-process function associated with get_global_qz().</p>
 <p>This function is used to spawn as many process as input spectra sent by the user
 to get_global_qz(). See <a class="reference external" href="http://stackoverflow.com/a/3843313">http://stackoverflow.com/a/3843313</a> for more details.</p>
@@ -424,15 +488,15 @@ to get_global_qz(). See <a class="reference external" href="http://stackoverflow
 </dd></dl>
 
 <dl class="function">
-<dt id="pyqz.get_global_qz_singlespec_init">
-<code class="descclassname">pyqz.</code><code class="descname">get_global_qz_singlespec_init</code><span class="sig-paren">(</span><em>q</em><span class="sig-paren">)</span><a class="headerlink" href="#pyqz.get_global_qz_singlespec_init" title="Permalink to this definition">¶</a></dt>
+<dt id="pyqz.pyqz.get_global_qz_singlespec_init">
+<code class="descclassname">pyqz.pyqz.</code><code class="descname">get_global_qz_singlespec_init</code><span class="sig-paren">(</span><em>q</em><span class="sig-paren">)</span><a class="headerlink" href="#pyqz.pyqz.get_global_qz_singlespec_init" title="Permalink to this definition">¶</a></dt>
 <dd><p>Some function required to get the multiprocessing working fine.
 See <a class="reference external" href="http://stackoverflow.com/a/3843313">http://stackoverflow.com/a/3843313</a> for details.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="pyqz.get_grid">
-<code class="descclassname">pyqz.</code><code class="descname">get_grid</code><span class="sig-paren">(</span><em>ratios, coeffs=[[1, 0], [0, 1]], Pk=5.0, kappa=inf, struct='pp', sampling=1</em><span class="sig-paren">)</span><a class="headerlink" href="#pyqz.get_grid" title="Permalink to this definition">¶</a></dt>
+<dt id="pyqz.pyqz.get_grid">
+<code class="descclassname">pyqz.pyqz.</code><code class="descname">get_grid</code><span class="sig-paren">(</span><em>ratios, coeffs=[[1, 0], [0, 1]], Pk=5.0, kappa=inf, struct=’pp’, sampling=1</em><span class="sig-paren">)</span><a class="headerlink" href="#pyqz.pyqz.get_grid" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a given line ratio diagnostic grid generated using MAPPINGS for a given set of
 parameters.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -441,7 +505,7 @@ parameters.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Args:</th><td class="field-body"><dl class="first docutils">
 <dt>ratios: string </dt>
-<dd><p class="first last">The line ratios defining the grid, e.g. &#8216;[NII]/[SII]+;[OIII]/Hb&#8217;</p>
+<dd><p class="first last">The line ratios defining the grid, e.g. ‘[NII]/[SII]+;[OIII]/Hb’</p>
 </dd>
 <dt>coeffs: list of list [default: [[1,0],[0,1]] ]</dt>
 <dd><p class="first last">The different coefficients with which to mix the line ratios. 
@@ -454,8 +518,8 @@ involved. Used for projected 3D diagnostic grids.</p>
 <dt>kappa: float [default: np.inf </dt>
 <dd><p class="first last">The kappa value. This value must match an existing grid file.</p>
 </dd>
-<dt>struct: string [default: &#8216;pp&#8217;]</dt>
-<dd><p class="first last">spherical (&#8216;sph&#8217;) or plane-parallel (&#8216;pp&#8217;) HII regions. This value 
+<dt>struct: string [default: ‘pp’]</dt>
+<dd><p class="first last">spherical (‘sph’) or plane-parallel (‘pp’) HII regions. This value 
 must match an existing reference grid file.</p>
 </dd>
 <dt>sampling: int [default: 1]</dt>
@@ -479,23 +543,23 @@ metadata [list]: basic info from the associated MAPPINGS simulations.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="pyqz.interp_qz">
-<code class="descclassname">pyqz.</code><code class="descname">interp_qz</code><span class="sig-paren">(</span><em>qz, data, ratios, coeffs=[[1, 0], [0, 1]], Pk=5.0, kappa=inf, struct='pp', sampling=1, method='linear'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyqz.interp_qz" title="Permalink to this definition">¶</a></dt>
+<dt id="pyqz.pyqz.interp_qz">
+<code class="descclassname">pyqz.pyqz.</code><code class="descname">interp_qz</code><span class="sig-paren">(</span><em>qz, data, ratios, coeffs=[[1, 0], [0, 1]], Pk=5.0, kappa=inf, struct=’pp’, sampling=1, method=’linear’</em><span class="sig-paren">)</span><a class="headerlink" href="#pyqz.pyqz.interp_qz" title="Permalink to this definition">¶</a></dt>
 <dd><p>The core function of pyqz.</p>
-<p>Returns the &#8216;q&#8217; or &#8216;z&#8217; value for a given set of line ratios based on a given 2-D     diagnostic grid.</p>
+<p>Returns the ‘q’ or ‘z’ value for a given set of line ratios based on a given 2-D     diagnostic grid.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Args:</th><td class="field-body"><dl class="first docutils">
 <dt>qz: string </dt>
-<dd><p class="first last">Which estimate to return; &#8216;LogQ&#8217;, &#8216;Tot[O]+12&#8217; or &#8216;gas[O]+12&#8217;</p>
+<dd><p class="first last">Which estimate to return; ‘LogQ’, ‘Tot[O]+12’ or ‘gas[O]+12’</p>
 </dd>
 <dt>data: list of numpy array</dt>
 <dd><p class="first last">List of Arrays of the line ratio values. One array per line ratio.</p>
 </dd>
 <dt>ratios: string </dt>
-<dd><p class="first last">The line ratios defining the grid, e.g. &#8216;[NII]/[SII]+;[OIII]/Hb&#8217;</p>
+<dd><p class="first last">The line ratios defining the grid, e.g. ‘[NII]/[SII]+;[OIII]/Hb’</p>
 </dd>
 <dt>coeffs: list of list [default: [[1,0],[0,1]] ]</dt>
 <dd><p class="first last">The different coefficients with which to mix the line ratios. 
@@ -508,15 +572,15 @@ involved. Used for projected 3D diagnostic grids.</p>
 <dt>kappa: float [default: np.inf </dt>
 <dd><p class="first last">The kappa value. This value must match an existing grid file.</p>
 </dd>
-<dt>struct: string [default: &#8216;pp&#8217;]</dt>
-<dd><p class="first last">spherical (&#8216;sph&#8217;) or plane-parallel (&#8216;pp&#8217;) HII regions. This value 
+<dt>struct: string [default: ‘pp’]</dt>
+<dd><p class="first last">spherical (‘sph’) or plane-parallel (‘pp’) HII regions. This value 
 must match an existing reference grid file.</p>
 </dd>
 <dt>sampling: int [default: 1]</dt>
 <dd><p class="first last">Use a resampled grid ?</p>
 </dd>
-<dt>method: string [default: &#8216;linear&#8217;]</dt>
-<dd><p class="first last">&#8216;linear&#8217; or &#8216;cubic&#8217; interpolation method of scipy.interpolate.griddata.</p>
+<dt>method: string [default: ‘linear’]</dt>
+<dd><p class="first last">‘linear’ or ‘cubic’ interpolation method of scipy.interpolate.griddata.</p>
 </dd>
 </dl>
 </td>
@@ -528,15 +592,415 @@ must match an existing reference grid file.</p>
 </dl>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Notes:</th><td class="field-body"><p class="first last">WARNING: using method = &#8216;cubic&#8217; can lead to estimates slightly &#8220;outside&#8221; the grid
+<tr class="field-odd field"><th class="field-name">Notes:</th><td class="field-body"><p class="first last">WARNING: using method = ‘cubic’ can lead to estimates slightly “outside” the grid
 area. Proceed with caution. Usually, it is better to use a resampled grid with 
-method = &#8216;linear&#8217;.</p>
+method = ‘linear’.</p>
 </td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
+</div>
+<div class="section" id="module-pyqz.pyqz_metadata">
+<span id="pyqz-pyqz-metadata-module"></span><h2>pyqz.pyqz_metadata module<a class="headerlink" href="#module-pyqz.pyqz_metadata" title="Permalink to this headline">¶</a></h2>
+<p>pyqz: a Python module to derive the ionization parameter and oxygen abundance of HII 
+regions, by comparing their strong emission line ratios with MAPPINGS photoionization 
+models.</p>
+<p>Copyright (C) 2014-2017,  F.P.A. Vogt</p>
+<hr class="docutils" />
+<p>This file contains some generic metadata used throughout the pyqz module, including the 
+version number, etc …</p>
+<p>Updated May 2017, F.P.A. Vogt - <a class="reference external" href="mailto:frederic&#46;vogt&#37;&#52;&#48;alumni&#46;anu&#46;edu&#46;au">frederic<span>&#46;</span>vogt<span>&#64;</span>alumni<span>&#46;</span>anu<span>&#46;</span>edu<span>&#46;</span>au</a></p>
+</div>
+<div class="section" id="module-pyqz.pyqz_plots">
+<span id="pyqz-pyqz-plots-module"></span><h2>pyqz.pyqz_plots module<a class="headerlink" href="#module-pyqz.pyqz_plots" title="Permalink to this headline">¶</a></h2>
+<p>pyqz: a Python module to derive the ionization parameter and oxygen abundance of HII 
+regions, by comparing their strong emission line ratios with MAPPINGS photoionization 
+models.</p>
+<p>Copyright (C) 2014-2016,  F.P.A. Vogt</p>
+<hr class="docutils" />
+<p>This file contains tools for the pyqz routines to create pretty plots seamlessly.</p>
+<p>Updated April 2016, F.P.A. Vogt - <a class="reference external" href="mailto:frederic&#46;vogt&#37;&#52;&#48;alumni&#46;anu&#46;edu&#46;au">frederic<span>&#46;</span>vogt<span>&#64;</span>alumni<span>&#46;</span>anu<span>&#46;</span>edu<span>&#46;</span>au</a></p>
+<dl class="function">
+<dt id="pyqz.pyqz_plots.get_plot_labels">
+<code class="descclassname">pyqz.pyqz_plots.</code><code class="descname">get_plot_labels</code><span class="sig-paren">(</span><em>rats</em>, <em>coeffs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyqz.pyqz_plots.get_plot_labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the x and y label strings for the line ratio diagrams. Make sure they look
+as pretty as can be !</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Args:</th><td class="field-body"><dl class="first docutils">
+<dt>rats: list of string</dt>
+<dd><p class="first last">The list of line ratios involved.</p>
+</dd>
+<dt>coeffs: list of list</dt>
+<dd><p class="first last">The mixing coeffificents of the line ratios.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>labelx,labely: string, string</dt>
+<dd><p class="first last">The pretty labels</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyqz.pyqz_plots.plot_global_qz">
+<code class="descclassname">pyqz.pyqz_plots.</code><code class="descname">plot_global_qz</code><span class="sig-paren">(</span><em>pickle_fn</em>, <em>do_all_diags=True</em>, <em>show_plots=True</em>, <em>save_loc=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyqz.pyqz_plots.plot_global_qz" title="Permalink to this definition">¶</a></dt>
+<dd><p>A plotting function designed to plot the pickle output from pyqz.get_global_qz().</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Args:</th><td class="field-body"><dl class="first docutils">
+<dt>pickel_fn: string</dt>
+<dd><p class="first last">the path+filename of the pickle filed to process.</p>
+</dd>
+<dt>do_all_diags: bool [default: True]</dt>
+<dd><p class="first last">Whether to construct the diagnostic grid plots for all individual
+diagnostics or not.</p>
+</dd>
+<dt>show_plots: bool [default: True]</dt>
+<dd><p class="first last">Whether to display the plots or not.</p>
+</dd>
+<dt>save_loc: string [default: None][</dt>
+<dd><p class="first last">If set, the location where the plots will be saved. If not set, no plots
+will be saved.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Notes:</th><td class="field-body"><p class="first last">You must set KDE_pickle_loc to the location of your choice when running 
+pyqz.get_global_qz() and pyqz.get_global_qz_ff(), if you want the associated 
+pickle file to be generated.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyqz.pyqz_plots.plot_grid">
+<code class="descclassname">pyqz.pyqz_plots.</code><code class="descname">plot_grid</code><span class="sig-paren">(</span><em>ratios, coeffs=[[1, 0], [0, 1]], Pk=5.0, kappa=inf, struct=’pp’, sampling=1, color_mode=’Tot[O]+12’, figname=None, show_plot=True, data=None, interp_data=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyqz.pyqz_plots.plot_grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates the diagram of a given line ratio grid for rapid inspection, including wraps
+(fold-over regions), and of certain line ratios, if “data” is specified.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Args:</th><td class="field-body"><dl class="first last docutils">
+<dt>ratios: string </dt>
+<dd><p class="first last">The line ratios defining the grid, e.g. ‘[NII]/[SII]+;[OIII]/Hb’</p>
+</dd>
+<dt>coeffs: list of list [default: [[1,0],[0,1]] ]</dt>
+<dd><p class="first last">The different coefficients with which to mix the line ratios. 
+The size of each sub-list must be equal to the number of line ratios 
+involved. Used for projected 3D diagnostic grids.</p>
+</dd>
+<dt>Pk: float [default: 5.0] </dt>
+<dd><p class="first last">MAPPINGS model pressure. This value must match an existing grid file.</p>
+</dd>
+<dt>kappa: float [default: np.inf </dt>
+<dd><p class="first last">The kappa value. This value must match an existing grid file.</p>
+</dd>
+<dt>struct: string [default: ‘pp’]</dt>
+<dd><p class="first last">spherical (‘sph’) or plane-parallel (‘pp’) HII regions. This value 
+must match an existing reference grid file.</p>
+</dd>
+<dt>sampling: int [default: 1]</dt>
+<dd><p class="first last">Use a resampled grid ?</p>
+</dd>
+<dt>color_mode: string [default: ‘Tot[O]+12’]</dt>
+<dd><p class="first last">Color the grid according to ‘Tot[O]+12’, ‘gas[O]+12’ or ‘LogQ’.</p>
+</dd>
+<dt>figname: string [default: None]</dt>
+<dd><p class="first last">‘path+name+format’ to save the Figure to.</p>
+</dd>
+<dt>show_plot: bool [default: True]</dt>
+<dd><p class="first last">Do you want to display the Figure ?</p>
+</dd>
+<dt>data: list of numpy array [default: None]</dt>
+<dd><p class="first last">List of Arrays of the line ratio values. One array per line ratio.</p>
+</dd>
+<dt>interp_data: numpy array [default: ‘linear’]</dt>
+<dd><p class="first last">interpolated line ratios (via pyqz.interp_qz)</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyqz.pyqz_tools">
+<span id="pyqz-pyqz-tools-module"></span><h2>pyqz.pyqz_tools module<a class="headerlink" href="#module-pyqz.pyqz_tools" title="Permalink to this headline">¶</a></h2>
+<p>pyqz: a Python module to derive the ionization parameter and oxygen abundance of HII 
+regions, by comparing their strong emission line ratios with MAPPINGS photoionization 
+models.</p>
+<p>Copyright (C) 2014-2017,  F.P.A. Vogt</p>
+<hr class="docutils" />
+<p>This file contains general tools for the pyqz routines.</p>
+<p>Updated April 2016, F.P.A. Vogt - <a class="reference external" href="mailto:frederic&#46;vogt&#37;&#52;&#48;alumni&#46;anu&#46;edu&#46;au">frederic<span>&#46;</span>vogt<span>&#64;</span>alumni<span>&#46;</span>anu<span>&#46;</span>edu<span>&#46;</span>au</a>
+Updated June 2017, F.P.A. Vogt - <a class="reference external" href="mailto:frederic&#46;vogt&#37;&#52;&#48;alumni&#46;anu&#46;edu&#46;au">frederic<span>&#46;</span>vogt<span>&#64;</span>alumni<span>&#46;</span>anu<span>&#46;</span>edu<span>&#46;</span>au</a></p>
+<dl class="function">
+<dt id="pyqz.pyqz_tools.ccw">
+<code class="descclassname">pyqz.pyqz_tools.</code><code class="descname">ccw</code><span class="sig-paren">(</span><em>A</em>, <em>B</em>, <em>C</em><span class="sig-paren">)</span><a class="headerlink" href="#pyqz.pyqz_tools.ccw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether 3 points are listed in a counter-clockwise series or not.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Args:</th><td class="field-body"><dl class="first docutils">
+<dt>A: 2-D numpy array </dt>
+<dd><p class="first last">Defining point 1</p>
+</dd>
+<dt>B: 2-D numpy array </dt>
+<dd><p class="first last">Defining point 2</p>
+</dd>
+<dt>C: 2-D numpy array</dt>
+<dd><p class="first last">Defining point 3</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first docutils">
+<dt>out: bool</dt>
+<dd><p class="first last">True or False ?</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Notes:</th><td class="field-body"><p class="first last">Adapted from Bryce Boe:
+<a class="reference external" href="http://bryceboe.com/2006/10/23/line-segment-intersection-algorithm/">http://bryceboe.com/2006/10/23/line-segment-intersection-algorithm/</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyqz.pyqz_tools.get_KDE_picklefn">
+<code class="descclassname">pyqz.pyqz_tools.</code><code class="descname">get_KDE_picklefn</code><span class="sig-paren">(</span><em>ids</em>, <em>Pk</em>, <em>kappa</em>, <em>struct</em>, <em>sampling</em>, <em>KDE_method</em><span class="sig-paren">)</span><a class="headerlink" href="#pyqz.pyqz_tools.get_KDE_picklefn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct the filename of the pickle file associated with a given run of 
+pyqz.get_global_qz.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Args:</th><td class="field-body"><dl class="first docutils">
+<dt>ids: string</dt>
+<dd><p class="first last">a string to identify the data point (e.g. spaxel number, source ID, …)</p>
+</dd>
+<dt>Pk: float</dt>
+<dd><p class="first last">MAPPINGS model pressure.</p>
+</dd>
+<dt>kappa: float</dt>
+<dd><p class="first last">The kappa value.</p>
+</dd>
+<dt>struct: string</dt>
+<dd><p class="first last">spherical (‘sph’) or plane-parallel (‘pp’) HII regions.</p>
+</dd>
+<dt>sampling: int</dt>
+<dd><p class="first last">Use a resampled grid ?</p>
+</dd>
+<dt>KDE_method: string</dt>
+<dd><p class="first last">Whether to use scipy.stats.gaussian_kde (‘gauss’) or 
+sm.nonparametric.KDEMultivariate (‘multiv’) to perform the 2-D 
+Kernel Density Estimation.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>out: string</dt>
+<dd><p class="first last">The pickle filename.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyqz.pyqz_tools.get_MVphotogrid_fn">
+<code class="descclassname">pyqz.pyqz_tools.</code><code class="descname">get_MVphotogrid_fn</code><span class="sig-paren">(</span><em>Pk=5.0</em>, <em>calibs=’GCZO’</em>, <em>kappa=inf</em>, <em>struct=’pp’</em>, <em>sampling=1</em><span class="sig-paren">)</span><a class="headerlink" href="#pyqz.pyqz_tools.get_MVphotogrid_fn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the filename of a MAPPINGS V grid, given a set of parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Args:</th><td class="field-body"><dl class="first docutils">
+<dt>Pk: float [default: 5.0] </dt>
+<dd><p class="first last">MAPPINGS model pressure.</p>
+</dd>
+<dt>calibs: string [default: ‘GCZO’]</dt>
+<dd><p class="first last">Input models to the MAPPINGS simulations.</p>
+</dd>
+<dt>kappa: float [default: np.inf] </dt>
+<dd><p class="first last">The kappa value.</p>
+</dd>
+<dt>struct: string [default: ‘pp’]</dt>
+<dd><p class="first last">spherical (‘sph’) or plane-parallel (‘pp’) HII regions.</p>
+</dd>
+<dt>sampling: int [default: 1]</dt>
+<dd><p class="first last">Grid resampling factor.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>out: string</dt>
+<dd><p class="first last">The MV filename, incl. the full path.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyqz.pyqz_tools.get_MVphotogrid_metadata">
+<code class="descclassname">pyqz.pyqz_tools.</code><code class="descname">get_MVphotogrid_metadata</code><span class="sig-paren">(</span><em>fn</em><span class="sig-paren">)</span><a class="headerlink" href="#pyqz.pyqz_tools.get_MVphotogrid_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the first 4 lines of a MAPPINGS V file (compiled via the Hawk script).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Args:</th><td class="field-body"><dl class="first docutils">
+<dt>fn: string</dt>
+<dd><p class="first last">The filename (inculding path if required) as string.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>out: dictionnary of strings</dt>
+<dd><p class="first last">The various parameters of the MAPPINGS simulation, including date &amp; id.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyqz.pyqz_tools.resample_MVphotogrid">
+<code class="descclassname">pyqz.pyqz_tools.</code><code class="descname">resample_MVphotogrid</code><span class="sig-paren">(</span><em>fn</em>, <em>sampling=2</em><span class="sig-paren">)</span><a class="headerlink" href="#pyqz.pyqz_tools.resample_MVphotogrid" title="Permalink to this definition">¶</a></dt>
+<dd><p>A function to interpolate the MAPPINGS grid into a finer grid. 
+Uses Akyma splines (1-D) in the Q/Z planes (one axis at a time).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Args:</th><td class="field-body"><dl class="first docutils">
+<dt>fn: string</dt>
+<dd><p class="first last">filename (inculding path if required) as string of the MAPPINGS models to
+resample.</p>
+</dd>
+<dt>sampling: int [default: 2]</dt>
+<dd><p class="first last">The refining factor, i.e. number of interpolated points between 
+each native grid node.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Notes:</th><td class="field-body"><p class="first last">The resampled grid is directly saved to a dedicated file.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyqz.pyqz_tools.run_awk_loop">
+<code class="descclassname">pyqz.pyqz_tools.</code><code class="descname">run_awk_loop</code><span class="sig-paren">(</span><em>Pks=[5.0], kappas=[‘inf’], structs=[‘pp’], ncpu=1, awk_loc=’.’</em><span class="sig-paren">)</span><a class="headerlink" href="#pyqz.pyqz_tools.run_awk_loop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs the awk script provided with MAPPINGS in a loop, to easily
+generate all the default MAPPINGS grid required by pyqz.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Args:</th><td class="field-body"><dl class="first docutils">
+<dt>Pks: list [deafult: [‘5.0’]]</dt>
+<dd><p class="first last">The values of Pk to compute the grids at.</p>
+</dd>
+<dt>kappas: list [default: [‘inf’]]</dt>
+<dd><p class="first last">The values of kappa to compute the grids at.</p>
+</dd>
+<dt>struct: list [default: [‘pp’]]</dt>
+<dd><p class="first last">The values of struct to compute the grids at.</p>
+</dd>
+<dt>ncpu: int [default: 1]</dt>
+<dd><p class="first last">The number of cpus to use.</p>
+</dd>
+<dt>awk_loc: string [default: ‘.’]</dt>
+<dd><p class="first last">The path to the awk script provided with MAPPINGS.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Notes:</th><td class="field-body"><p class="first last">This function is not intended for general use - proceed with caution !</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyqz.pyqz_tools.seg_intersect">
+<code class="descclassname">pyqz.pyqz_tools.</code><code class="descname">seg_intersect</code><span class="sig-paren">(</span><em>A</em>, <em>B</em>, <em>C</em>, <em>D</em><span class="sig-paren">)</span><a class="headerlink" href="#pyqz.pyqz_tools.seg_intersect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether 2 segments defined by 4 points intersect.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Args:</th><td class="field-body"><dl class="first docutils">
+<dt>A: 2-D numpy array </dt>
+<dd><p class="first last">Defining point 1</p>
+</dd>
+<dt>B: 2-D numpy array </dt>
+<dd><p class="first last">Defining point 2</p>
+</dd>
+<dt>C: 2-D numpy array </dt>
+<dd><p class="first last">Defining point 3</p>
+</dd>
+<dt>D: 2-D numpy array</dt>
+<dd><p class="first last">Defining point 4</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first docutils">
+<dt>out: bool</dt>
+<dd><p class="first last">True or False ?</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Notes:</th><td class="field-body"><p class="first last">Adapted from Bryce Boe:
+<a class="reference external" href="http://bryceboe.com/2006/10/23/line-segment-intersection-algorithm/">http://bryceboe.com/2006/10/23/line-segment-intersection-algorithm/</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyqz">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyqz" title="Permalink to this headline">¶</a></h2>
+</div>
 </div>
 
 
@@ -546,7 +1010,7 @@ method = &#8216;linear&#8217;.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="pyqz_metadata.html" class="btn btn-neutral float-right" title="pyqz_metadata module" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="pyqz.tests.html" class="btn btn-neutral float-right" title="pyqz.tests package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="modules.html" class="btn btn-neutral" title="Functions" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -558,7 +1022,7 @@ method = &#8216;linear&#8217;.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2016, Frédéric P.A. Vogt.
+        &copy; Copyright 2014-2017, Frédéric P.A. Vogt.
 
     </p>
   </div>
@@ -580,7 +1044,7 @@ method = &#8216;linear&#8217;.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.8.3',
+            VERSION:'0.8.4',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -589,7 +1053,7 @@ method = &#8216;linear&#8217;.</p>
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
