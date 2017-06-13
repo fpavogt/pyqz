@@ -1,0 +1,13 @@
+Metadata-Version: 1.1
+Name: pyqz
+Version: 0.8.4.0
+Summary: Python link to MAPPINGS grids of HII regions.
+Home-page: http://fpavogt.github.io/pyqz/
+Author: F.P.A. Vogt
+Author-email: frederic.vogt@alumni.anu.edu.au
+License: GNU General Public License
+Download-URL: https://github.com/fpavogt/pyqz/releases/tag/v0.8.4
+Description: For the corresponding documentation, go to:
+        
+        http://fpavogt.github.io/pyqz
+Platform: UNKNOWN
