@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -43,6 +45,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -86,13 +89,13 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installing pyqz</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_basic.html">Running pyqz I</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_advanced.html">Running pyqz II</a></li>
 <li class="toctree-l1"><a class="reference internal" href="understanding.html">Understanding pyqz</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_param.html">The parameters of pyqz</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules/modules.html">Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
@@ -109,8 +112,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="#">pyqz</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">pyqz</a>
+        
       </nav>
 
 
@@ -119,64 +124,53 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="#">Docs</a> &raquo;</li>
-      
-    <li>pyqz 0.8.4</li>
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>pyqz 0.8.4</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast + .nbinput {
-    margin-top: -19px;
-}
-
-/* nice headers on first paragraph of info/warning boxes */
-.admonition .first {
-    margin: -12px;
-    padding: 6px 12px;
-    margin-bottom: 12px;
-    color: #fff;
-    line-height: 1;
-    display: block;
-}
-.admonition.warning .first {
-    background: #f0b37e;
-}
-.admonition.note .first {
-    background: #6ab0de;
-}
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-</style>
-<div class="section" id="pyqz-release">
+  <div class="section" id="pyqz-release">
 <h1>pyqz 0.8.4<a class="headerlink" href="#pyqz-release" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last"><strong>The development of pyqz has stopped.</strong> The code and this website are now frozen.
+Users intersted in using pyqz should instead consider using
+<a class="reference external" href="https://ui.adsabs.harvard.edu/#abs/arXiv:1803.00740">nebulabayes</a>.</p>
+</div>
 <p>The pyqz Python module computes the values of log(Q) [the ionization parameter] and 12+log(O/H) [the oxygen abundance, either total or in the gas phase] for a given set of strong emission lines fluxes from HII regions.</p>
 <p>The log(Q) and 12+log(O/H) values are interpolated from a finite set of <strong>diagnostic line ratio grids</strong> computed with the MAPPINGS code. The grids used by pyqz are chosen to be <strong>flat, without wraps, to decouple the influence of log(Q) and 12+log(O/H)</strong> on the emission line ratios.</p>
 <p>pyqz 0.4 was the first publicly released version of the code, which is described in detail in</p>
@@ -186,7 +180,7 @@
 the MAPPINGS code, support the propagation of observational errors, auto-detect wraps in the diagnostics grids, and more.</p>
 <p>The current photo-ionization models shipped with pyz were generated using
 <a class="reference external" href="https://miocene.anu.edu.au/Mappings/">MAPPINGS 5.0.16</a>. At this time the <strong>safe ranges of the models are:</strong></p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}6.5\ \leq\ \mathrm{LogQ}\ \leq\ 8.5\\
 8.11\ \leq\ \mathrm{Tot[O]+12}\ \leq\ 8.985\\
 \kappa\ =\ \infty\end{split}\]</div>
@@ -208,10 +202,7 @@ unsupported by pyqz until further updates to the MAPPINGS code.</p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installing pyqz</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_basic.html">Running pyqz I</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_advanced.html">Running pyqz II</a></li>
 <li class="toctree-l1"><a class="reference internal" href="understanding.html">Understanding pyqz</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyqz_demo_param.html">The parameters of pyqz</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules/modules.html">Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
@@ -229,12 +220,15 @@ The pyqz Python module is free software: you can redistribute it and/or modify i
 
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="installation.html" class="btn btn-neutral float-right" title="Installing pyqz" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installing pyqz" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>
@@ -269,13 +263,14 @@ The pyqz Python module is free software: you can redistribute it and/or modify i
             VERSION:'0.8.4',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
